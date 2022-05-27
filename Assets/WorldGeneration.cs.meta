@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: f4c042c8de38ade448c084f7d5a54a2f
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - tileSprite: {fileID: 7482667652216324306, guid: 476f77721bc673c48a1d7ec4aae8d660, type: 3}
+  - noiseTexture: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
