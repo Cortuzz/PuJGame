@@ -1,70 +1,134 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class WorldGeneration : MonoBehaviour
+public class WorldGeneration
 {
-    public TileAtlas atlas;
-
-    public float caveFreq = 0.08f;
-    public float terrainFreq = 0.04f;
-
     public float heightAdditionRatio = 0.6f;
-    public float heightMultiplierRatio = 0.09f;
+    public float heightMultiplierRatio = 0.01f;
 
-    private int _x;
-    private int _y;
+    private readonly int _width;
+    private readonly int _height;
 
-    private readonly float _renderBorder = 0.35f;
-    private float _seed;
-    private float _heightMultiplier;
-    private int _heightAddition;
+    private readonly int _seed;
+    private readonly float _terrainFreq;
+    private readonly float _heightMultiplier;
+    private readonly int _heightAddition;
+    private readonly int _maxTerrainBlocksCount = 7;
 
-    private readonly List<Tile> tiles = new List<Tile>();
+    private readonly Tile[,] _tiles;
+    private readonly int[] _heights;
 
-    // Start is called before the first frame update
-    void Start()
+    public WorldGeneration(int w, int h, int seed, float terrainFreq)
     {
-        _seed = Random.Range(-1000, 1000);
-        _seed = -1035;
-        setWorldSize(100, 400);
-        GenerateWorld(GenerateNoiseTexture(_x, _y, caveFreq), atlas.stone);
-        GenerateWorld(GenerateNoiseTexture(_x, _y, 0.01f), atlas.dirt);
+        _seed = seed;
+        Random.InitState(_seed);
+
+        _terrainFreq = terrainFreq;
+
+        _width = w;
+        _height = h;
+        _tiles = new Tile[_width, _height];
+        _heights = new int[_width];
+
+        _heightAddition = (int)(heightAdditionRatio * _height);
+        _heightMultiplier = heightMultiplierRatio * _height;
     }
 
-    public void setWorldSize(int x, int y)
+    private void PlaceTerrainTiles(int x, int y, Tile tile)
     {
-        _x = x;
-        _y = y;
+        for (int i = 0; i < _maxTerrainBlocksCount; i++)
+        {
+            PlaceTile(x, y - i, tile);
+        }
+    }
 
-        _heightAddition = (int)(heightAdditionRatio * _y);
-        _heightMultiplier = heightMultiplierRatio * _y;
+    public void GenerateTopBlocks(Tile tile)
+    {
+        for (int i = 0; i < _width; i++)
+        {
+            PlaceTile(i, _heights[i], tile);
+        }
+    }
+
+    public void RemoveTopBlocksExcept(Tile tile)
+    {
+        for (int i = 0; i < _width; i++)
+        {
+            for (int j = _height - 1; j >= 0; j--)
+            {
+                if (_tiles[i, j] != null && _tiles[i, j].name == tile.name)
+                    break;
+
+                _tiles[i, j] = null;
+            }
+        }
+    }
+
+    public void GenerateTerrain(Tile tile)
+    {
+        Queue<int> previousHeights = new();
+
+        for (int i = 0; i < _width; i++)
+        {
+            for (int j = _height - 1; j >= 0; j--)
+            {
+                if (_tiles[i, j] != null)
+                {
+                    previousHeights.Enqueue(j);
+                    if (i > 5)
+                    {
+                        previousHeights.Dequeue();
+                    }
+                    
+                    int average = previousHeights.Sum() / previousHeights.Count + 1;
+                    _heights[i] = average;
+
+                    PlaceTerrainTiles(i, average, tile);
+                    break;
+                }
+            }
+        }
     }
 
     private void PlaceTile(int x, int y, Tile tile)
     {
-        Tile newTile = tile.prototype();
-        Vector2 pos = new Vector2(x + 0.5f, y + 0.5f);
-        newTile.pos = pos;
+        Tile newTile = tile.Prototype();
 
-        GameObject tileObject = new(name = newTile.name);
-        tileObject.transform.parent = this.transform;
-        tileObject.AddComponent<SpriteRenderer>();
-        tileObject.GetComponent<SpriteRenderer>().sprite = newTile.sprite;
+        _tiles[x, y] = newTile;
+    }
 
-        tileObject.transform.position = pos;
-        tiles.Add(newTile);
+    private bool checkPlacementByNoise(Texture2D texture, Tile tile, int x, int y, int height, bool heightAffected)
+    {
+        static float sigmoid(float x)
+        {
+            return 1 / (1 + Mathf.Exp(-x));
+        }
+
+        if (!heightAffected && texture.GetPixel(x, y).r >= tile.renderBorder)
+            return true;
+
+        float value = 2 * sigmoid(1 - y / (float)height);
+        if (texture.GetPixel(x, y).r >= tile.renderBorder * value)
+            return true;
+
+        return false;
     }
         
-    public void GenerateWorld(Texture2D texture, Tile tile)
+    public void GenerateTile(Texture2D texture, Tile tile, bool heightAffected = false)
     {
         for (int x = 0; x < texture.width; x++)
         {
-            float height = Mathf.PerlinNoise((x + _seed) * terrainFreq, _seed * terrainFreq) * _heightMultiplier + _heightAddition;
+            float height = Mathf.PerlinNoise((x + _seed) * _terrainFreq, _seed * _terrainFreq) * _heightMultiplier + _heightAddition;
 
             for (int y = 0; y < height; y++)
             {
-                if (texture.GetPixel(x, y).r < _renderBorder)
+                if (tile.maxHeight > 0 && y / height > tile.maxHeight)
+                    break;
+
+
+                if (!checkPlacementByNoise(texture, tile, x, y, (int)height, heightAffected))
                     continue;
 
                 PlaceTile(x, y, tile);
@@ -72,20 +136,26 @@ public class WorldGeneration : MonoBehaviour
         }
     }
 
-    public Texture2D GenerateNoiseTexture(int width, int height, float freq)
+    public Texture2D GenerateNoiseTexture(float freq)
     {
-        Texture2D noiseTexture = new(width, height);
+        Texture2D noiseTexture = new(_width, _height);
+        int bias = Random.Range(0, 1000);
 
         for (int x = 0; x < noiseTexture.width; x++)
         {
             for (int y = 0; y < noiseTexture.height; y++)
             {
-                float noise = Mathf.PerlinNoise((x + _seed) * freq, (y + _seed) * freq);
+                float noise = Mathf.PerlinNoise((x + _seed + bias) * freq, (y + _seed + bias) * freq);
                 noiseTexture.SetPixel(x, y, new Color(noise, noise, noise));
             }
         }
 
         noiseTexture.Apply();
         return noiseTexture;
+    }
+
+    public Tile[,] GetTiles()
+    {
+        return _tiles;
     }
 }

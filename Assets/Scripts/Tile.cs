@@ -5,20 +5,17 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewTileClass", menuName = "Tile Class")]
 public class Tile : ScriptableObject
 {
-    public new string name;
     public Sprite sprite;
-    public float rarity;
-    public Vector2 pos { get { return _pos; } set { _pos = value; } }
-    private Vector2 _pos;
-
-    public Tile prototype()
+    public new string name;
+    public float renderBorder;
+    public float maxHeight;
+    public Tile Prototype()
     {
-        Tile newTile = new Tile();
+        Tile newTile = CreateInstance<Tile>();
 
         newTile.name = name;
         newTile.sprite = sprite;
-        newTile.rarity = rarity;
-        newTile._pos = _pos;
+        newTile.renderBorder = renderBorder;
 
         return newTile;
     }
