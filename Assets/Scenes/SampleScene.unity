@@ -207,7 +207,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1034490821
+--- !u!1 &1312482549
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -215,8 +215,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1034490823}
-  - component: {fileID: 1034490822}
+  - component: {fileID: 1312482551}
+  - component: {fileID: 1312482550}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -224,33 +224,30 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1034490822
+--- !u!114 &1312482550
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1034490821}
+  m_GameObject: {fileID: 1312482549}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4c042c8de38ade448c084f7d5a54a2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileSprite: {fileID: 7482667652216324306, guid: 476f77721bc673c48a1d7ec4aae8d660, type: 3}
-  worldHeight: 50
-  worldWidth: 100
-  seed: 0
-  noiseFreq: 0.03
-  noiseTexture: {fileID: 0}
---- !u!4 &1034490823
+  tileSprite: {fileID: 21300000, guid: 00c5f488b60e2a24c9a8fdc0b18d43f5, type: 3}
+  caveFreq: 0.08
+  terrainFreq: 0.04
+--- !u!4 &1312482551
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1034490821}
+  m_GameObject: {fileID: 1312482549}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.011483476, y: 0.8219567, z: -0.13961563}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
