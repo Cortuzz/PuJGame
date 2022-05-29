@@ -27,7 +27,6 @@ public class WorldGeneratorDirector : MonoBehaviour
     void Start()
     {
         seed = Random.Range(-1000, 1000);
-        seed = -834;
         width = chunksCount * chunkSize;
         _noiseGenerator = new(seed);
 
@@ -37,12 +36,12 @@ public class WorldGeneratorDirector : MonoBehaviour
     public void GenerateChunks()
     {
         _caveTexture = _noiseGenerator.GetTexture(width, height, caveFreq);
-        _dirtTexture = _noiseGenerator.GetTexture(width, height, 0.08f);
+        _dirtTexture = _noiseGenerator.GetTexture(width, height, caveFreq);
         _bigCaveTexture = _noiseGenerator.GetTexture(width, height, caveFreq / 4);
         _oresTextures = new Texture2D[_oresCount];
 
         for (int i = 0; i < _oresCount; i++)
-            _oresTextures[i] = _noiseGenerator.GetTexture(width, height, 0.08f);
+            _oresTextures[i] = _noiseGenerator.GetTexture(width, height, caveFreq);
 
         for (int chunk = 0; chunk < chunksCount; chunk++)
         {
@@ -60,7 +59,7 @@ public class WorldGeneratorDirector : MonoBehaviour
     public void GenerateChunk(int bias)
     {
         GenerateCaves(bias);
-        _worldGenerator.GenerateTile(_dirtTexture, bias, atlas.dirt);
+        _worldGenerator.GenerateTile(_dirtTexture, bias, atlas.dirt, onTiles: true);
         GenerateOres(bias);
 
         _worldGenerator.GenerateTerrain(atlas.dirt);
@@ -102,6 +101,10 @@ public class WorldGeneratorDirector : MonoBehaviour
 
         GameObject tileObject = new(name = tile.name);
         tileObject.transform.parent = chunk.transform;
+
+        tileObject.AddComponent<BoxCollider2D>();
+        //tileObject.tag = "Ground"; // TODO: ENUM CLASS
+
         tileObject.AddComponent<SpriteRenderer>();
         tileObject.GetComponent<SpriteRenderer>().sprite = tile.sprite;
 

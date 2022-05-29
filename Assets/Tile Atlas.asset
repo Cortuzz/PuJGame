@@ -18,3 +18,4 @@ MonoBehaviour:
   coal: {fileID: 11400000, guid: 6736fe02cf2ffe64fab5048fa0be43d7, type: 2}
   iron: {fileID: 11400000, guid: c32a39dc35883d946a1bb839a1b1b4d6, type: 2}
   diamond: {fileID: 11400000, guid: 36dfbf22fcc087845bc5f2c2173cb1fc, type: 2}
+  air: {fileID: 11400000, guid: 9aee817dc5eca234f8493d2cae125129, type: 2}

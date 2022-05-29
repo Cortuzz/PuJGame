@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Air
   m_EditorClassIdentifier: 
   sprite: {fileID: 0}
-  name: 
-  renderBorder: 0
-  maxHeight: 0
+  name: Air
+  renderBorder: 0.65
+  maxHeight: 0.8
