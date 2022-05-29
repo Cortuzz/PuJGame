@@ -14,4 +14,7 @@ public class TileAtlas : ScriptableObject
     public Tile coal;
     public Tile iron;
     public Tile diamond;
+
+    [Header("Other tiles")]
+    public Tile air;
 }

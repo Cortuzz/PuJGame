@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ace8cffb46ddad14ca4e5e9ea4725179, type: 3}
   m_Name: Coal
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
-  name: 
-  renderBorder: 0
-  maxHeight: 0
+  sprite: {fileID: 21300000, guid: 04c7ab0b1f2a2b749a2f6303239dc313, type: 3}
+  name: Coal
+  renderBorder: 0.8
+  maxHeight: 0.8

@@ -14,3 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dirt: {fileID: 11400000, guid: 775f25aa663c5c84aa91ef12b7b07fab, type: 2}
   stone: {fileID: 11400000, guid: 5cebade3a45ca164798d2ee6d4e264ea, type: 2}
+  grass: {fileID: 11400000, guid: bfa5633a83b212a4095b29a198bd1730, type: 2}
+  coal: {fileID: 11400000, guid: 6736fe02cf2ffe64fab5048fa0be43d7, type: 2}
+  iron: {fileID: 11400000, guid: c32a39dc35883d946a1bb839a1b1b4d6, type: 2}
+  diamond: {fileID: 11400000, guid: 36dfbf22fcc087845bc5f2c2173cb1fc, type: 2}

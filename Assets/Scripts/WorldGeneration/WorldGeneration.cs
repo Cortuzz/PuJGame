@@ -94,41 +94,48 @@ public class WorldGeneration
 
     private void PlaceTile(int x, int y, Tile tile)
     {
+        if (tile.sprite == null)
+        {
+            _tiles[x, y] = null;
+            return;
+        }
         Tile newTile = tile.Prototype();
 
         _tiles[x, y] = newTile;
     }
 
-    private bool checkPlacementByNoise(Texture2D texture, Tile tile, int x, int y, int height, bool heightAffected)
+    private bool CheckPlacementByNoise(Texture2D texture, float renderBorder, int x, int y, int bias, int height, bool heightAffected, bool onTiles)
     {
         static float sigmoid(float x)
         {
             return 1 / (1 + Mathf.Exp(-x));
         }
 
-        if (!heightAffected && texture.GetPixel(x, y).r >= tile.renderBorder)
+        if (onTiles && _tiles[x - bias, y] == null)
+            return false;
+
+        if (!heightAffected && texture.GetPixel(x, y).r >= renderBorder)
             return true;
 
         float value = 2 * sigmoid(1 - y / (float)height);
-        if (texture.GetPixel(x, y).r >= tile.renderBorder * value)
+        if (texture.GetPixel(x, y).r >= renderBorder * value)
             return true;
 
         return false;
     }
         
-    public void GenerateTile(Texture2D texture, Tile tile, bool heightAffected = false)
+    public void GenerateTile(Texture2D texture, int bias, Tile tile, bool heightAffected = false, bool onTiles = false)
     {
-        for (int x = 0; x < texture.width; x++)
+        for (int x = 0; x < _width; x++)
         {
-            float height = Mathf.PerlinNoise((x + _seed) * _terrainFreq, _seed * _terrainFreq) * _heightMultiplier + _heightAddition;
+            float height = GetTerrainNoise(x);
 
             for (int y = 0; y < height; y++)
             {
                 if (tile.maxHeight > 0 && y / height > tile.maxHeight)
                     break;
 
-
-                if (!checkPlacementByNoise(texture, tile, x, y, (int)height, heightAffected))
+                if (!CheckPlacementByNoise(texture, tile.renderBorder, x + bias, y, bias, (int)height, heightAffected, onTiles))
                     continue;
 
                 PlaceTile(x, y, tile);
@@ -136,22 +143,9 @@ public class WorldGeneration
         }
     }
 
-    public Texture2D GenerateNoiseTexture(float freq)
+    private float GetTerrainNoise(int x)
     {
-        Texture2D noiseTexture = new(_width, _height);
-        int bias = Random.Range(0, 1000);
-
-        for (int x = 0; x < noiseTexture.width; x++)
-        {
-            for (int y = 0; y < noiseTexture.height; y++)
-            {
-                float noise = Mathf.PerlinNoise((x + _seed + bias) * freq, (y + _seed + bias) * freq);
-                noiseTexture.SetPixel(x, y, new Color(noise, noise, noise));
-            }
-        }
-
-        noiseTexture.Apply();
-        return noiseTexture;
+        return Mathf.PerlinNoise((x + _seed) * _terrainFreq, _seed * _terrainFreq) * _heightMultiplier + _heightAddition;
     }
 
     public Tile[,] GetTiles()

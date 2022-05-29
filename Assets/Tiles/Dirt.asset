@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ace8cffb46ddad14ca4e5e9ea4725179, type: 3}
   m_Name: Dirt
   m_EditorClassIdentifier: 
-  name: Dirt
   sprite: {fileID: 21300000, guid: 510cba6f78797e2429d04ee8eb953af0, type: 3}
-  rarity: 0
+  name: Dirt
+  renderBorder: 0.8
+  maxHeight: 0

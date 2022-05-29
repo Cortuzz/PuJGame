@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ace8cffb46ddad14ca4e5e9ea4725179, type: 3}
   m_Name: Grass
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
-  name: 
+  sprite: {fileID: 21300000, guid: ab21f1525a8ccad4da0063a583417f28, type: 3}
+  name: Grass
   renderBorder: 0
+  maxHeight: 0

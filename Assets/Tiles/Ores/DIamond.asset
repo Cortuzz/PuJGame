@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ace8cffb46ddad14ca4e5e9ea4725179, type: 3}
   m_Name: DIamond
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
-  name: 
-  renderBorder: 0
-  maxHeight: 0
+  sprite: {fileID: 21300000, guid: 7cbb3f0e9d5614b4fb825e65e93d3541, type: 3}
+  name: Diamond
+  renderBorder: 0.88
+  maxHeight: 0.2

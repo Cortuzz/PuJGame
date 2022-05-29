@@ -176,7 +176,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -233,14 +233,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1312482549}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4c042c8de38ade448c084f7d5a54a2f, type: 3}
+  m_Script: {fileID: 11500000, guid: d1419fcc15d3f5f48b8e8909a4c0f02d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   atlas: {fileID: 11400000, guid: b0977ff8e1c8f724bb21edd64215596c, type: 2}
-  caveFreq: 0.08
+  width: 500
+  height: 400
+  seed: 0
+  caveFreq: 0.16
   terrainFreq: 0.04
-  heightAdditionRatio: 0.6
-  heightMultiplierRatio: 0.09
 --- !u!4 &1312482551
 Transform:
   m_ObjectHideFlags: 0
