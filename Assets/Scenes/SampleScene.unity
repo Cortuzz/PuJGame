@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -176,7 +177,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 90
+  orthographic size: 20
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -200,13 +201,28 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 80, y: 240, z: -10}
+  m_LocalPosition: {x: 55, y: 370, z: -10}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7513be5abcd8b84c8566ba89036233f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 0
+  smoothTime: 0.064
+  playerTransform: {fileID: 948174809}
 --- !u!1 &745903295
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,7 +323,7 @@ GameObject:
   - component: {fileID: 948174812}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -327,12 +343,12 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 20
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &948174808
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -393,7 +409,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 948174806}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 80, y: 250.81, z: 0}
+  m_LocalPosition: {x: 55, y: 380, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -411,14 +427,14 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 948174806}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_Material: {fileID: 6200000, guid: bfe07065b1140004f803289f077200c0, type: 2}
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.014724731, y: 0.034362793}
-  m_Size: {x: 0.6396179, y: 1.7778625}
+  m_Offset: {x: -0.01859665, y: -0.58774567}
+  m_Size: {x: 0.37337494, y: 0.55430603}
   m_Direction: 0
 --- !u!61 &948174811
 BoxCollider2D:
@@ -429,11 +445,11 @@ BoxCollider2D:
   m_GameObject: {fileID: 948174806}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: bfe07065b1140004f803289f077200c0, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.016010284, y: 0.05870056}
+  m_Offset: {x: -0.012134552, y: 0.056114197}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -444,7 +460,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.45067596, y: 1.7320557}
+  m_Size: {x: 0.6238632, y: 1.7372284}
   m_EdgeRadius: 0
 --- !u!114 &948174812
 MonoBehaviour:
@@ -458,9 +474,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2691096c7a28303478d9e802d801c82a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  jumpForce: 0
-  horizontalSpeed: 0
+  speed: 5
+  jumpForce: 50
+  gravity: 4
+  horizontalSpeed: 15
   onGround: 0
 --- !u!1 &1145390177
 GameObject:
@@ -576,10 +593,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   atlas: {fileID: 11400000, guid: b0977ff8e1c8f724bb21edd64215596c, type: 2}
-  height: 400
-  width: 500
+  height: 600
   chunkSize: 64
-  chunksCount: 20
+  chunksCount: 1
   seed: 0
   caveFreq: 0.16
   terrainFreq: 0.04

@@ -9,7 +9,6 @@ public class WorldGeneratorDirector : MonoBehaviour
     public WorldGeneratorController controller;
 
     public int height = 400;
-    public int width;
     public int chunkSize = 64;
     public int chunksCount = 2;
 
@@ -25,9 +24,8 @@ public class WorldGeneratorDirector : MonoBehaviour
     {
         seed = Random.Range(-1000, 1000);
         //-185 -9 -545 814 (big hills)
-        //seed = 814;
-        width = chunksCount * chunkSize;
-        controller = new(seed, width, height);
+        seed = 913;
+        controller = new(seed, chunkSize, height);
 
         GenerateChunks();
     }
@@ -41,8 +39,12 @@ public class WorldGeneratorDirector : MonoBehaviour
             chunkObject.transform.parent = this.transform;
 
             _worldGenerator = new(chunkSize, height, seed, terrainFreq);
+
+            controller = new(seed, chunkSize, height);
+            controller.SetBias(chunk * chunkSize);
+
             GenerateChunk(chunk * chunkSize);
-            //RenderTiles(_worldGenerator.GetBlocks(), chunkObject, chunk * chunkSize);
+            RenderTiles(_worldGenerator.GetBlocks(), chunkObject, chunk * chunkSize);
         }
     }
 
@@ -65,7 +67,7 @@ public class WorldGeneratorDirector : MonoBehaviour
     public void GenerateTunnels(int bias)
     {
         controller.UpdateRandom();
-        controller.SetNoiseSettings(caveFreq / 4, caveFreq / 8, 3f);
+        controller.SetNoiseSettings(caveFreq / 6, caveFreq / 8, 5f);
         controller.SetTile(atlas.air);
         controller.SetRenderSettings(0.3f, 0, 0.8f);
 
@@ -73,6 +75,13 @@ public class WorldGeneratorDirector : MonoBehaviour
 
         controller.SetRenderSettings(0.7f, 0, 0.5f);
         _worldGenerator.GenerateTile(controller.GetTexture(), bias, controller.GetTile(), onTiles: true, heightAffected: false);
+
+        controller.UpdateRandom();
+        controller.SetNoiseSettings(caveFreq / 4, caveFreq / 4, rarity: 20f);
+        controller.SetTile(atlas.air);
+        controller.SetRenderSettings(0.002f, 0.5f, 0);
+
+        _worldGenerator.GenerateTile(controller.GetTexture(), bias, controller.GetTile());
     }
 
     public void GenerateDirt(int bias)
@@ -87,7 +96,7 @@ public class WorldGeneratorDirector : MonoBehaviour
         controller.SetNoiseSettings(caveFreq / 6, rarity: 1.5f);
 
         controller.SetRenderSettings(0.2f, 0, 0.9f);
-        _worldGenerator.GenerateTile(controller.GetTexture(), bias, controller.GetTile(), onTiles: false);
+        _worldGenerator.GenerateTile(controller.GetTexture(), bias, controller.GetTile(), onTiles: true);
 
         controller.SetRenderSettings(0.3f, 0, 0.75f);
         _worldGenerator.GenerateTile(controller.GetTexture(), bias, controller.GetTile(), onTiles: true);
@@ -99,23 +108,17 @@ public class WorldGeneratorDirector : MonoBehaviour
     public void GenerateCaves(int bias)
     {
         controller.UpdateRandom();
-        controller.SetNoiseSettings(caveFreq);
+        controller.SetNoiseSettings(caveFreq, caveFreq, rarity: 1f);
         controller.SetTile(atlas.stone);
+        controller.SetRenderSettings(0.3f, 0, 0);
 
         _worldGenerator.GenerateTile(controller.GetTexture(), bias, controller.GetTile());
-
-        controller.UpdateRandom();
-        controller.SetNoiseSettings(caveFreq / 4, rarity: 4);
+        
+        /*controller.UpdateRandom();
+        controller.SetNoiseSettings(caveFreq / 2, rarity: 4f);
         controller.SetTile(atlas.air);
 
-        _worldGenerator.GenerateTile(controller.GetTexture(), bias, controller.GetTile());
-
-        Tile tile = controller.GetTile();
-        controller.UpdateRandom();
-        controller.SetNoiseSettings(caveFreq / 12, rarity: 12);
-        controller.SetRenderSettings(tile.renderBorder / 8, tile.maxHeight / 2, tile.minHeight);
-
-        _worldGenerator.GenerateTile(controller.GetTexture(), bias, controller.GetTile());
+        _worldGenerator.GenerateTile(controller.GetTexture(), bias, controller.GetTile());*/
     }
 
     public void GenerateOres(int bias)
@@ -152,7 +155,7 @@ public class WorldGeneratorDirector : MonoBehaviour
         tileObject.transform.parent = chunk.transform;
 
         //tileObject.AddComponent<BoxCollider2D>();
-        //tileObject.tag = "Ground"; // TODO: ENUM CLASS
+        tileObject.tag = "Ground";
 
         tileObject.AddComponent<SpriteRenderer>();
         tileObject.GetComponent<SpriteRenderer>().sprite = tile.sprite;

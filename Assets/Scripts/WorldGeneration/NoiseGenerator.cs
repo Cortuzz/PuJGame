@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class NoiseGenerator
 {
+    public int randBias = 0;
     public int bias = 0;
     private int _seed;
 
@@ -48,7 +49,7 @@ public class NoiseGenerator
 
     private float GenerateNoise(int x, int y, float hFreq, float vFreq, float rarity)
     {
-        float noise = Mathf.PerlinNoise((x + _seed + bias) * hFreq, (y + _seed + bias) * vFreq);
+        float noise = Mathf.PerlinNoise((x + _seed + randBias + bias) * hFreq, (y + _seed + randBias) * vFreq);
         return Mathf.Pow(noise, rarity);
     }
 }

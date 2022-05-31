@@ -25,9 +25,14 @@ public class WorldGeneratorController
         UpdateRandom();
     }
 
+    public void SetBias(int bias)
+    {
+        _noiseGenerator.bias = bias;
+    }
+
     public void UpdateRandom()
     {
-        _noiseGenerator.bias = Random.Range(0, 1000);
+        _noiseGenerator.randBias = Random.Range(0, 1000);
     }
 
     public void SetRenderSettings(float renderBorder, float maxHeight, float minHeight)

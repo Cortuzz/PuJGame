@@ -8,7 +8,7 @@ public class WorldGeneration
     public readonly float heightAdditionRatio = 0.6f;
     public readonly float heightMultiplierRatio = 0.6f;
 
-    public readonly float mountainsSmoothing = 0.25f;
+    public readonly float mountainsSmoothing = 0.15f;
     public readonly float mountainsRarity = 5f;
     public readonly int maxTerrainBlocksCount = 7;
 
