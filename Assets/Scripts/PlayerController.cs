@@ -33,5 +33,11 @@ public class PlayerController : MonoBehaviour
     {
         horizontalSpeed = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(horizontalSpeed * speed, rb.velocity.y);
+
+        bool jumping = Input.GetKey(KeyCode.Space);
+        if (jumping)
+        {
+            rb.AddForce(new Vector2(0, 5));
+        }
     }
 }
