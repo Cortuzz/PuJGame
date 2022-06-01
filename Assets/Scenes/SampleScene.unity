@@ -177,7 +177,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 20
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -319,8 +319,8 @@ GameObject:
   - component: {fileID: 948174808}
   - component: {fileID: 948174807}
   - component: {fileID: 948174810}
-  - component: {fileID: 948174811}
   - component: {fileID: 948174812}
+  - component: {fileID: 948174813}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -409,7 +409,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 948174806}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 55, y: 380, z: 0}
+  m_LocalPosition: {x: 54.511, y: 380, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -433,35 +433,9 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.01859665, y: -0.58774567}
-  m_Size: {x: 0.37337494, y: 0.55430603}
+  m_Offset: {x: -0.019347534, y: -0.605072}
+  m_Size: {x: 0.46136352, y: 0.59625244}
   m_Direction: 0
---- !u!61 &948174811
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 948174806}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 6200000, guid: bfe07065b1140004f803289f077200c0, type: 2}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.012134552, y: 0.056114197}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.44, y: 0.59}
-    newSize: {x: 0.44, y: 0.59}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.6238632, y: 1.7372284}
-  m_EdgeRadius: 0
 --- !u!114 &948174812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -475,10 +449,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  jumpForce: 50
+  jumpForce: 20
   gravity: 4
   horizontalSpeed: 15
+  jumpSpeed: 0
   onGround: 0
+--- !u!70 &948174813
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948174806}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: bfe07065b1140004f803289f077200c0, type: 2}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.01301384, y: 0.053222656}
+  m_Size: {x: 0.6363945, y: 1.7329102}
+  m_Direction: 0
 --- !u!1 &1145390177
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,7 +586,7 @@ MonoBehaviour:
   atlas: {fileID: 11400000, guid: b0977ff8e1c8f724bb21edd64215596c, type: 2}
   height: 600
   chunkSize: 64
-  chunksCount: 1
+  chunksCount: 2
   seed: 0
   caveFreq: 0.16
   terrainFreq: 0.04

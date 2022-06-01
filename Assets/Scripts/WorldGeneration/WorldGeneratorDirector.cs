@@ -154,7 +154,7 @@ public class WorldGeneratorDirector : MonoBehaviour
         GameObject tileObject = new(name = tile.name);
         tileObject.transform.parent = chunk.transform;
 
-        //tileObject.AddComponent<BoxCollider2D>();
+        tileObject.AddComponent<BoxCollider2D>();
         tileObject.tag = "Ground";
 
         tileObject.AddComponent<SpriteRenderer>();

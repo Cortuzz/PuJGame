@@ -9,7 +9,6 @@ public class CameraController : MonoBehaviour
     public float smoothTime;
 
     public Transform playerTransform;
-
     public void FixedUpdate()
     {
         Vector3 position = GetComponent<Transform>().position;
