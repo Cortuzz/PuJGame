@@ -1,54 +1,58 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class WorldGeneratorDirector : MonoBehaviour
+public class WorldGeneratorDirector
 {
-    //public IBiomeFactory biomeFactory = new ForestBiomeFactory();
     public TileAtlas atlas;
     public WorldGeneratorController controller;
 
-    public int height = 400;
-    public int chunkSize = 64;
-    public int chunksCount = 2;
-
     public int seed;
-    public float caveFreq = 0.08f;
+    public float caveFreq = 0.16f;
     public float terrainFreq = 0.04f;
 
     private WorldGeneration _worldGenerator;
 
     private const int _oresCount = 3;
 
-    void Start()
+    public WorldGeneratorDirector(int seed)
+    {
+        this.seed = seed;
+        controller = new(seed, World.chunkSize, World.height);
+    }
+
+    public WorldGeneratorDirector()
     {
         seed = Random.Range(-1000, 1000);
-        //-185 -9 -545 814 (big hills)
-        seed = 913;
-        controller = new(seed, chunkSize, height);
+        controller = new(seed, World.chunkSize, World.height);
+    }
 
-        GenerateChunks();
+    public void SetAtlas(TileAtlas atlas)
+    {
+        this.atlas = atlas;
     }
 
     public void GenerateChunks()
     {
-        for (int chunk = 0; chunk < chunksCount; chunk++)
+        for (int chunk = 0; chunk < World.chunkCount; chunk++)
         {
-            GameObject chunkObject = new();
-            chunkObject.name = "CHUNK " + (chunk + 1);
-            chunkObject.transform.parent = this.transform;
-
-            _worldGenerator = new(chunkSize, height, seed, terrainFreq);
-
-            controller = new(seed, chunkSize, height);
-            controller.SetBias(chunk * chunkSize);
-
-            GenerateChunk(chunk * chunkSize);
-            RenderTiles(_worldGenerator.GetBlocks(), chunkObject, chunk * chunkSize);
+            GenerateChunk(chunk);
         }
     }
 
-    public void GenerateChunk(int bias)
+    public void GenerateChunk(int chunk)
+    {
+        _worldGenerator = new(seed, terrainFreq);
+
+        controller = new(seed, World.chunkSize, World.height);
+        controller.SetBias(chunk * World.chunkSize);
+
+        ChunkGenerationQueue(chunk * World.chunkSize);
+
+        var blocks = _worldGenerator.GetBlocks();
+        DebugHole(ref blocks);
+        World.AddChunk(blocks);
+    }
+
+    private void ChunkGenerationQueue(int bias)
     {
         GenerateCaves(bias);
         GenerateDirt(bias);
@@ -110,7 +114,7 @@ public class WorldGeneratorDirector : MonoBehaviour
         controller.UpdateRandom();
         controller.SetNoiseSettings(caveFreq, caveFreq, rarity: 1f);
         controller.SetTile(atlas.stone);
-        controller.SetRenderSettings(0.3f, 0, 0);
+        //controller.SetRenderSettings(0.3f, 0, 0);
 
         _worldGenerator.GenerateTile(controller.GetTexture(), bias, controller.GetTile());
         
@@ -135,31 +139,12 @@ public class WorldGeneratorDirector : MonoBehaviour
         }
     }
 
-    public void RenderTiles(Block[,] tiles, GameObject chunk, int bias)
+    public void DebugHole(ref Block[,] blocks)
     {
-        for (int i = 0; i < height; i++)
+        for (int y = 50; y < World.height; y++)
         {
-            for (int j = 0; j < chunkSize; j++)
-            {
-                RenderTile(tiles[j, i], chunk, bias + j, i);
-            }
+            try { blocks[2, y] = null; }
+            catch { }
         }
-    }
-
-    private void RenderTile(Block tile, GameObject chunk, int x, int y)
-    {
-        if (tile == null)
-            return;
-
-        GameObject tileObject = new(name = tile.name);
-        tileObject.transform.parent = chunk.transform;
-
-        tileObject.AddComponent<BoxCollider2D>();
-        tileObject.tag = "Ground";
-
-        tileObject.AddComponent<SpriteRenderer>();
-        tileObject.GetComponent<SpriteRenderer>().sprite = tile.sprite;
-
-        tileObject.transform.position = new Vector2(x + 0.5f, y + 0.5f);
     }
 }

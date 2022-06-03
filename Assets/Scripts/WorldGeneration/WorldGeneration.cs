@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,9 +11,6 @@ public class WorldGeneration
     public readonly float mountainsRarity = 5f;
     public readonly int maxTerrainBlocksCount = 7;
 
-    private readonly int _width;
-    private readonly int _height;
-
     private readonly int _seed;
     private readonly float _terrainFreq;
     private readonly float _heightMultiplier;
@@ -23,20 +19,18 @@ public class WorldGeneration
     private readonly Block[,] _tiles;
     private readonly int[] _heights;
 
-    public WorldGeneration(int w, int h, int seed, float terrainFreq)
+    public WorldGeneration(int seed, float terrainFreq)
     {
         _seed = seed;
         Random.InitState(_seed);
 
         _terrainFreq = terrainFreq;
 
-        _width = w;
-        _height = h;
-        _tiles = new Block[_width, _height];
-        _heights = new int[_width];
+        _tiles = new Block[World.chunkSize, World.height];
+        _heights = new int[World.chunkSize];
 
-        _heightAddition = (int)(heightAdditionRatio * _height);
-        _heightMultiplier = heightMultiplierRatio * _height;
+        _heightAddition = (int)(heightAdditionRatio * World.height);
+        _heightMultiplier = heightMultiplierRatio * World.height;
     }
 
     private void PlaceTerrainTiles(int x, int y, Tile tile)
@@ -49,7 +43,7 @@ public class WorldGeneration
 
     public void GenerateTopBlocks(Tile tile)
     {
-        for (int i = 0; i < _width; i++)
+        for (int i = 0; i < World.chunkSize; i++)
         {
             PlaceTile(i, _heights[i], tile);
         }
@@ -57,9 +51,9 @@ public class WorldGeneration
 
     public void RemoveTopBlocksExcept(Tile tile)
     {
-        for (int i = 0; i < _width; i++)
+        for (int i = 0; i < World.chunkSize; i++)
         {
-            for (int j = _height - 1; j >= 0; j--)
+            for (int j = World.height - 1; j >= 0; j--)
             {
                 if (_tiles[i, j] != null && _tiles[i, j].name == tile.name)
                     break;
@@ -73,9 +67,9 @@ public class WorldGeneration
     {
         Queue<int> previousHeights = new();
 
-        for (int i = 0; i < _width; i++)
+        for (int i = 0; i < World.chunkSize; i++)
         {
-            for (int j = _height - 1; j >= 0; j--)
+            for (int j = World.height - 1; j >= 0; j--)
             {
                 if (_tiles[i, j] == null)
                     continue;
@@ -118,12 +112,12 @@ public class WorldGeneration
         
     public void GenerateTile(Texture2D texture, int bias, Tile tile, bool heightAffected = true, bool onTiles = false)
     {
-        for (int x = 0; x < _width; x++)
+        for (int x = 0; x < World.chunkSize; x++)
         {
             float height = GetTerrainNoise(x + bias);
             float noiseHeight = height;
             if (!heightAffected)
-                height = _height;
+                height = World.height;
 
             for (int y = 0; y < height; y++)
             {

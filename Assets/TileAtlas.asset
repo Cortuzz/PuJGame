@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f12dec9d1b96954a97d8d2d56b1b147, type: 3}
-  m_Name: Tile Atlas
+  m_Name: TileAtlas
   m_EditorClassIdentifier: 
   dirt: {fileID: 11400000, guid: 775f25aa663c5c84aa91ef12b7b07fab, type: 2}
   stone: {fileID: 11400000, guid: 5cebade3a45ca164798d2ee6d4e264ea, type: 2}
