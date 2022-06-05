@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour, ICharacter
 {
+    public int health;
+    public int maxHealth = 200;
+    public int initialHealth = 100;
+
     public float speed;
     public float jumpForce;
 
     public float horizontalSpeed;
 
+    public float jumpTicks;
     public float jumpSpeed;
     public float maxJumpSpeed;
     public float holdJumpTime;
@@ -18,11 +23,13 @@ public class PlayerController : MonoBehaviour, ICharacter
     public Vector2 spawnPos;
 
     public Rigidbody2D rb;
+
     private SpriteRenderer _spriteRenderer;
     private Collider _collider;
 
     public void Spawn()
     {
+        health = initialHealth;
         rb = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _collider = new(transform, rb);
@@ -38,6 +45,8 @@ public class PlayerController : MonoBehaviour, ICharacter
 
     public void SetOnGround(bool onGround)
     {
+        if (onGround)
+            jumpTicks = 0;
         this.onGround = onGround;
     }
 
@@ -53,11 +62,30 @@ public class PlayerController : MonoBehaviour, ICharacter
         }
     }
 
+    public void TakeDamage(int damage)
+    {
+        if (damage <= 0)
+            return;
+
+        health -= damage;
+        if (health < 0)
+            Spawn();
+    }
+
     public void CheckCollisions()
     {
-        SetOnGround(_collider.CheckBottomCollision());
+        bool collision = _collider.CheckBottomCollision();
+        if (collision)
+            TakeDamage((int)(jumpTicks / 10 - 40)); // ѕроблема в более быстром / медленном падении
+        SetOnGround(collision);
+
         _collider.CheckTopCollision();
         _collider.CheckSideCollision();
+    }
+
+    public bool CheckFall()
+    {
+        return rb.velocity.y < 0 && !onGround;
     }
 
     public void MoveUpdate()
@@ -83,6 +111,11 @@ public class PlayerController : MonoBehaviour, ICharacter
             }
         }
 
+        if (CheckFall())
+            ++jumpTicks;
+        else
+            jumpTicks = 0;
+            
         rb.velocity = movement;
     }
 
