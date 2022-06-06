@@ -2,81 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour, ICharacter
+public class PlayerController : Character
 {
-    public int health;
-    public int maxHealth = 200;
-    public int initialHealth = 100;
-
     public float speed;
     public float jumpForce;
-
-    public float horizontalSpeed;
 
     public float jumpTicks;
     public float jumpSpeed;
     public float maxJumpSpeed;
     public float holdJumpTime;
     public bool holdingJump = false;
-    public bool onGround = false;
 
-    public Vector2 spawnPos;
-
-    public Rigidbody2D rb;
-
-    private SpriteRenderer _spriteRenderer;
-    private Collider _collider;
-
-    public void Spawn()
-    {
-        health = initialHealth;
-        rb = GetComponent<Rigidbody2D>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-        _collider = new(transform, rb);
-
-        GetComponent<Transform>().position = spawnPos;
-    }
-
-    public void Spawn(int x, int y)
-    {
-        spawnPos = new Vector2(x, y);
-        Spawn();
-    }
-
-    public void SetOnGround(bool onGround)
+    public override void SetOnGround(bool onGround)
     {
         if (onGround)
             jumpTicks = 0;
         this.onGround = onGround;
     }
 
-    public void CheckDirection()
+    public override void Die()
     {
-        if (horizontalSpeed > 0)
-        {
-            transform.localScale = new Vector3(-1, 1, 1);
-        } 
-        else if (horizontalSpeed < 0) 
-        {
-            transform.localScale = new Vector3(1, 1, 1);
-        }
+        Spawn();
     }
 
-    public void TakeDamage(int damage)
+    protected override Collider GetCollider()
     {
-        if (damage <= 0)
-            return;
-
-        health -= damage;
-        if (health < 0)
-            Spawn();
+        return new(transform, rb);
     }
 
-    public void CheckCollisions()
+    public override void CheckCollisions()
     {
         bool collision = _collider.CheckBottomCollision();
         if (collision)
-            TakeDamage((int)(jumpTicks / 10 - 40)); // ѕроблема в более быстром / медленном падении
+            TakeDamage((int)(jumpTicks / 5 - 40)); // TODO: ѕроблема в более быстром / медленном падении
         SetOnGround(collision);
 
         _collider.CheckTopCollision();
@@ -88,12 +46,11 @@ public class PlayerController : MonoBehaviour, ICharacter
         return rb.velocity.y < 0 && !onGround;
     }
 
-    public void MoveUpdate()
+    public override void MoveUpdate()
     {
         horizontalSpeed = Input.GetAxis("Horizontal");
 
         Vector2 movement = new(horizontalSpeed * speed, Mathf.Max(rb.velocity.y, -50));
-        CheckDirection();
 
         if (onGround)
         {
@@ -119,14 +76,10 @@ public class PlayerController : MonoBehaviour, ICharacter
         rb.velocity = movement;
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-
-    }
-
     private void FixedUpdate()
     {
         CheckCollisions();
+        CheckDirection();
         MoveUpdate();
     }
 }

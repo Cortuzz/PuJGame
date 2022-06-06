@@ -36,4 +36,23 @@ public static class World
         blocks.Add(chunk);
         backgroundBlocks.Add(bgChunk);
     }
+
+    static public int GetHeightAt(int x)
+    {
+        int chunkNumber = x / chunkSize;
+        x %= chunkSize;
+
+        return GetHeightAt(chunkNumber, x);
+    }
+
+    static public int GetHeightAt(int chunk, int x)
+    {
+        Block[,] currentChunk = blocks[chunk];
+        for (int y = height - 1; y >= 0; --y)
+        {
+            if (currentChunk[x, y] != null)
+                return y;
+        }
+        return -1;
+    }
 }

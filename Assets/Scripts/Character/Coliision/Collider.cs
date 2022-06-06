@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Collider: ICollidable
 {
-    private readonly Transform _transform;
-    private readonly Rigidbody2D _rb;
+    protected readonly Transform _transform;
+    protected readonly Rigidbody2D _rb;
 
     public Collider(Transform tr, Rigidbody2D rb)
     {
@@ -11,7 +11,7 @@ public class Collider: ICollidable
         _rb = rb;
     }
 
-    public Vector2 GetRoundedPosition(Transform _transform)
+    public virtual Vector2 GetRoundedPosition(Transform _transform)
     {
         return new(Mathf.RoundToInt(_transform.position.x - 0.5f), Mathf.RoundToInt(_transform.position.y));
     }

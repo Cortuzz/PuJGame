@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour
 {
     public TileAtlas tileAtlas;
     public PlayerController playerController;
+    public Slime slime;
     public WorldGeneratorDirector worldGeneratorDirector;
 
     public int height;
@@ -21,7 +22,8 @@ public class GameController : MonoBehaviour
         worldGeneratorDirector.SetAtlas(tileAtlas);
         worldGeneratorDirector.GenerateChunks();
 
-        playerController.Spawn(World.width / 2, World.height - 5);
+        playerController.Spawn(World.width / 2, World.GetHeightAt(World.width / 2));
+        slime.Spawn(World.width / 2, World.GetHeightAt(World.width / 2));
 
         for (int chunk = 0; chunk < chunksCount; chunk++)
         {
