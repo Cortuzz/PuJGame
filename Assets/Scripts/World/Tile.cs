@@ -10,6 +10,7 @@ public class Tile : ScriptableObject
     public float renderBorder;
     public float maxHeight;
     public float minHeight;
+    public bool isBackground = false;
     public Tile Prototype()
     {
         Tile newTile = CreateInstance<Tile>();
@@ -19,6 +20,7 @@ public class Tile : ScriptableObject
         newTile.renderBorder = renderBorder;
         newTile.maxHeight = maxHeight;
         newTile.minHeight = minHeight;
+        newTile.isBackground = isBackground;
 
         return newTile;
     }
@@ -32,7 +34,7 @@ public class Tile : ScriptableObject
 
     public Block CreateBlock()
     {
-        return new Block(name, sprite);
+        return new Block(name, sprite, isBackground);
     }
 }
 
@@ -41,10 +43,12 @@ public class Block
 {
     public string name;
     public Sprite sprite;
+    public bool isBackground;
 
-    public Block(string name, Sprite sprite)
+    public Block(string name, Sprite sprite, bool isBackground)
     {
         this.name = name;
         this.sprite = sprite;
+        this.isBackground = isBackground;
     }
 }

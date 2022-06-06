@@ -40,6 +40,7 @@ public class GameController : MonoBehaviour
 
         _chunks.Add(chunkObject);
         RenderTiles(World.blocks[chunk], chunkObject, chunk * World.chunkSize);
+        RenderTiles(World.backgroundBlocks[chunk], chunkObject, chunk * World.chunkSize);
     }
 
     public void RenderTiles(Block[,] tiles, GameObject chunk, int bias)
@@ -64,8 +65,18 @@ public class GameController : MonoBehaviour
         tileObject.isStatic = true;
 
         tileObject.AddComponent<SpriteRenderer>();
-        tileObject.GetComponent<SpriteRenderer>().sprite = tile.sprite;
-        tileObject.GetComponent<SpriteRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+        SpriteRenderer renderer = tileObject.GetComponent<SpriteRenderer>();
+        renderer.sprite = tile.sprite;
+
+        renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+        if (tile.isBackground)
+        {
+            renderer.sortingOrder = -1;
+            Color color = renderer.color;
+            color.a = 0.5f;
+            renderer.color = color;
+        }
+
         //tileObject.AddComponent<MeshRenderer>();
         //tileObject.GetComponent<MeshRenderer>().receiveShadows = true;
 

@@ -48,8 +48,9 @@ public class WorldGeneratorDirector
         ChunkGenerationQueue(chunk * World.chunkSize);
 
         var blocks = _worldGenerator.GetBlocks();
+        var background = _worldGenerator.GetBackgroundBlocks();
         DebugHole(ref blocks);
-        World.AddChunk(blocks);
+        World.AddChunk(blocks, background);
     }
 
     private void ChunkGenerationQueue(int bias)
@@ -59,6 +60,24 @@ public class WorldGeneratorDirector
         GenerateOres(bias);
         GenerateTerrain();
         GenerateTunnels(bias);
+        GenerateBackground(bias);
+    }
+
+    public void GenerateBackground(int bias)
+    {
+        controller.UpdateRandom();
+        controller.SetTile(atlas.dirt);
+        controller.SetNoiseSettings(caveFreq, caveFreq, rarity: 1f);
+        controller.SetRenderSettings(0.1f, 0.95f, 0.75f);
+        controller.SetTileStats(true);
+        _worldGenerator.GenerateTile(controller.GetTexture(), bias, controller.GetTile());
+
+        controller.SetNoiseSettings(caveFreq, caveFreq, rarity: 1f);
+        controller.SetTile(atlas.stone);
+        controller.SetRenderSettings(0.1f, 0.75f, 0);
+        controller.SetTileStats(true);
+
+        _worldGenerator.GenerateTile(controller.GetTexture(), bias, controller.GetTile());
     }
 
     public void GenerateTerrain()
@@ -112,12 +131,12 @@ public class WorldGeneratorDirector
     public void GenerateCaves(int bias)
     {
         controller.UpdateRandom();
-        controller.SetNoiseSettings(caveFreq, caveFreq, rarity: 1f);
         controller.SetTile(atlas.stone);
-        //controller.SetRenderSettings(0.3f, 0, 0);
+        controller.SetNoiseSettings(caveFreq, caveFreq, rarity: 1f);
+        controller.SetRenderSettings(0.3f, 0, 0);
 
         _worldGenerator.GenerateTile(controller.GetTexture(), bias, controller.GetTile());
-        
+
         /*controller.UpdateRandom();
         controller.SetNoiseSettings(caveFreq / 2, rarity: 4f);
         controller.SetTile(atlas.air);

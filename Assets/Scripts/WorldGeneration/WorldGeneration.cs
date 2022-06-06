@@ -17,6 +17,7 @@ public class WorldGeneration
     private readonly int _heightAddition;
 
     private readonly Block[,] _tiles;
+    private readonly Block[,] _backgroundTiles;
     private readonly int[] _heights;
 
     public WorldGeneration(int seed, float terrainFreq)
@@ -27,6 +28,7 @@ public class WorldGeneration
         _terrainFreq = terrainFreq;
 
         _tiles = new Block[World.chunkSize, World.height];
+        _backgroundTiles = new Block[World.chunkSize, World.height];
         _heights = new int[World.chunkSize];
 
         _heightAddition = (int)(heightAdditionRatio * World.height);
@@ -91,16 +93,15 @@ public class WorldGeneration
     {
         if (tile.sprite == null)
         {
-            _tiles[x, y] = null;
+            GetBlocksArray(tile.isBackground)[x, y] = null;
             return;
         }
 
-        _tiles[x, y] = tile.CreateBlock();
+        GetBlocksArray(tile.isBackground)[x, y] = tile.CreateBlock();
     }
 
     private bool CheckPlacementByNoise(Texture2D texture, float renderBorder, int x, int y, int bias, int height, bool onTiles)
     {
-
         if (onTiles && _tiles[x - bias, y] == null)
             return false;
 
@@ -141,8 +142,35 @@ public class WorldGeneration
         return Mathf.Pow(noise, mountainsRarity) * _heightMultiplier + _heightAddition;
     }
 
+    public void UpdateHeights()
+    {
+        for (int i = 0; i < World.chunkSize; i++)
+        {
+            for (int j = World.height - 1; j >= 0; j--)
+            {
+                if (_tiles[i, j] != null)
+                {
+                    _heights[i] = j;
+                    break;
+                }
+            }
+        }
+    }
+
+    private Block[,] GetBlocksArray(bool bg)
+    {
+        if (bg)
+            return _backgroundTiles;
+        return _tiles;
+    }
+
     public Block[,] GetBlocks()
     {
         return _tiles;
+    }
+
+    public Block[,] GetBackgroundBlocks()
+    {
+        return _backgroundTiles;
     }
 }

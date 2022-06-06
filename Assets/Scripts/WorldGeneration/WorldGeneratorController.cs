@@ -42,6 +42,11 @@ public class WorldGeneratorController
         _tile.minHeight = minHeight;
     }
 
+    public void SetTileStats(bool background)
+    {
+        _tile.isBackground = background;
+    }
+
     public void SetNoiseSettings(float horizontalFreq, float verticalFreq, float rarity = 1)
     {
         _verticalFreq = verticalFreq;

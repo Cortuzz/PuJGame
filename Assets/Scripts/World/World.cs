@@ -9,6 +9,7 @@ public static class World
     static public int chunkSize;
     static public int chunkCount;
     static public List<Block[,]> blocks;
+    static public List<Block[,]> backgroundBlocks;
 
     static public void SetWorldInfo(int height_, int chunkSize_, int chunkCount_)
     {
@@ -17,6 +18,7 @@ public static class World
         chunkCount = chunkCount_;
         width = chunkSize * chunkCount;
         blocks = new List<Block[,]>();
+        backgroundBlocks = new List<Block[,]>();
     }
 
     static public void SetBlocks(List<Block[,]> blocks_)
@@ -29,8 +31,9 @@ public static class World
         blocks[chunk][x, y] = block;
     }
 
-    static public void AddChunk(Block[,] chunk)
+    static public void AddChunk(Block[,] chunk, Block[,] bgChunk)
     {
         blocks.Add(chunk);
+        backgroundBlocks.Add(bgChunk);
     }
 }
