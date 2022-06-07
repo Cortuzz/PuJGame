@@ -22,13 +22,14 @@ public class GameController : MonoBehaviour
         worldGeneratorDirector.SetAtlas(tileAtlas);
         worldGeneratorDirector.GenerateChunks();
 
-        playerController.Spawn(World.width / 2, World.GetHeightAt(World.width / 2));
-        slime.Spawn(World.width / 2, World.GetHeightAt(World.width / 2));
-
         for (int chunk = 0; chunk < chunksCount; chunk++)
         {
             GenerateChunk(chunk);
         }
+
+        playerController.Spawn(World.width / 2, World.GetHeightAt(World.width / 2));
+        World.SetPlayer(playerController);
+        slime.Spawn(World.width / 2, World.GetHeightAt(World.width / 2));
     }
 
     public void GenerateChunk(int chunk)

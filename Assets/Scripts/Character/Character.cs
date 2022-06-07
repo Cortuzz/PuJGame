@@ -24,6 +24,11 @@ public abstract class Character: MonoBehaviour, ICharacter
 
     protected abstract Collider GetCollider();
 
+    public Vector2 GetPosition()
+    {
+        return rb.position;
+    }
+
     public void Spawn()
     {
         health = initialHealth;

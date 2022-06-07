@@ -10,6 +10,7 @@ public static class World
     static public int chunkCount;
     static public List<Block[,]> blocks;
     static public List<Block[,]> backgroundBlocks;
+    static public Character player;
 
     static public void SetWorldInfo(int height_, int chunkSize_, int chunkCount_)
     {
@@ -19,6 +20,11 @@ public static class World
         width = chunkSize * chunkCount;
         blocks = new List<Block[,]>();
         backgroundBlocks = new List<Block[,]>();
+    }
+
+    static public void SetPlayer(Character player_)
+    {
+        player = player_;
     }
 
     static public void SetBlocks(List<Block[,]> blocks_)

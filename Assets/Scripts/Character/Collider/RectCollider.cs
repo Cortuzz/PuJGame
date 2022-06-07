@@ -15,20 +15,20 @@ public class RectCollider : Collider
         return new((int)_transform.position.x, (int)_transform.position.y);
     }
 
-    public Vector2 GetLeftBottomPosition(Transform _transform, float bias = 0)
+    private Vector2 GetLeftBottomPosition(Transform _transform, float biasY = 0, float biasX = 0)
     {
-        return new((int)(_transform.position.x - _size.x / 2), (int)(_transform.position.y - _size.y / 2 + bias));
+        return new((int)(_transform.position.x - _size.x / 2 + biasX), (int)(_transform.position.y - _size.y / 2 + biasY));
     }
 
-    public Vector2 GetRigthTopPosition(Transform _transform, float bias = 0)
+    private Vector2 GetRigthTopPosition(Transform _transform, float biasY = 0, float biasX = 0)
     {
-        return new((int)(_transform.position.x + _size.x / 2), (int)(_transform.position.y + _size.y / 2 - bias));
+        return new((int)(_transform.position.x + _size.x / 2 - biasX), (int)(_transform.position.y + _size.y / 2 - biasY));
     }
 
     public override bool CheckBottomCollision()
     {
-        Vector2 roundedLeftPos = GetLeftBottomPosition(_transform);
-        Vector2 roundedRigthPos = GetRigthTopPosition(_transform);
+        Vector2 roundedLeftPos = GetLeftBottomPosition(_transform, biasX: 0.05f);
+        Vector2 roundedRigthPos = GetRigthTopPosition(_transform, biasX: 0.05f);
         int chunkNumberLeft = GetChunkNumber(ref roundedLeftPos, World.chunkSize);
         int chunkNumberRigth = GetChunkNumber(ref roundedRigthPos, World.chunkSize);
 
