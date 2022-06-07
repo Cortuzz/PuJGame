@@ -5,8 +5,10 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     public TileAtlas tileAtlas;
+    
     public PlayerController playerController;
     public Slime slime;
+    public Executioner executioner;
     public WorldGeneratorDirector worldGeneratorDirector;
 
     public int height;
@@ -29,7 +31,6 @@ public class GameController : MonoBehaviour
 
         playerController.Spawn(World.width / 2, World.GetHeightAt(World.width / 2));
         World.SetPlayer(playerController);
-        slime.Spawn(World.width / 2, World.GetHeightAt(World.width / 2));
     }
 
     public void GenerateChunk(int chunk)

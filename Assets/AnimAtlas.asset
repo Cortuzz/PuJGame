@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64f08571a0a4f0947be4fe790e8cbf15, type: 3}
+  m_Name: AnimAtlas
+  m_EditorClassIdentifier: 
+  executioner: {fileID: 9100000, guid: e58d33b2e12c5f1408dd1606cb35184c, type: 2}
+  slime: {fileID: 9100000, guid: 6be9e1bb49a0c714ca99614072d98fbb, type: 2}

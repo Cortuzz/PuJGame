@@ -5,6 +5,8 @@ using UnityEngine;
 public abstract class Enemy : Character
 {
     public bool isAggred = false;
+    public int bodyDamage = 15;
+
     protected abstract void GiveDrop();
 
     protected abstract void CheckAggro();

@@ -2,20 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class Slime : Enemy
+public class Executioner : Enemy
 {
-    public Animator animator;
     private int _patrolCount = 0;
     private int _triggerDistance = 5;
 
-    public override void CheckCollisions()
-    {
-        bool collision = _collider.CheckBottomCollision();
-        SetOnGround(collision);
-
-        _collider.CheckTopCollision();
-        _collider.CheckSideCollision();
-    }
+    public override void CheckCollisions() { }
 
     protected override Collider GetCollider()
     {
@@ -25,7 +17,7 @@ public sealed class Slime : Enemy
     public override void MoveUpdate()
     {
         _patrolCount++;
-        
+
         if (_patrolCount % 500 == 0)
         {
             _patrolCount = 0;
@@ -47,7 +39,7 @@ public sealed class Slime : Enemy
 
     protected override void GiveDrop()
     {
-        
+
     }
 
     protected override void CheckAggro()
@@ -59,7 +51,6 @@ public sealed class Slime : Enemy
 
     void FixedUpdate()
     {
-        CheckCollisions();
         CheckDirection();
         MoveUpdate();
         CheckAggro();

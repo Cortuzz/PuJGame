@@ -27,7 +27,7 @@ public class PlayerController : Character
 
     protected override Collider GetCollider()
     {
-        return new(transform, rb);
+        return new(transform, _rb);
     }
 
     public override void CheckCollisions()
@@ -43,14 +43,14 @@ public class PlayerController : Character
 
     public bool CheckFall()
     {
-        return rb.velocity.y < 0 && !onGround;
+        return _rb.velocity.y < 0 && !onGround;
     }
 
     public override void MoveUpdate()
     {
         horizontalSpeed = Input.GetAxis("Horizontal");
 
-        Vector2 movement = new(horizontalSpeed * speed, Mathf.Max(rb.velocity.y, -50));
+        Vector2 movement = new(horizontalSpeed * speed, Mathf.Max(_rb.velocity.y, -50));
 
         if (onGround)
         {
@@ -73,7 +73,7 @@ public class PlayerController : Character
         else
             jumpTicks = 0;
             
-        rb.velocity = movement;
+        _rb.velocity = movement;
     }
 
     private void FixedUpdate()
