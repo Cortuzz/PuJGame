@@ -4,7 +4,6 @@ using UnityEngine;
 
 public sealed class Slime : Enemy
 {
-    public Animator animator;
     private int _patrolCount = 0;
     private int _triggerDistance = 5;
 
@@ -19,7 +18,9 @@ public sealed class Slime : Enemy
 
     protected override Collider GetCollider()
     {
-        return new RectCollider(transform, _rb, _spriteRenderer);
+        RectCollider collider = new RectCollider(transform, _rb, _spriteRenderer);
+        collider.SetBias(new Vector2(0.65f, -0.1f));
+        return collider;
     }
 
     public override void MoveUpdate()

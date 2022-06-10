@@ -32,9 +32,19 @@ public static class World
         blocks = blocks_;
     }
 
-    static public void SetBlock(int chunk, int x, int y, Block block)
+    static public void SetBlock(int chunk, int x, int y, Block block, bool isBackground = false)
     {
+        if (isBackground)
+        {
+            backgroundBlocks[chunk][x, y] = block;
+            return;
+        }
         blocks[chunk][x, y] = block;
+    }
+
+    static public void SetBlock(int x, int y, Block block, bool isBackground = false)
+    {
+        SetBlock(x / chunkSize, x % chunkSize, y, block, isBackground);
     }
 
     static public void AddChunk(Block[,] chunk, Block[,] bgChunk)

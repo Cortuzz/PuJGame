@@ -49,7 +49,7 @@ public class WorldGeneratorDirector
 
         var blocks = _worldGenerator.GetBlocks();
         var background = _worldGenerator.GetBackgroundBlocks();
-        DebugHole(ref blocks);
+        //DebugHole(ref blocks);
         World.AddChunk(blocks, background);
     }
 

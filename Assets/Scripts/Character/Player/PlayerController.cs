@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : Character
+public class PlayerController : Character, IObservable
 {
     public float speed;
     public float jumpForce;
@@ -12,6 +12,22 @@ public class PlayerController : Character
     public float maxJumpSpeed;
     public float holdJumpTime;
     public bool holdingJump = false;
+    public bool removingBlock = true; // затычка
+
+    private bool _inventoryShowing = false;
+    private Vector2 _mousePosition;
+    public Inventory inventory;
+
+    private List<IObserver> _observers = new List<IObserver>();
+
+    protected override void Awake()
+    {
+        _rb = GetComponent<Rigidbody2D>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _animator = GetComponent<Animator>();
+        _collider = GetCollider();
+        inventory = GetComponent<Inventory>();
+    }
 
     public override void SetOnGround(bool onGround)
     {
@@ -39,11 +55,6 @@ public class PlayerController : Character
 
         _collider.CheckTopCollision();
         _collider.CheckSideCollision();
-    }
-
-    public bool CheckFall()
-    {
-        return _rb.velocity.y < 0 && !onGround;
     }
 
     public override void MoveUpdate()
@@ -75,11 +86,61 @@ public class PlayerController : Character
             
         _rb.velocity = movement;
     }
+    public bool CheckFall()
+    {
+        return _rb.velocity.y < 0 && !onGround;
+    }
+
+    public Vector2 GetMousePos()
+    {
+        return _mousePosition;
+    }
+
+    private void InventoryUpdate()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            _inventoryShowing = !_inventoryShowing;
+        }
+        inventory.ChangeVisibility(_inventoryShowing);
+    }
+
+    private void MouseUpdate()
+    {
+        _mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        if (Input.GetMouseButtonDown(0))
+            Notify();
+    }
 
     private void FixedUpdate()
     {
         CheckCollisions();
         CheckDirection();
+    }
+
+    private void Update()
+    {
+        MouseUpdate();
         MoveUpdate();
+        InventoryUpdate();
+    }
+
+    public void Attach(IObserver observer)
+    {
+        _observers.Add(observer);
+    }
+
+    public void Detach(IObserver observer)
+    {
+        _observers.Remove(observer);
+    }
+
+    public void Notify()
+    {
+        foreach (var observer in _observers)
+        {
+            observer.ObserverUpdate(this);
+        }
     }
 }

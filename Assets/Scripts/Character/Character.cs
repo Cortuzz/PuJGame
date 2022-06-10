@@ -28,7 +28,7 @@ public abstract class Character: MonoBehaviour, ICharacter
 
     protected abstract Collider GetCollider();
 
-    protected void Awake()
+    protected virtual void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();

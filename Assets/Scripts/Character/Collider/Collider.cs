@@ -4,11 +4,18 @@ public class Collider: ICollidable
 {
     protected readonly Transform _transform;
     protected readonly Rigidbody2D _rb;
+    protected Vector2 _bias;
 
     public Collider(Transform tr, Rigidbody2D rb)
     {
         _transform = tr;
         _rb = rb;
+        _bias = Vector2.zero;
+    }
+
+    public void SetBias(Vector2 bias)
+    {
+        _bias = bias;
     }
 
     public virtual Vector2 GetRoundedPosition(Transform _transform)

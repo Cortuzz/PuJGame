@@ -17,12 +17,12 @@ public class RectCollider : Collider
 
     private Vector2 GetLeftBottomPosition(Transform _transform, float biasY = 0, float biasX = 0)
     {
-        return new((int)(_transform.position.x - _size.x / 2 + biasX), (int)(_transform.position.y - _size.y / 2 + biasY));
+        return new((int)(_transform.position.x - _size.x / 2 + biasX + _bias.x), (int)(_transform.position.y - _size.y / 2 + biasY + _bias.y));
     }
 
     private Vector2 GetRigthTopPosition(Transform _transform, float biasY = 0, float biasX = 0)
     {
-        return new((int)(_transform.position.x + _size.x / 2 - biasX), (int)(_transform.position.y + _size.y / 2 - biasY));
+        return new((int)(_transform.position.x + _size.x / 2 - biasX + _bias.x), (int)(_transform.position.y + _size.y / 2 - biasY + _bias.y));
     }
 
     public override bool CheckBottomCollision()
@@ -44,7 +44,7 @@ public class RectCollider : Collider
         if (!isCollision)
             return false;
 
-        _transform.position = new(_transform.position.x, roundedRigthPos.y + _size.y / 2);
+        _transform.position = new(_transform.position.x, roundedRigthPos.y + _size.y / 2 - _bias.y);
         _rb.velocity = new(_rb.velocity.x, 0);
         return true;
     }
@@ -99,6 +99,6 @@ public class RectCollider : Collider
             xPos = roundedRigthPos.x + chunkNumberRigth * World.chunkSize;
         }
 
-        _transform.position = new(xPos + _size.x / 2, _transform.position.y);
+        _transform.position = new(xPos + _size.x / 2 - _bias.x, _transform.position.y);
     }
 }
