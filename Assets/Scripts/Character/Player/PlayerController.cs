@@ -22,11 +22,8 @@ public class PlayerController : Character, IObservable
 
     protected override void Awake()
     {
-        _rb = GetComponent<Rigidbody2D>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-        _animator = GetComponent<Animator>();
-        _collider = GetCollider();
         inventory = GetComponent<Inventory>();
+        base.Awake();
     }
 
     public override void SetOnGround(bool onGround)
@@ -111,6 +108,15 @@ public class PlayerController : Character, IObservable
 
         if (Input.GetMouseButtonDown(0))
             Notify();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("TileDrop"))
+        {
+            if (inventory.TryAdd(collision.gameObject.GetComponent<TileDrop>().item))
+                Destroy(collision.gameObject);
+        }
     }
 
     private void FixedUpdate()

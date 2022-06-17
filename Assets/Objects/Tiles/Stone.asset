@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ace8cffb46ddad14ca4e5e9ea4725179, type: 3}
-  m_Name: Dirt
+  m_Name: Stone
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: 510cba6f78797e2429d04ee8eb953af0, type: 3}
-  name: Dirt
-  renderBorder: 0.8
+  sprite: {fileID: 21300000, guid: 00c5f488b60e2a24c9a8fdc0b18d43f5, type: 3}
+  itemDrop: {fileID: 11400000, guid: 670049898beb88a49bddc4016a1620c3, type: 2}
+  name: Stone
+  renderBorder: 0.3
   maxHeight: 0
   minHeight: 0
+  isBackground: 0

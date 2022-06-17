@@ -6,6 +6,7 @@ using UnityEngine;
 public class Tile : ScriptableObject
 {
     public Sprite sprite;
+    public Item itemDrop;
     public new string name;
     public float renderBorder;
     public float maxHeight;
@@ -15,6 +16,7 @@ public class Tile : ScriptableObject
     {
         Tile newTile = CreateInstance<Tile>();
 
+        newTile.itemDrop = itemDrop;
         newTile.name = name;
         newTile.sprite = sprite;
         newTile.renderBorder = renderBorder;
@@ -34,7 +36,7 @@ public class Tile : ScriptableObject
 
     public Block CreateBlock()
     {
-        return new Block(name, sprite, isBackground);
+        return new Block(name, itemDrop, sprite, isBackground);
     }
 }
 
@@ -42,12 +44,14 @@ public class Tile : ScriptableObject
 public class Block
 {
     public string name;
+    public Item itemDrop;
     public Sprite sprite;
     public bool isBackground;
 
-    public Block(string name, Sprite sprite, bool isBackground)
+    public Block(string name, Item itemDrop, Sprite sprite, bool isBackground)
     {
         this.name = name;
+        this.itemDrop = itemDrop;
         this.sprite = sprite;
         this.isBackground = isBackground;
     }

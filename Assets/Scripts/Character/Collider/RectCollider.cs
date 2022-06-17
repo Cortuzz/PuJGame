@@ -5,9 +5,14 @@ using UnityEngine;
 public class RectCollider : Collider
 {
     private Vector2 _size;
-    public RectCollider(Transform tr, Rigidbody2D rb, SpriteRenderer sr) : base(tr, rb)
+    private BoxCollider2D _collider;
+    private bool _isTile;
+    public RectCollider(Transform tr, Rigidbody2D rb, BoxCollider2D collider, bool isTile = false) : base(tr, rb)
     {
-        _size = sr.size;
+        _size = collider.size * tr.localScale;
+        _size.x = Mathf.Abs(_size.x);
+        _collider = collider;
+        _isTile = isTile;
     }
 
     public override Vector2 GetRoundedPosition(Transform _transform)
@@ -17,12 +22,12 @@ public class RectCollider : Collider
 
     private Vector2 GetLeftBottomPosition(Transform _transform, float biasY = 0, float biasX = 0)
     {
-        return new((int)(_transform.position.x - _size.x / 2 + biasX + _bias.x), (int)(_transform.position.y - _size.y / 2 + biasY + _bias.y));
+        return new((int)(_collider.bounds.center.x - _size.x / 2 + biasX), (int)(_collider.bounds.center.y - _size.y / 2 + biasY));
     }
 
     private Vector2 GetRigthTopPosition(Transform _transform, float biasY = 0, float biasX = 0)
     {
-        return new((int)(_transform.position.x + _size.x / 2 - biasX + _bias.x), (int)(_transform.position.y + _size.y / 2 - biasY + _bias.y));
+        return new((int)(_collider.bounds.center.x + _size.x / 2 - biasX), (int)(_collider.bounds.center.y + _size.y / 2 - biasY));
     }
 
     public override bool CheckBottomCollision()
@@ -44,7 +49,9 @@ public class RectCollider : Collider
         if (!isCollision)
             return false;
 
-        _transform.position = new(_transform.position.x, roundedRigthPos.y + _size.y / 2 - _bias.y);
+        var b = (_isTile) ? 0.5f : 1f;
+
+        _transform.position = new(_transform.position.x, roundedRigthPos.y + b * _size.y);
         _rb.velocity = new(_rb.velocity.x, 0);
         return true;
     }
@@ -92,13 +99,13 @@ public class RectCollider : Collider
         }
         else if (isRightCollision)
         {
-            xPos = roundedLeftPos.x + chunkNumberLeft * World.chunkSize + 1 - _size.x;
+            xPos = roundedLeftPos.x + chunkNumberLeft * World.chunkSize;
         }
         else
         {
-            xPos = roundedRigthPos.x + chunkNumberRigth * World.chunkSize;
+            xPos = roundedRigthPos.x + chunkNumberRigth * World.chunkSize - _size.x;
         }
 
-        _transform.position = new(xPos + _size.x / 2 - _bias.x, _transform.position.y);
+        _transform.position = new(xPos, _transform.position.y);
     }
 }

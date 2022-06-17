@@ -32,6 +32,18 @@ public static class World
         blocks = blocks_;
     }
 
+    static public Block GetBlock(int chunk, int x, int y, bool isBackground = false)
+    {
+        if (isBackground)
+            return backgroundBlocks[chunk][x, y];
+        return blocks[chunk][x, y];
+    }
+
+    static public Block GetBlock(int x, int y, bool isBackground = false)
+    {
+        return GetBlock(x / chunkSize, x % chunkSize, y, isBackground);
+    }
+
     static public void SetBlock(int chunk, int x, int y, Block block, bool isBackground = false)
     {
         if (isBackground)

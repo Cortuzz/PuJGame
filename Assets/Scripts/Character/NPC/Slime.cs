@@ -6,6 +6,13 @@ public sealed class Slime : Enemy
 {
     private int _patrolCount = 0;
     private int _triggerDistance = 5;
+    private BoxCollider2D _boxCollider;
+
+    protected override void Awake()
+    {
+        _boxCollider = GetComponent<BoxCollider2D>();
+        base.Awake();
+    }
 
     public override void CheckCollisions()
     {
@@ -18,8 +25,8 @@ public sealed class Slime : Enemy
 
     protected override Collider GetCollider()
     {
-        RectCollider collider = new RectCollider(transform, _rb, _spriteRenderer);
-        collider.SetBias(new Vector2(0.65f, -0.1f));
+        RectCollider collider = new RectCollider(transform, _rb, _boxCollider);
+        //collider.SetBias(new Vector2(0.65f, -0.1f));
         return collider;
     }
 

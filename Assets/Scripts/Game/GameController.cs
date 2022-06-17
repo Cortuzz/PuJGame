@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameController : MonoBehaviour, IObserver
 {
     public TileAtlas tileAtlas;
+    public GameObject dropItemPrefab;
     
     public PlayerController playerController;
     public WorldGeneratorDirector worldGeneratorDirector;
@@ -113,10 +114,10 @@ public class GameController : MonoBehaviour, IObserver
         UpdateChunks();
         if (count < 1 && Random.Range(0, 100) == 1)
         {
+            ++count;
             GameObject mob = Instantiate(prefab, transform, false);
             var script = mob.GetComponent<Character>();
             script.Spawn(World.width / 2, World.GetHeightAt(World.width / 2));
-            ++count;
         }
     }
 
@@ -125,6 +126,7 @@ public class GameController : MonoBehaviour, IObserver
         if ((observable as PlayerController).removingBlock)
         {
             Vector2 position = (observable as PlayerController).GetMousePos();
+
             Vector2Int roundedPos = new(
                 Mathf.RoundToInt(position.x - _tilesOffset.x),
                 Mathf.RoundToInt(position.y - _tilesOffset.y)
@@ -133,8 +135,15 @@ public class GameController : MonoBehaviour, IObserver
             GameObject primaryTile = _tileObjects[roundedPos.x, roundedPos.y, 0];
             if (primaryTile != null)
             {
+                var dropItem = World.GetBlock(roundedPos.x, roundedPos.y).itemDrop;
+                var dropItemObject = Instantiate(dropItemPrefab, new Vector2(position.x, position.y), Quaternion.identity);
+                var script = dropItemObject.GetComponent<TileDrop>();
+                script.item = dropItem;
+
                 World.SetBlock(roundedPos.x, roundedPos.y, null);
                 Destroy(primaryTile);
+
+                script.Instantiate();
                 return;
             }
             World.SetBlock(roundedPos.x, roundedPos.y, null, true);

@@ -6,12 +6,19 @@ public class Executioner : Enemy
 {
     private int _patrolCount = 0;
     private int _triggerDistance = 5;
+    private BoxCollider2D _boxCollider;
+
+    protected override void Awake()
+    {
+        _boxCollider = GetComponent<BoxCollider2D>();
+        base.Awake();
+    }
 
     public override void CheckCollisions() { }
 
     protected override Collider GetCollider()
     {
-        return new RectCollider(transform, _rb, _spriteRenderer);
+        return new RectCollider(transform, _rb, _boxCollider);
     }
 
     public override void MoveUpdate()

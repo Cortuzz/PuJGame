@@ -15,7 +15,7 @@ public class Inventory : MonoBehaviour
     public int height;
     public InventorySlot[,] slots;
     public GameObject[,] slotsUI;
-    // Start is called before the first frame update
+
     private void Start()
     {
         slots = new InventorySlot[width, height];
@@ -28,6 +28,23 @@ public class Inventory : MonoBehaviour
     public void ChangeVisibility(bool visibility)
     {
         inventoryUI.SetActive(visibility);
+    }
+
+    public bool TryAdd(Item item)
+    {
+        for (int i = height - 1; i >= 0; i--)
+        {
+            for (int j = 0; j < width; j++)
+            {
+                if (slots[j, i] != null)
+                    continue;
+
+                slots[j, i] = new InventorySlot { item = item, position = new Vector2Int(j, i), quantity = 1 };
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void SetupUI()
@@ -55,6 +72,7 @@ public class Inventory : MonoBehaviour
         {
             for (int j = 0; j < height; j++)
             {
+                Text amountText = slotsUI[i, j].transform.GetChild(1).GetComponent<Text>();
 
                 if (slots[i, j] == null)
                 {
@@ -63,14 +81,22 @@ public class Inventory : MonoBehaviour
                 }
                 else
                 {
-                    itemSprite = slots[i, j].tile.sprite;
+                    itemSprite = slots[i, j].item.sprite;
+                    amountText.text = slots[i, j].quantity.ToString();
                     flag = true;
                 }
 
-                Image itemImage = slotsUI[i, j].transform.GetChild(0).GetComponent<Image>();
+                Image itemImage = slotsUI[i, j].transform.GetComponent<Image>();
+
+                amountText.enabled = flag;
                 itemImage.enabled = flag;
                 itemImage.sprite = itemSprite;
             }
         }
+    }
+
+    private void FixedUpdate()
+    {
+        UpdateUI();
     }
 }

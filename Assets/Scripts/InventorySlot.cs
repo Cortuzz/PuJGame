@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InventorySlot
 {
+    public Item item;
     public Vector2Int position;
     public int quantity;
-    public Tile tile;
 }
