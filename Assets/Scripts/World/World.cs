@@ -59,6 +59,23 @@ public static class World
         SetBlock(x / chunkSize, x % chunkSize, y, block, isBackground);
     }
 
+    static public bool CheckNeighbourBlocks(int x, int y, bool isBackground)
+    {
+        for (int i = -1; i <= 1; i++)
+        {
+            for (int j = -1; j <= 1; j++)
+            {
+                if (Mathf.Abs(i) == Mathf.Abs(j))
+                    continue;
+
+                if (GetBlock(x + i, y + j, isBackground) != null)
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
     static public void AddChunk(Block[,] chunk, Block[,] bgChunk)
     {
         blocks.Add(chunk);

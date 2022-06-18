@@ -12,7 +12,7 @@ public class PlayerController : Character, IObservable
     public float maxJumpSpeed;
     public float holdJumpTime;
     public bool holdingJump = false;
-    public bool removingBlock = true; // затычка
+    public bool removingPrimaryBlock = true;
 
     private bool _inventoryShowing = false;
     private Vector2 _mousePosition;
@@ -83,6 +83,12 @@ public class PlayerController : Character, IObservable
             
         _rb.velocity = movement;
     }
+
+    public Item GetItem()
+    {
+        return inventory.GetActiveItem();
+    }
+
     public bool CheckFall()
     {
         return _rb.velocity.y < 0 && !onGround;
@@ -99,14 +105,29 @@ public class PlayerController : Character, IObservable
         {
             _inventoryShowing = !_inventoryShowing;
         }
+
         inventory.ChangeVisibility(_inventoryShowing);
+    }
+
+    private void HotbarUpdate()
+    {
+        for (int i = 49; i < 57; i++)
+        {
+            if (Event.current.Equals(Event.KeyboardEvent(i.ToString())))
+            {
+                inventory.activeHotbarSlot = i - 49;
+            }
+        }
     }
 
     private void MouseUpdate()
     {
         _mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        bool triggerLMB = Input.GetMouseButtonDown(0);
+        bool triggerRMB = Input.GetMouseButtonDown(1);
+        removingPrimaryBlock = triggerLMB;
 
-        if (Input.GetMouseButtonDown(0))
+        if (triggerLMB || triggerRMB)
             Notify();
     }
 
@@ -130,6 +151,11 @@ public class PlayerController : Character, IObservable
         MouseUpdate();
         MoveUpdate();
         InventoryUpdate();
+    }
+
+    private void OnGUI()
+    {
+        HotbarUpdate();
     }
 
     public void Attach(IObserver observer)

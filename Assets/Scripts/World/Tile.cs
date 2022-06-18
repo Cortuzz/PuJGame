@@ -15,7 +15,6 @@ public class Tile : ScriptableObject
     public Tile Prototype()
     {
         Tile newTile = CreateInstance<Tile>();
-
         newTile.itemDrop = itemDrop;
         newTile.name = name;
         newTile.sprite = sprite;
@@ -36,7 +35,7 @@ public class Tile : ScriptableObject
 
     public Block CreateBlock()
     {
-        return new Block(name, itemDrop, sprite, isBackground);
+        return new Block(name, itemDrop, sprite,  isBackground);
     }
 }
 

@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Coal
   sprite: {fileID: 21300000, guid: 7bc36e24756a430429f51dd132a1c632, type: 3}
+  stackCount: 5

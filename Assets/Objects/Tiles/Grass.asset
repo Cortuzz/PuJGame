@@ -19,3 +19,4 @@ MonoBehaviour:
   maxHeight: 0
   minHeight: 0
   isBackground: 0
+  isDroppingPlaceble: 1

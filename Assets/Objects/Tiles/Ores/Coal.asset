@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: Coal
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 04c7ab0b1f2a2b749a2f6303239dc313, type: 3}
+  itemDrop: {fileID: 11400000, guid: 85ea2c6e43b089c40939597fb9b0f994, type: 2}
   name: Coal
   renderBorder: 0.8
   maxHeight: 0.8
+  minHeight: 0
+  isBackground: 0

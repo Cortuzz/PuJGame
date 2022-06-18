@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Dirt
   sprite: {fileID: 21300000, guid: 510cba6f78797e2429d04ee8eb953af0, type: 3}
+  stackCount: 999
+  _placementBlock: {fileID: 11400000, guid: 775f25aa663c5c84aa91ef12b7b07fab, type: 2}

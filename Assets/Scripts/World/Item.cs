@@ -7,5 +7,14 @@ public class Item : ScriptableObject
 {
     public new string name;
     public Sprite sprite;
-    Tile block = null;
+    public int stackCount;
+    [SerializeField] private Tile _placementBlock = null;
+
+    public Block GetPlacementBlock()
+    {
+        if (_placementBlock == null)
+            return null;
+
+        return _placementBlock.CreateBlock();
+    }
 }

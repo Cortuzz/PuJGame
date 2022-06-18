@@ -80,7 +80,7 @@ public class GameController : MonoBehaviour, IObserver
         renderer.sprite = tile.sprite;
 
         renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
-        if (tile.isBackground)
+        if (isBackground == 1)
         {
             renderer.sortingOrder = -1;
             Color color = renderer.color;
@@ -121,10 +121,36 @@ public class GameController : MonoBehaviour, IObserver
         }
     }
 
+    public bool TryAddBlock(PlayerController player, Vector2Int roundedPos, bool removingPrimary)
+    {
+        Item item = player.GetItem();
+
+        if (item != null && item.GetPlacementBlock() != null)
+        {
+            Block block = item.GetPlacementBlock();
+            if (_tileObjects[roundedPos.x, roundedPos.y, 0] == null)
+            {
+                int b = (removingPrimary) ? 0 : 1;
+                if (!removingPrimary && World.GetBlock(roundedPos.x, roundedPos.y, true) != null)
+                    return true;
+
+                if (!World.CheckNeighbourBlocks(roundedPos.x, roundedPos.y, !removingPrimary))
+                    return true;
+
+                RenderTile(block, _chunks[roundedPos.x / chunkSize], roundedPos.x, roundedPos.y, b);
+                World.SetBlock(roundedPos.x, roundedPos.y, block, !removingPrimary);
+                player.inventory.RemoveActiveItem();
+            }
+            return true;
+        }
+        return false;
+    }
+
     public void ObserverUpdate(IObservable observable)
     {
-        if ((observable as PlayerController).removingBlock)
+        if ((observable as PlayerController))
         {
+            bool removingPrimary = (observable as PlayerController).removingPrimaryBlock;
             Vector2 position = (observable as PlayerController).GetMousePos();
 
             Vector2Int roundedPos = new(
@@ -133,7 +159,11 @@ public class GameController : MonoBehaviour, IObserver
             );
 
             GameObject primaryTile = _tileObjects[roundedPos.x, roundedPos.y, 0];
-            if (primaryTile != null)
+
+            if (TryAddBlock((observable as PlayerController), roundedPos, removingPrimary))
+                return;
+
+            if (removingPrimary && primaryTile != null)
             {
                 var dropItem = World.GetBlock(roundedPos.x, roundedPos.y).itemDrop;
                 var dropItemObject = Instantiate(dropItemPrefab, new Vector2(position.x, position.y), Quaternion.identity);
@@ -146,8 +176,12 @@ public class GameController : MonoBehaviour, IObserver
                 script.Instantiate();
                 return;
             }
-            World.SetBlock(roundedPos.x, roundedPos.y, null, true);
-            Destroy(_tileObjects[roundedPos.x, roundedPos.y, 1]);
+
+            if (!removingPrimary)
+            {
+                World.SetBlock(roundedPos.x, roundedPos.y, null, true);
+                Destroy(_tileObjects[roundedPos.x, roundedPos.y, 1]);
+            }
         }
     }
 }
