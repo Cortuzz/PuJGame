@@ -10,7 +10,6 @@ public static class World
     static public int chunkCount;
     static public List<Block[,]> blocks;
     static public List<Block[,]> backgroundBlocks;
-    static public List<bool[,]> checkedBlocks;
     static public Character player;
     static private bool _isMapOpened;
 
@@ -22,7 +21,6 @@ public static class World
         width = chunkSize * chunkCount;
         blocks = new List<Block[,]>();
         backgroundBlocks = new List<Block[,]>();
-        checkedBlocks = new List<bool[,]>();
     }
 
     static public void SetMapState(bool state)

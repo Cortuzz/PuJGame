@@ -158,40 +158,46 @@ public class GameController : MonoBehaviour, IObserver
 
     public void ObserverUpdate(IObservable observable)
     {
-        if ((observable as PlayerController))
+        if (!(observable as PlayerController))
+            return;
+
+        var player = observable as PlayerController;
+        map.GetComponent<MapController>().UpdateMap(player.GetPosition());
+
+        if (!player.blockAction)
+            return;
+
+        bool removingPrimary = player.removingPrimaryBlock;
+        Vector2 position = player.GetMousePos();
+
+        Vector2Int roundedPos = new(
+            Mathf.RoundToInt(position.x - _tilesOffset.x),
+            Mathf.RoundToInt(position.y - _tilesOffset.y)
+        );
+
+        GameObject primaryTile = _tileObjects[roundedPos.x, roundedPos.y, 0];
+
+        if (TryAddBlock(player, roundedPos, removingPrimary))
+            return;
+
+        if (removingPrimary && primaryTile != null)
         {
-            bool removingPrimary = (observable as PlayerController).removingPrimaryBlock;
-            Vector2 position = (observable as PlayerController).GetMousePos();
+            var dropItem = World.GetBlock(roundedPos.x, roundedPos.y).itemDrop;
+            var dropItemObject = Instantiate(dropItemPrefab, new Vector2(position.x, position.y), Quaternion.identity);
+            var script = dropItemObject.GetComponent<TileDrop>();
+            script.item = dropItem;
 
-            Vector2Int roundedPos = new(
-                Mathf.RoundToInt(position.x - _tilesOffset.x),
-                Mathf.RoundToInt(position.y - _tilesOffset.y)
-            );
+            World.SetBlock(roundedPos.x, roundedPos.y, null);
+            Destroy(primaryTile);
 
-            GameObject primaryTile = _tileObjects[roundedPos.x, roundedPos.y, 0];
+            script.Instantiate();
+            return;
+        }
 
-            if (TryAddBlock((observable as PlayerController), roundedPos, removingPrimary))
-                return;
-
-            if (removingPrimary && primaryTile != null)
-            {
-                var dropItem = World.GetBlock(roundedPos.x, roundedPos.y).itemDrop;
-                var dropItemObject = Instantiate(dropItemPrefab, new Vector2(position.x, position.y), Quaternion.identity);
-                var script = dropItemObject.GetComponent<TileDrop>();
-                script.item = dropItem;
-
-                World.SetBlock(roundedPos.x, roundedPos.y, null);
-                Destroy(primaryTile);
-
-                script.Instantiate();
-                return;
-            }
-
-            if (!removingPrimary)
-            {
-                World.SetBlock(roundedPos.x, roundedPos.y, null, true);
-                Destroy(_tileObjects[roundedPos.x, roundedPos.y, 1]);
-            }
+        if (!removingPrimary)
+        {
+            World.SetBlock(roundedPos.x, roundedPos.y, null, true);
+            Destroy(_tileObjects[roundedPos.x, roundedPos.y, 1]);
         }
     }
 }

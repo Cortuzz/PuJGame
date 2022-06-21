@@ -3,38 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MapController : MonoBehaviour, IObserver
+public class MapController : MonoBehaviour
 {
+    [SerializeField] private int _mapCheckRadius = 10;
     private Texture2D _mapTexture;
-    private bool _isOpened = false;
     private GameObject _mapImage;
     private GameObject _map;
-
-    public void ObserverUpdate(IObservable observable)
-    {
-        throw new System.NotImplementedException();
-    }
+    private bool _isOpened = false;
 
     private void UpdateChunks()
     {
         for (int chunk = 0; chunk < World.chunkCount; chunk++)
-        {
             for (int i = 0; i < World.chunkSize; i++)
-            {
                 for (int j = 0; j < World.height; j++)
-                {
-                    Block block = World.blocks[chunk][i, j];
-                    if (block == null)
-                    {
-                        _mapTexture.SetPixel(i + chunk * World.chunkSize, j, new Color(1, 1, 1, 0));
-                        continue;
-                    }
+                    _mapTexture.SetPixel(i + chunk * World.chunkSize, j, new(0, 0, 0, 1));
 
-                    _mapTexture.SetPixel(i + chunk * World.chunkSize, j, block.color);
-                }
+        _mapTexture.Apply();
+    }
+
+    private void UpdateBlock(int chunk, int x, int y, Block block)
+    {
+        if (block == null)
+        {
+            _mapTexture.SetPixel(x + chunk * World.chunkSize, y, new(1, 1, 1, 0));
+            return;
+        }
+
+        _mapTexture.SetPixel(x + chunk * World.chunkSize, y, block.color);
+    }
+
+    public void UpdateMap(Vector2 position)
+    {
+        for (int i = (int)position.x - _mapCheckRadius; i < position.x + _mapCheckRadius; i++)
+        {
+            for (int j = (int)position.y - _mapCheckRadius; j < position.y + _mapCheckRadius; j++)
+            {
+                if (Mathf.Pow(i - position.x, 2) + Mathf.Pow(j - position.y, 2) < Mathf.Pow(_mapCheckRadius, 2))
+                    UpdateBlock(i / World.chunkSize, i % World.chunkSize, j, World.GetBlock(i, j));
             }
-
-            _mapTexture.Apply();
         }
     }
 
@@ -68,6 +74,7 @@ public class MapController : MonoBehaviour, IObserver
         _isOpened = !_isOpened;
         gameObject.SetActive(_isOpened);
         World.SetMapState(_isOpened);
+        _mapTexture.Apply();
     }
 
     private void Start()
