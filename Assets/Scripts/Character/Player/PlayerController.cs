@@ -148,8 +148,11 @@ public class PlayerController : Character, IObservable
 
     private void Update()
     {
-        MouseUpdate();
         MoveUpdate();
+        if (!World.CanPlay())
+            return;
+
+        MouseUpdate();
         InventoryUpdate();
     }
 

@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour, IObserver
     private Vector2 _tilesOffset = new Vector2(0.5f, 0.5f);
 
     public GameObject prefab;
+    public GameObject map;
     public int count = 0;
 
     void Start()
@@ -38,6 +39,7 @@ public class GameController : MonoBehaviour, IObserver
         playerController.Attach(this);
         playerController.Spawn(World.width / 2, World.GetHeightAt(World.width / 2));
         World.SetPlayer(playerController);
+        map = Instantiate(map, transform.parent);
     }
 
     public void GenerateChunk(int chunk)
@@ -106,6 +108,14 @@ public class GameController : MonoBehaviour, IObserver
         for (int i = 0; i < _chunks.Count; i++)
         {
             _chunks[i].SetActive(CheckChunkUpdate(i, playerController.transform.position.x));
+        }
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            map.GetComponent<MapController>().ChangeVisibility();
         }
     }
 

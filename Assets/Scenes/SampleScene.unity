@@ -1050,7 +1050,7 @@ MonoBehaviour:
   maxJumpSpeed: 25
   holdJumpTime: 0
   holdingJump: 0
-  removingBlock: 1
+  removingPrimaryBlock: 1
   inventory: {fileID: 948174814}
 --- !u!70 &948174813
 CapsuleCollider2D:
@@ -1088,6 +1088,7 @@ MonoBehaviour:
   offsetHotbarUI: {x: -280, y: 0}
   width: 8
   height: 4
+  activeHotbarSlot: 0
   slotsHotbarUI: []
 --- !u!1 &1145390177
 GameObject:
@@ -1220,10 +1221,11 @@ MonoBehaviour:
   tileAtlas: {fileID: 11400000, guid: 06c4c94b903efac43be0fc6ce2d83dcc, type: 2}
   dropItemPrefab: {fileID: 2316480669085568996, guid: 37b787714738ac64181f5d081a23dec0, type: 3}
   playerController: {fileID: 948174812}
-  height: 600
+  height: 400
   chunkSize: 32
-  chunksCount: 4
+  chunksCount: 10
   prefab: {fileID: 7881763753228321661, guid: 66892fdbff9d59e489ad94db01244bb9, type: 3}
+  map: {fileID: 5814380809358227074, guid: a89291253c4a1034a9dbabc8917a9832, type: 3}
   count: 0
 --- !u!1 &1454129872
 GameObject:

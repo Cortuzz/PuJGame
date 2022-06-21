@@ -8,6 +8,7 @@ public class Tile : ScriptableObject
     public Sprite sprite;
     public Item itemDrop;
     public new string name;
+    public Color mapColor;
     public float renderBorder;
     public float maxHeight;
     public float minHeight;
@@ -22,6 +23,7 @@ public class Tile : ScriptableObject
         newTile.maxHeight = maxHeight;
         newTile.minHeight = minHeight;
         newTile.isBackground = isBackground;
+        newTile.mapColor = mapColor;
 
         return newTile;
     }
@@ -35,7 +37,7 @@ public class Tile : ScriptableObject
 
     public Block CreateBlock()
     {
-        return new Block(name, itemDrop, sprite,  isBackground);
+        return new Block(name, itemDrop, sprite,  isBackground, mapColor);
     }
 }
 
@@ -46,12 +48,14 @@ public class Block
     public Item itemDrop;
     public Sprite sprite;
     public bool isBackground;
+    public Color color;
 
-    public Block(string name, Item itemDrop, Sprite sprite, bool isBackground)
+    public Block(string name, Item itemDrop, Sprite sprite, bool isBackground, Color color)
     {
         this.name = name;
         this.itemDrop = itemDrop;
         this.sprite = sprite;
         this.isBackground = isBackground;
+        this.color = color;
     }
 }
