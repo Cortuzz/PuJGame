@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Air
   m_EditorClassIdentifier: 
   sprite: {fileID: 0}
+  itemDrop: {fileID: 0}
   name: Air
+  mapColor: {r: 1, g: 1, b: 1, a: 0}
   renderBorder: 0.35
   maxHeight: 0.8
   minHeight: 0
+  isBackground: 0

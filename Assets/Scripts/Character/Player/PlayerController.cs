@@ -12,6 +12,7 @@ public class PlayerController : Character, IObservable
     public float maxJumpSpeed;
     public float holdJumpTime;
     public bool holdingJump = false;
+    public bool blockAction = false;
     public bool removingPrimaryBlock = true;
 
     private bool _inventoryShowing = false;
@@ -128,7 +129,10 @@ public class PlayerController : Character, IObservable
         removingPrimaryBlock = triggerLMB;
 
         if (triggerLMB || triggerRMB)
+        {
+            blockAction = true;
             Notify();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -142,14 +146,19 @@ public class PlayerController : Character, IObservable
 
     private void FixedUpdate()
     {
+        blockAction = false;
+        Notify();
         CheckCollisions();
         CheckDirection();
     }
 
     private void Update()
     {
-        MouseUpdate();
         MoveUpdate();
+        if (!World.CanPlay())
+            return;
+
+        MouseUpdate();
         InventoryUpdate();
     }
 

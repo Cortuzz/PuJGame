@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: Diamond
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 7cbb3f0e9d5614b4fb825e65e93d3541, type: 3}
+  itemDrop: {fileID: 0}
   name: Diamond
+  mapColor: {r: 0.06051977, g: 0.754717, b: 0.37773564, a: 1}
   renderBorder: 0.88
   maxHeight: 0.2
+  minHeight: 0
+  isBackground: 0

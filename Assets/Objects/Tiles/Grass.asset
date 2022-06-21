@@ -15,8 +15,8 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: ab21f1525a8ccad4da0063a583417f28, type: 3}
   itemDrop: {fileID: 11400000, guid: 0ced86d8c485ad94a91efd7789aab323, type: 2}
   name: Grass
+  mapColor: {r: 0.05228728, g: 0.4433962, b: 0.083937675, a: 1}
   renderBorder: 0
   maxHeight: 0
   minHeight: 0
   isBackground: 0
-  isDroppingPlaceble: 1

@@ -11,6 +11,7 @@ public static class World
     static public List<Block[,]> blocks;
     static public List<Block[,]> backgroundBlocks;
     static public Character player;
+    static private bool _isMapOpened;
 
     static public void SetWorldInfo(int height_, int chunkSize_, int chunkCount_)
     {
@@ -20,6 +21,16 @@ public static class World
         width = chunkSize * chunkCount;
         blocks = new List<Block[,]>();
         backgroundBlocks = new List<Block[,]>();
+    }
+
+    static public void SetMapState(bool state)
+    {
+        _isMapOpened = state;
+    }
+
+    static public bool CanPlay()
+    {
+        return !_isMapOpened;
     }
 
     static public void SetPlayer(Character player_)
