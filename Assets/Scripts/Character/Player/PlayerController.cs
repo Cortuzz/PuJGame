@@ -18,7 +18,8 @@ public class PlayerController : Character, IObservable
     private bool _inventoryShowing = false;
     private Vector2 _mousePosition;
     public Inventory inventory;
-
+    public HealthBarController hpController;
+    
     private List<IObserver> _observers = new List<IObserver>();
 
     protected override void Awake()
@@ -48,7 +49,7 @@ public class PlayerController : Character, IObservable
     {
         bool collision = _collider.CheckBottomCollision();
         if (collision)
-            TakeDamage((int)(jumpTicks / 5 - 40)); // TODO: Проблема в более быстром / медленном падении
+            TakeDamage((int)(jumpTicks / 5 - 40)); // TODO: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ / пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         SetOnGround(collision);
 
         _collider.CheckTopCollision();
@@ -165,6 +166,7 @@ public class PlayerController : Character, IObservable
     private void OnGUI()
     {
         HotbarUpdate();
+        hpController.UpdateUI(health);
     }
 
     public void Attach(IObserver observer)
