@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : Character, IObservable
+public class PlayerController : Character.Character, IObservable
 {
     public float speed;
     public float jumpForce;
@@ -19,7 +18,7 @@ public class PlayerController : Character, IObservable
     private Vector2 _mousePosition;
     public Inventory inventory;
 
-    private List<IObserver> _observers = new List<IObserver>();
+    private readonly List<IObserver> _observers = new List<IObserver>();
 
     protected override void Awake()
     {
@@ -68,7 +67,7 @@ public class PlayerController : Character, IObservable
                 holdJumpTime = Time.time;
                 holdingJump = true;
             }
-                
+
             if (Input.GetKeyUp(KeyCode.Space) && holdingJump)
             {
                 holdingJump = false;
@@ -81,7 +80,7 @@ public class PlayerController : Character, IObservable
             ++jumpTicks;
         else
             jumpTicks = 0;
-            
+
         _rb.velocity = movement;
     }
 
@@ -110,7 +109,7 @@ public class PlayerController : Character, IObservable
         inventory.ChangeVisibility(_inventoryShowing);
     }
 
-    private void HotbarUpdate()
+    private void HotBarUpdate()
     {
         for (int i = 49; i < 57; i++)
         {
@@ -124,24 +123,20 @@ public class PlayerController : Character, IObservable
     private void MouseUpdate()
     {
         _mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        bool triggerLMB = Input.GetMouseButtonDown(0);
-        bool triggerRMB = Input.GetMouseButtonDown(1);
-        removingPrimaryBlock = triggerLMB;
+        bool triggerLmb = Input.GetMouseButtonDown(0);
+        bool triggerRmb = Input.GetMouseButtonDown(1);
+        removingPrimaryBlock = triggerLmb;
 
-        if (triggerLMB || triggerRMB)
-        {
-            blockAction = true;
-            Notify();
-        }
+        if (!triggerLmb && !triggerRmb) return;
+        blockAction = true;
+        Notify();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("TileDrop"))
-        {
-            if (inventory.TryAdd(collision.gameObject.GetComponent<TileDrop>().item))
-                Destroy(collision.gameObject);
-        }
+        if (!collision.gameObject.CompareTag("TileDrop")) return;
+        if (inventory.TryAdd(collision.gameObject.GetComponent<TileDrop>().item))
+            Destroy(collision.gameObject);
     }
 
     private void FixedUpdate()
@@ -164,7 +159,7 @@ public class PlayerController : Character, IObservable
 
     private void OnGUI()
     {
-        HotbarUpdate();
+        HotBarUpdate();
     }
 
     public void Attach(IObserver observer)

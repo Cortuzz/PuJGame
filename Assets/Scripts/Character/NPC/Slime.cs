@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public sealed class Slime : Enemy
@@ -25,9 +23,9 @@ public sealed class Slime : Enemy
 
     protected override Collider GetCollider()
     {
-        RectCollider collider = new RectCollider(transform, _rb, _boxCollider);
+        RectCollider rectCollider = new RectCollider(transform, _rb, _boxCollider);
         //collider.SetBias(new Vector2(0.65f, -0.1f));
-        return collider;
+        return rectCollider;
     }
 
     public override void MoveUpdate()

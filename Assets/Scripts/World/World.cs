@@ -1,19 +1,20 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public static class World
 {
-    static public int height;
-    static public int width;
-    static public int chunkSize;
-    static public int chunkCount;
-    static public List<Block[,]> blocks;
-    static public List<Block[,]> backgroundBlocks;
-    static public Character player;
-    static private bool _isMapOpened;
+    public static int height;
+    public static int width;
+    public static int chunkSize;
+    public static int chunkCount;
+    public static List<Block[,]> blocks;
+    public static List<Block[,]> backgroundBlocks;
+    public static Character.Character player;
+    public static bool isGamePaused;
 
-    static public void SetWorldInfo(int height_, int chunkSize_, int chunkCount_)
+    private static bool _isMapOpened;
+
+    public static void SetWorldInfo(int height_, int chunkSize_, int chunkCount_)
     {
         height = height_;
         chunkSize = chunkSize_;
@@ -23,39 +24,39 @@ public static class World
         backgroundBlocks = new List<Block[,]>();
     }
 
-    static public void SetMapState(bool state)
+    public static void SetMapState(bool state)
     {
         _isMapOpened = state;
     }
 
-    static public bool CanPlay()
+    public static bool CanPlay()
     {
-        return !_isMapOpened;
+        return !_isMapOpened && !isGamePaused;
     }
 
-    static public void SetPlayer(Character player_)
+    public static void SetPlayer(Character.Character player_)
     {
         player = player_;
     }
 
-    static public void SetBlocks(List<Block[,]> blocks_)
+    public static void SetBlocks(List<Block[,]> blocks_)
     {
         blocks = blocks_;
     }
 
-    static public Block GetBlock(int chunk, int x, int y, bool isBackground = false)
+    public static Block GetBlock(int chunk, int x, int y, bool isBackground = false)
     {
         if (isBackground)
             return backgroundBlocks[chunk][x, y];
         return blocks[chunk][x, y];
     }
 
-    static public Block GetBlock(int x, int y, bool isBackground = false)
+    public static Block GetBlock(int x, int y, bool isBackground = false)
     {
         return GetBlock(x / chunkSize, x % chunkSize, y, isBackground);
     }
 
-    static public void SetBlock(int chunk, int x, int y, Block block, bool isBackground = false)
+    public static void SetBlock(int chunk, int x, int y, Block block, bool isBackground = false)
     {
         if (isBackground)
         {
@@ -65,12 +66,12 @@ public static class World
         blocks[chunk][x, y] = block;
     }
 
-    static public void SetBlock(int x, int y, Block block, bool isBackground = false)
+    public static void SetBlock(int x, int y, Block block, bool isBackground = false)
     {
         SetBlock(x / chunkSize, x % chunkSize, y, block, isBackground);
     }
 
-    static public bool CheckNeighbourBlocks(int x, int y, bool isBackground)
+    public static bool CheckNeighbourBlocks(int x, int y, bool isBackground)
     {
         for (int i = -1; i <= 1; i++)
         {
@@ -87,13 +88,13 @@ public static class World
         return false;
     }
 
-    static public void AddChunk(Block[,] chunk, Block[,] bgChunk)
+    public static void AddChunk(Block[,] chunk, Block[,] bgChunk)
     {
         blocks.Add(chunk);
         backgroundBlocks.Add(bgChunk);
     }
 
-    static public int GetHeightAt(int x)
+    public static int GetHeightAt(int x)
     {
         int chunkNumber = x / chunkSize;
         x %= chunkSize;

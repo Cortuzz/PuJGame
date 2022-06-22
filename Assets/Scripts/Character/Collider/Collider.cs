@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Collider: ICollidable
+public class Collider : ICollidable
 {
     protected readonly Transform _transform;
     protected readonly Rigidbody2D _rb;
@@ -18,9 +18,9 @@ public class Collider: ICollidable
         _bias = bias;
     }
 
-    public virtual Vector2 GetRoundedPosition(Transform _transform)
+    public virtual Vector2 GetRoundedPosition(Transform transform)
     {
-        return new(Mathf.RoundToInt(_transform.position.x - 0.5f), Mathf.RoundToInt(_transform.position.y));
+        return new(Mathf.RoundToInt(transform.position.x - 0.5f), Mathf.RoundToInt(transform.position.y));
     }
 
     public int GetChunkNumber(ref Vector2 roundedPos, int chunkSize)
@@ -37,17 +37,30 @@ public class Collider: ICollidable
 
         Block[,] chunk = World.blocks[chunkNumber];
         Block bottomBlock = chunk[(int)roundedPos.x, (int)roundedPos.y - 2];
-        Block leftBottomBlock;
+        /*Block leftBottomBlock;
         Block rightBottomBlock;
 
-        try { rightBottomBlock = chunk[(int)roundedPos.x + 1, (int)roundedPos.y - 2]; }
-        catch { rightBottomBlock = World.blocks[chunkNumber + 1][0, (int)roundedPos.y - 2]; }
-        try { leftBottomBlock = chunk[(int)roundedPos.x - 1, (int)roundedPos.y - 2]; }
-        catch { leftBottomBlock = World.blocks[chunkNumber - 1][World.chunkSize - 1, (int)roundedPos.y - 2]; }
+        try
+        {
+            rightBottomBlock = chunk[(int)roundedPos.x + 1, (int)roundedPos.y - 2];
+        }
+        catch
+        {
+            rightBottomBlock = World.blocks[chunkNumber + 1][0, (int)roundedPos.y - 2];
+        }
 
-        bool isBlockCollision = bottomBlock != null; 
-            //|| rightBottomBlock != null && Mathf.Abs(GetRoundedPosition(_transform).x - _transform.position.x) < 0.5f || 
-            //leftBottomBlock != null;
+        try
+        {
+            leftBottomBlock = chunk[(int)roundedPos.x - 1, (int)roundedPos.y - 2];
+        }
+        catch
+        {
+            leftBottomBlock = World.blocks[chunkNumber - 1][World.chunkSize - 1, (int)roundedPos.y - 2];
+        }*/
+
+        bool isBlockCollision = bottomBlock != null;
+        //|| rightBottomBlock != null && Mathf.Abs(GetRoundedPosition(_transform).x - _transform.position.x) < 0.5f || 
+        //leftBottomBlock != null;
 
         bool isCollision = isBlockCollision && _rb.velocity.y <= 0 && _transform.position.y < roundedPos.y - 0.2f;
 
@@ -94,10 +107,23 @@ public class Collider: ICollidable
             Block rightBlock;
             Block leftBlock;
 
-            try { rightBlock = chunk[(int)roundedPos.x + 1, y]; }
-            catch { rightBlock = World.blocks[chunkNumber + 1][0, y]; }
-            try { leftBlock = chunk[(int)roundedPos.x - 1, y]; }
-            catch { leftBlock = World.blocks[chunkNumber - 1][World.chunkSize - 1, y]; }
+            try
+            {
+                rightBlock = chunk[(int)roundedPos.x + 1, y];
+            }
+            catch
+            {
+                rightBlock = World.blocks[chunkNumber + 1][0, y];
+            }
+
+            try
+            {
+                leftBlock = chunk[(int)roundedPos.x - 1, y];
+            }
+            catch
+            {
+                leftBlock = World.blocks[chunkNumber - 1][World.chunkSize - 1, y];
+            }
 
             if (rightBlock == null && leftBlock == null)
                 continue;

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Executioner : Enemy
@@ -14,7 +12,9 @@ public class Executioner : Enemy
         base.Awake();
     }
 
-    public override void CheckCollisions() { }
+    public override void CheckCollisions()
+    {
+    }
 
     protected override Collider GetCollider()
     {
@@ -46,14 +46,15 @@ public class Executioner : Enemy
 
     protected override void GiveDrop()
     {
-
     }
 
     protected override void CheckAggro()
     {
         Vector2 playerPosition = World.player.GetPosition();
         Vector2 position = _rb.position;
-        isAggred = Mathf.Sqrt(Mathf.Pow(playerPosition.x - position.x, 2) + Mathf.Pow(playerPosition.y - position.y, 2)) < _triggerDistance;
+        isAggred =
+            Mathf.Sqrt(Mathf.Pow(playerPosition.x - position.x, 2) + Mathf.Pow(playerPosition.y - position.y, 2)) <
+            _triggerDistance;
     }
 
     void FixedUpdate()
