@@ -40,10 +40,9 @@ public class HealthBarController : MonoBehaviour
             _hearts[i].GetComponent<Image>().sprite = _sprites.Last();
         }
 
-        if (hp > 0)
+        if (hp > 0 && i < _heartsCount)
         {
-            int formula = hp / (_heartHP / (_sprites.Length - 2)) + 1; 
-            
+            var formula = Mathf.RoundToInt(hp / ((float)_heartHP / (_sprites.Length - 2)) + 1);
             _hearts[i].GetComponent<Image>().sprite = _sprites[formula];
             i++;
         }

@@ -177,7 +177,7 @@ public class PlayerController : Character.Character, IObservable
 
     private void OnGUI()
     {
-        HotbarUpdate();
+        HotBarUpdate();
         hpController.UpdateUI(health);
     }
 
