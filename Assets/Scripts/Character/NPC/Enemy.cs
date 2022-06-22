@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Enemy : Character
+public abstract class Enemy : Character.Character
 {
     public bool isAggred = false;
     public int bodyDamage = 15;

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -13,8 +11,10 @@ public class CameraController : MonoBehaviour
     {
         Vector3 position = GetComponent<Transform>().position;
 
-        position.x = Mathf.Lerp(position.x, playerTransform.position.x, smoothTime);
-        position.y = Mathf.Lerp(position.y, playerTransform.position.y, smoothTime);
+        var position1 = playerTransform.position;
+        
+        position.x = Mathf.Lerp(position.x, position1.x, smoothTime);
+        position.y = Mathf.Lerp(position.y, position1.y, smoothTime);
 
         GetComponent<Transform>().position = position;
     }

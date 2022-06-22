@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +5,7 @@ public class GameController : MonoBehaviour, IObserver
 {
     public TileAtlas tileAtlas;
     public GameObject dropItemPrefab;
-    
+
     public PlayerController playerController;
     public WorldGeneratorDirector worldGeneratorDirector;
 
@@ -16,16 +15,16 @@ public class GameController : MonoBehaviour, IObserver
 
     private readonly List<GameObject> _chunks = new();
     private GameObject[,,] _tileObjects;
-    private Vector2 _tilesOffset = new Vector2(0.5f, 0.5f);
+    private readonly Vector2 _tilesOffset = new Vector2(0.5f, 0.5f);
 
     public GameObject prefab;
     public GameObject map;
     public int count = 0;
 
-    void Start()
+    private void Start()
     {
         World.SetWorldInfo(height, chunkSize, chunksCount);
-        _tileObjects = new GameObject[chunksCount * chunkSize, height, 2];  
+        _tileObjects = new GameObject[chunksCount * chunkSize, height, 2];
 
         worldGeneratorDirector = new();
         worldGeneratorDirector.SetAtlas(tileAtlas);
@@ -58,7 +57,6 @@ public class GameController : MonoBehaviour, IObserver
 
     public void RenderTiles(Block[,] tiles, GameObject chunk, int bias, int isBackground = 0)
     {
-
         for (int i = 0; i < World.height; i++)
         {
             for (int j = 0; j < World.chunkSize; j++)
@@ -78,10 +76,10 @@ public class GameController : MonoBehaviour, IObserver
         tileObject.isStatic = true;
 
         tileObject.AddComponent<SpriteRenderer>();
-        SpriteRenderer renderer = tileObject.GetComponent<SpriteRenderer>();
-        renderer.sprite = tile.sprite;
+        SpriteRenderer localRenderer = tileObject.GetComponent<SpriteRenderer>();
+        localRenderer.sprite = tile.sprite;
 
-        renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+        localRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
         if (isBackground == 1)
         {
             renderer.sortingOrder = -1;
@@ -102,7 +100,8 @@ public class GameController : MonoBehaviour, IObserver
 
     private bool CheckChunkUpdate(int index, float playerPosition)
     {
-        return Vector2.Distance(new Vector2(index * World.chunkSize, 0), new Vector2(playerPosition, 0)) <= 10f * Camera.main.orthographicSize;
+        return Vector2.Distance(new Vector2(index * World.chunkSize, 0), new Vector2(playerPosition, 0)) <=
+               10f * Camera.main.orthographicSize;
     }
 
     public void UpdateChunks()
@@ -113,22 +112,23 @@ public class GameController : MonoBehaviour, IObserver
         }
     }
 
-    void Update()
+    private void Update()
     {
+        if (World.isGamePaused) return;
         if (Input.GetKeyDown(KeyCode.M))
         {
             map.GetComponent<MapController>().ChangeVisibility();
         }
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         UpdateChunks();
         if (count < 1 && Random.Range(0, 100) == 1)
         {
             ++count;
             GameObject mob = Instantiate(prefab, transform, false);
-            var script = mob.GetComponent<Character>();
+            var script = mob.GetComponent<Character.Character>();
             script.Spawn(World.width / 2, World.GetHeightAt(World.width / 2));
         }
     }
@@ -137,25 +137,21 @@ public class GameController : MonoBehaviour, IObserver
     {
         Item item = player.GetItem();
 
-        if (item != null && item.GetPlacementBlock() != null)
-        {
-            Block block = item.GetPlacementBlock();
-            if (_tileObjects[roundedPos.x, roundedPos.y, 0] == null)
-            {
-                int b = (removingPrimary) ? 0 : 1;
-                if (!removingPrimary && World.GetBlock(roundedPos.x, roundedPos.y, true) != null)
-                    return true;
-
-                if (!World.CheckNeighbourBlocks(roundedPos.x, roundedPos.y, !removingPrimary))
-                    return true;
-
-                RenderTile(block, _chunks[roundedPos.x / chunkSize], roundedPos.x, roundedPos.y, b);
-                World.SetBlock(roundedPos.x, roundedPos.y, block, !removingPrimary);
-                player.inventory.RemoveActiveItem();
-            }
+        if (item == null || item.GetPlacementBlock() == null) return false;
+        Block block = item.GetPlacementBlock();
+        if (_tileObjects[roundedPos.x, roundedPos.y, 0] != null) return true;
+        int b = (removingPrimary) ? 0 : 1;
+        if (!removingPrimary && World.GetBlock(roundedPos.x, roundedPos.y, true) != null)
             return true;
-        }
-        return false;
+
+        if (!World.CheckNeighbourBlocks(roundedPos.x, roundedPos.y, !removingPrimary))
+            return true;
+
+        RenderTile(block, _chunks[roundedPos.x / chunkSize], roundedPos.x, roundedPos.y, b);
+        World.SetBlock(roundedPos.x, roundedPos.y, block, !removingPrimary);
+        player.inventory.RemoveActiveItem();
+
+        return true;
     }
 
     public void ObserverUpdate(IObservable observable)
@@ -182,24 +178,26 @@ public class GameController : MonoBehaviour, IObserver
         if (TryAddBlock(player, roundedPos, removingPrimary))
             return;
 
-        if (removingPrimary && primaryTile != null)
+        switch (removingPrimary)
         {
-            var dropItem = World.GetBlock(roundedPos.x, roundedPos.y).itemDrop;
-            var dropItemObject = Instantiate(dropItemPrefab, new Vector2(position.x, position.y), Quaternion.identity);
-            var script = dropItemObject.GetComponent<TileDrop>();
-            script.item = dropItem;
+            case true when primaryTile != null:
+            {
+                var dropItem = World.GetBlock(roundedPos.x, roundedPos.y).itemDrop;
+                var dropItemObject =
+                    Instantiate(dropItemPrefab, new Vector2(position.x, position.y), Quaternion.identity);
+                var script = dropItemObject.GetComponent<TileDrop>();
+                script.item = dropItem;
 
-            World.SetBlock(roundedPos.x, roundedPos.y, null);
-            Destroy(primaryTile);
+                World.SetBlock(roundedPos.x, roundedPos.y, null);
+                Destroy(primaryTile);
 
-            script.Instantiate();
-            return;
-        }
-
-        if (!removingPrimary)
-        {
-            World.SetBlock(roundedPos.x, roundedPos.y, null, true);
-            Destroy(_tileObjects[roundedPos.x, roundedPos.y, 1]);
+                script.Instantiate();
+                return;
+            }
+            case false:
+                World.SetBlock(roundedPos.x, roundedPos.y, null, true);
+                Destroy(_tileObjects[roundedPos.x, roundedPos.y, 1]);
+                break;
         }
     }
 }
