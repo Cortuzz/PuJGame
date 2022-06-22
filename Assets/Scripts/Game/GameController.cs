@@ -198,9 +198,12 @@ public class GameController : MonoBehaviour, IObserver
                 return;
         }
         
-        var dropItemObject =
-            Instantiate(dropItemPrefab, new Vector2(position.x, position.y), Quaternion.identity);
+        if (dropItem == null)
+            return;
+
+        var dropItemObject = Instantiate(dropItemPrefab, new Vector2(position.x, position.y), Quaternion.identity);
         var script = dropItemObject.GetComponent<TileDrop>();
+
         script.item = dropItem; 
         script.Instantiate();
     }

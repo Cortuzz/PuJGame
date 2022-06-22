@@ -11,8 +11,8 @@ public class WorldGeneration
     public readonly float mountainsRarity = 5f;
     public readonly int maxTerrainBlocksCount = 7;
 
-    public readonly int minTreeHeight = 4;
-    private readonly int maxTreeHeight = 10;
+    public readonly int minTreeHeight = 7;
+    private readonly int maxTreeHeight = 13;
 
     private readonly int _seed;
     private readonly float _terrainFreq;
@@ -127,7 +127,7 @@ public class WorldGeneration
         {
             for (var j = height + treeHeight - 3; j < height + treeHeight + 5; j++)
             {
-                if (Mathf.Pow(x - i, 2) + Mathf.Pow(height + treeHeight - j, 2) > 9)
+                if (Mathf.Pow(x - i, 2) + Mathf.Pow(height + treeHeight - j, 2) > Random.Range(4, 16))
                     continue;
                 if (i < 0 || i >= World.chunkSize)
                     continue;
@@ -140,9 +140,9 @@ public class WorldGeneration
     public void GenerateTrees(Tile bottom, Tile mid, Tile leaf)
     {
         UpdateHeights();
-        for (int x = 0; x < World.chunkSize; x++)
+        for (var x = 0; x < World.chunkSize; x++)
         {
-            if (Random.Range(0, 10) != 0)
+            if (Random.Range(0, 20) != 0 || x <= 5 || x >= World.chunkSize - 5)
                 continue;
             
             GenerateTree(bottom, mid, leaf, x);
