@@ -86,7 +86,9 @@ public class GameController : MonoBehaviour, IObserver
         {
             renderer.sortingOrder = -1;
             Color color = renderer.color;
-            color.a = 0.5f;
+            color.r = 0.5f;
+            color.g = 0.5f;
+            color.b = 0.5f;
             renderer.color = color;
         }
 
