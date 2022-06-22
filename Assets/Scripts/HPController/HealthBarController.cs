@@ -42,7 +42,8 @@ public class HealthBarController : MonoBehaviour
 
         if (hp > 0)
         {
-            int formula = Math.Max(hp / _sprites.Length, 1); 
+            int formula = hp / (_heartHP / (_sprites.Length - 2)) + 1; 
+            
             print(formula);
             _hearts[i].GetComponent<Image>().sprite = _sprites[formula];
             i++;
