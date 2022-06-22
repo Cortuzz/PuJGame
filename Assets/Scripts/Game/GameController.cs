@@ -174,30 +174,34 @@ public class GameController : MonoBehaviour, IObserver
         );
 
         GameObject primaryTile = _tileObjects[roundedPos.x, roundedPos.y, 0];
+        GameObject secondaryTile = _tileObjects[roundedPos.x, roundedPos.y, 1];
 
         if (TryAddBlock(player, roundedPos, removingPrimary))
             return;
-
+        
+        Item dropItem;
         switch (removingPrimary)
         {
             case true when primaryTile != null:
             {
-                var dropItem = World.GetBlock(roundedPos.x, roundedPos.y).itemDrop;
-                var dropItemObject =
-                    Instantiate(dropItemPrefab, new Vector2(position.x, position.y), Quaternion.identity);
-                var script = dropItemObject.GetComponent<TileDrop>();
-                script.item = dropItem;
-
+                dropItem = World.GetBlock(roundedPos.x, roundedPos.y).itemDrop;
                 World.SetBlock(roundedPos.x, roundedPos.y, null);
                 Destroy(primaryTile);
-
-                script.Instantiate();
-                return;
+                break;
             }
-            case false:
+            case false when secondaryTile != null:
+                dropItem = World.GetBlock(roundedPos.x, roundedPos.y, true).itemDrop;
                 World.SetBlock(roundedPos.x, roundedPos.y, null, true);
                 Destroy(_tileObjects[roundedPos.x, roundedPos.y, 1]);
                 break;
+            default:
+                return;
         }
+        
+        var dropItemObject =
+            Instantiate(dropItemPrefab, new Vector2(position.x, position.y), Quaternion.identity);
+        var script = dropItemObject.GetComponent<TileDrop>();
+        script.item = dropItem; 
+        script.Instantiate();
     }
 }
