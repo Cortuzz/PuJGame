@@ -82,10 +82,12 @@ public class GameController : MonoBehaviour, IObserver
         localRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
         if (isBackground == 1)
         {
-            localRenderer.sortingOrder = -1;
-            Color color = localRenderer.color;
-            color.a = 0.5f;
-            localRenderer.color = color;
+            renderer.sortingOrder = -1;
+            Color color = renderer.color;
+            color.r = 0.5f;
+            color.g = 0.5f;
+            color.b = 0.5f;
+            renderer.color = color;
         }
 
         //tileObject.AddComponent<MeshRenderer>();

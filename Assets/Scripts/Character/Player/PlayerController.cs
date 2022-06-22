@@ -17,9 +17,12 @@ public class PlayerController : Character.Character, IObservable
     private bool _inventoryShowing = false;
     private Vector2 _mousePosition;
     public Inventory inventory;
+    public HealthBarController hpController;
 
     private readonly List<IObserver> _observers = new List<IObserver>();
 
+    private int _healthUpdateCounter = 0;
+    
     protected override void Awake()
     {
         inventory = GetComponent<Inventory>();
@@ -47,11 +50,25 @@ public class PlayerController : Character.Character, IObservable
     {
         bool collision = _collider.CheckBottomCollision();
         if (collision)
-            TakeDamage((int)(jumpTicks / 5 - 40)); // TODO: Проблема в более быстром / медленном падении
+            TakeDamage((int)(jumpTicks / 5 - 10)); // TODO: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ / пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         SetOnGround(collision);
 
         _collider.CheckTopCollision();
         _collider.CheckSideCollision();
+    }
+
+    private void RegenerateUpdate()
+    {
+        _healthUpdateCounter++;
+        
+        if (health >= maxHealth)
+            return;
+
+        if (_healthUpdateCounter < 50) 
+            return;
+
+        _healthUpdateCounter = 0;
+        health++;
     }
 
     public override void MoveUpdate()
@@ -145,6 +162,7 @@ public class PlayerController : Character.Character, IObservable
         Notify();
         CheckCollisions();
         CheckDirection();
+        RegenerateUpdate();
     }
 
     private void Update()
@@ -159,7 +177,8 @@ public class PlayerController : Character.Character, IObservable
 
     private void OnGUI()
     {
-        HotBarUpdate();
+        HotbarUpdate();
+        hpController.UpdateUI(health);
     }
 
     public void Attach(IObserver observer)
