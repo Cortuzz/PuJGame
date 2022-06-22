@@ -10,6 +10,11 @@ public class TileAtlas : ScriptableObject
     public Tile stone;
     public Tile grass;
 
+    [Header("Tree tiles")]
+    public Tile trunkBottom;
+    public Tile trunkMid;
+    public Tile leaf;
+    
     [Header("Ore tiles")]
     public Tile coal;
     public Tile iron;

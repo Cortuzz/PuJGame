@@ -11,6 +11,9 @@ public class WorldGeneration
     public readonly float mountainsRarity = 5f;
     public readonly int maxTerrainBlocksCount = 7;
 
+    public readonly int minTreeHeight = 4;
+    private readonly int maxTreeHeight = 10;
+
     private readonly int _seed;
     private readonly float _terrainFreq;
     private readonly float _heightMultiplier;
@@ -109,6 +112,41 @@ public class WorldGeneration
             return true;
 
         return false;
+    }
+
+    private void GenerateTree(Tile bottom, Tile mid, Tile leaf, int x)
+    {
+        var treeHeight = Random.Range(minTreeHeight, maxTreeHeight);
+        var height = _heights[x] + 1;
+        
+        PlaceTile(x, height, bottom);
+        for (var i = 1; i < treeHeight; i++)
+            PlaceTile(x, height + i, mid);
+
+        for (var i = x - 5; i < x + 5; i++)
+        {
+            for (var j = height + treeHeight - 3; j < height + treeHeight + 5; j++)
+            {
+                if (Mathf.Pow(x - i, 2) + Mathf.Pow(height + treeHeight - j, 2) > 9)
+                    continue;
+                if (i < 0 || i >= World.chunkSize)
+                    continue;
+                
+                PlaceTile(i, j, leaf);
+            }
+        }
+    }
+
+    public void GenerateTrees(Tile bottom, Tile mid, Tile leaf)
+    {
+        UpdateHeights();
+        for (int x = 0; x < World.chunkSize; x++)
+        {
+            if (Random.Range(0, 10) != 0)
+                continue;
+            
+            GenerateTree(bottom, mid, leaf, x);
+        }
     }
         
     public void GenerateTile(Texture2D texture, int bias, Tile tile, bool heightAffected = true, bool onTiles = false)

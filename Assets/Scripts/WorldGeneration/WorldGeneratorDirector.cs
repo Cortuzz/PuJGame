@@ -61,6 +61,7 @@ public class WorldGeneratorDirector
         GenerateTerrain();
         GenerateTunnels(bias);
         GenerateBackground(bias);
+        _worldGenerator.GenerateTrees(atlas.trunkBottom, atlas.trunkMid, atlas.leaf);
     }
 
     public void GenerateBackground(int bias)
