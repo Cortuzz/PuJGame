@@ -19,9 +19,11 @@ public class PlayerController : Character, IObservable
     private Vector2 _mousePosition;
     public Inventory inventory;
     public HealthBarController hpController;
-    
+
     private List<IObserver> _observers = new List<IObserver>();
 
+    private int _healthUpdateCounter = 0;
+    
     protected override void Awake()
     {
         inventory = GetComponent<Inventory>();
@@ -49,11 +51,25 @@ public class PlayerController : Character, IObservable
     {
         bool collision = _collider.CheckBottomCollision();
         if (collision)
-            TakeDamage((int)(jumpTicks / 5 - 40)); // TODO: �������� � ����� ������� / ��������� �������
+            TakeDamage((int)(jumpTicks / 5 - 10)); // TODO: �������� � ����� ������� / ��������� �������
         SetOnGround(collision);
 
         _collider.CheckTopCollision();
         _collider.CheckSideCollision();
+    }
+
+    private void RegenerateUpdate()
+    {
+        _healthUpdateCounter++;
+        
+        if (health >= maxHealth)
+            return;
+
+        if (_healthUpdateCounter < 50) 
+            return;
+
+        _healthUpdateCounter = 0;
+        health++;
     }
 
     public override void MoveUpdate()
@@ -69,7 +85,7 @@ public class PlayerController : Character, IObservable
                 holdJumpTime = Time.time;
                 holdingJump = true;
             }
-                
+
             if (Input.GetKeyUp(KeyCode.Space) && holdingJump)
             {
                 holdingJump = false;
@@ -82,7 +98,7 @@ public class PlayerController : Character, IObservable
             ++jumpTicks;
         else
             jumpTicks = 0;
-            
+
         _rb.velocity = movement;
     }
 
@@ -151,6 +167,7 @@ public class PlayerController : Character, IObservable
         Notify();
         CheckCollisions();
         CheckDirection();
+        RegenerateUpdate();
     }
 
     private void Update()

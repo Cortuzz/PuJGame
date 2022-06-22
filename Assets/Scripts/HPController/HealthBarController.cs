@@ -44,7 +44,6 @@ public class HealthBarController : MonoBehaviour
         {
             int formula = hp / (_heartHP / (_sprites.Length - 2)) + 1; 
             
-            print(formula);
             _hearts[i].GetComponent<Image>().sprite = _sprites[formula];
             i++;
         }
