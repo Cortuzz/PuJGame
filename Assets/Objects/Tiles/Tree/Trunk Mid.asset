@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ace8cffb46ddad14ca4e5e9ea4725179, type: 3}
+  m_Name: Trunk Mid
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: 3168b3db93481fc4cbd4b569a7c64135, type: 3}
+  itemDrop: {fileID: 11400000, guid: 25b89d796169a08449300c8d940335af, type: 2}
+  name: Trunk mid
+  mapColor: {r: 0.7019608, g: 0.44313726, b: 0.14509805, a: 0}
+  renderBorder: 0
+  maxHeight: 0
+  minHeight: 0
+  isBackground: 1

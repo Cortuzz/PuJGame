@@ -112,6 +112,54 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
+    public bool IsContains(Item item, int count = 1)
+    {
+        // TODO : HotBar Check
+        
+        for (int i = height - 1; i >= 0; i--)
+        {
+            for (int j = 0; j < width; j++)
+            {
+                var slot = slots[j, i];
+                if (slot == null || slot.item.name != item.name)
+                    continue;
+                
+                if (slot.quantity <= count)
+                {
+                    count -= slot.quantity;
+                    continue;
+                }
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
+    public void Remove(Item item, int count = 1)
+    {
+        // TODO : HotBar Removing
+        
+        for (int i = height - 1; i >= 0; i--)
+        {
+            for (int j = 0; j < width; j++)
+            {
+                var slot = slots[j, i];
+                if (slot == null || slot.item.name != item.name)
+                    continue;
+                
+                if (slot.quantity <= count)
+                {
+                        count -= slot.quantity;
+                        slots[j, i] = null;
+                        continue;
+                }
+                slots[j, i].quantity -= count;
+                return;
+            }
+        }
+    }
+
     private void SetupUI()
     {
         for (int i = 0; i < width; i++)
@@ -138,7 +186,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private void UpdateHotbar()
+    private void UpdateHotBar()
     {
         Sprite itemSprite;
         bool flag;
@@ -160,7 +208,7 @@ public class Inventory : MonoBehaviour
             }
 
             Image itemImage = slotsHotbarUI[i].transform.GetChild(0).GetComponent<Image>();
-            slotsHotbarUI[i].GetComponent<Outline>().enabled = (i == activeHotbarSlot) ? true : false;
+            slotsHotbarUI[i].GetComponent<Outline>().enabled = (i == activeHotbarSlot);
 
             amountText.enabled = flag;
             itemImage.enabled = flag;
@@ -170,7 +218,7 @@ public class Inventory : MonoBehaviour
 
     private void UpdateUI()
     {
-        UpdateHotbar();
+        UpdateHotBar();
         Sprite itemSprite;
         bool flag;
 
