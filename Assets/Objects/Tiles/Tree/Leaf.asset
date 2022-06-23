@@ -15,7 +15,7 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: efd951def41f6634c84762c8231f7865, type: 3}
   itemDrop: {fileID: 0}
   name: Leaf
-  mapColor: {r: 0.24194139, g: 0.6981132, b: 0.2272161, a: 0}
+  mapColor: {r: 0.24194139, g: 0.6981132, b: 0.2272161, a: 1}
   renderBorder: 0
   maxHeight: 0
   minHeight: 0

@@ -15,7 +15,7 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 7af41868f5a1a9846b5100225eb75dd1, type: 3}
   itemDrop: {fileID: 11400000, guid: 25b89d796169a08449300c8d940335af, type: 2}
   name: Trunk bottom
-  mapColor: {r: 0.7, g: 0.439336, b: 0.14198114, a: 0}
+  mapColor: {r: 0.7, g: 0.439336, b: 0.14198114, a: 1}
   renderBorder: 0
   maxHeight: 0
   minHeight: 0
