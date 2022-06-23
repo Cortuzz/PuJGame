@@ -108,10 +108,7 @@ public class WorldGeneration
         if (onTiles && _tiles[x - bias, y] == null)
             return false;
 
-        if (texture.GetPixel(x, y).r >= renderBorder)
-            return true;
-
-        return false;
+        return texture.GetPixel(x, y).r >= renderBorder;
     }
 
     private void GenerateTree(Tile bottom, Tile mid, Tile leaf, int x)
@@ -188,11 +185,10 @@ public class WorldGeneration
         {
             for (int j = World.height - 1; j >= 0; j--)
             {
-                if (_tiles[i, j] != null)
-                {
-                    _heights[i] = j;
-                    break;
-                }
+                if (_tiles[i, j] == null) 
+                    continue;
+                _heights[i] = j;
+                break;
             }
         }
     }

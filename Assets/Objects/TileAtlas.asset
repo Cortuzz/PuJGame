@@ -15,6 +15,7 @@ MonoBehaviour:
   dirt: {fileID: 11400000, guid: 775f25aa663c5c84aa91ef12b7b07fab, type: 2}
   stone: {fileID: 11400000, guid: 5cebade3a45ca164798d2ee6d4e264ea, type: 2}
   grass: {fileID: 11400000, guid: bfa5633a83b212a4095b29a198bd1730, type: 2}
+  sand: {fileID: 11400000, guid: 19cbbeb88736db74488f9095eb93fbbe, type: 2}
   trunkBottom: {fileID: 11400000, guid: 67db2a7ff24a1e34282b9640bb72d1a7, type: 2}
   trunkMid: {fileID: 11400000, guid: 7ac50d06366816a43824788641ef7324, type: 2}
   leaf: {fileID: 11400000, guid: b9ea52db9d30b074fbeb30a405c7c9ee, type: 2}

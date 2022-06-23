@@ -61,7 +61,17 @@ public class WorldGeneratorDirector
         GenerateTerrain();
         GenerateTunnels(bias);
         GenerateBackground(bias);
+        GenerateSand(bias);
         _worldGenerator.GenerateTrees(atlas.trunkBottom, atlas.trunkMid, atlas.leaf, bias);
+    }
+
+    public void GenerateSand(int bias)
+    {
+        controller.UpdateRandom();
+        controller.SetTile(atlas.sand);
+        controller.SetNoiseSettings(caveFreq / 4, caveFreq, rarity: 4f);
+        controller.SetTileStats(false);
+        _worldGenerator.GenerateTile(controller.GetTexture(), bias, controller.GetTile());
     }
 
     public void GenerateBackground(int bias)

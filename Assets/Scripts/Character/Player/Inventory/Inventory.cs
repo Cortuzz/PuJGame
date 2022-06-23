@@ -114,8 +114,20 @@ public class Inventory : MonoBehaviour
 
     public bool IsContains(Item item, int count = 1)
     {
-        // TODO : HotBar Check
-        
+        for (int i = 0; i < width; i++)
+        {
+            var slot = slotsHotbar[i];
+            if (slot == null || slot.item.name != item.name)
+                continue;
+                
+            if (slot.quantity < count)
+            {
+                count -= slot.quantity;
+                continue;
+            }
+            return true;
+        }
+
         for (int i = height - 1; i >= 0; i--)
         {
             for (int j = 0; j < width; j++)
@@ -124,7 +136,7 @@ public class Inventory : MonoBehaviour
                 if (slot == null || slot.item.name != item.name)
                     continue;
                 
-                if (slot.quantity <= count)
+                if (slot.quantity < count)
                 {
                     count -= slot.quantity;
                     continue;
@@ -138,7 +150,21 @@ public class Inventory : MonoBehaviour
     
     public void Remove(Item item, int count = 1)
     {
-        // TODO : HotBar Removing
+        for (int i = 0; i < width; i++)
+        {
+            var slot = slotsHotbar[i];
+            if (slot == null || slot.item.name != item.name)
+                continue;
+                
+            if (slot.quantity <= count)
+            {
+                count -= slot.quantity;
+                slotsHotbar[i] = null;
+                continue;
+            }
+            slotsHotbar[i].quantity -= count;
+            return;
+        }
         
         for (int i = height - 1; i >= 0; i--)
         {

@@ -1445,9 +1445,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _craftUI: {fileID: 303587009}
-  _recipeSlotPrefab: {fileID: 3265994380701060685, guid: 110ca882b189d3a4389cc76f455290e9, type: 3}
+  _recipeSlotPrefab: {fileID: 3265994380701060685, guid: d7f103fd4fd1f56499b2c8e7a002ba48, type: 3}
   _recipes:
   - {fileID: 11400000, guid: 4cbd4aab3248afd48baead9bb48c06df, type: 2}
+  - {fileID: 11400000, guid: 51d8840a3a1d1054ca0b14a411cf6fbd, type: 2}
   multiplierUI: {x: 80, y: 100}
   offsetUI: {x: 50, y: 200}
 --- !u!1 &1099325668
@@ -4043,6 +4044,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5892094450972670472, guid: 2c8a9ae4dba129343bfe0705bd0de8de, type: 3}
+      propertyPath: craftController
+      value: 
+      objectReference: {fileID: 948174816}
     - target: {fileID: 6381704210560272224, guid: 2c8a9ae4dba129343bfe0705bd0de8de, type: 3}
       propertyPath: m_Pivot.x
       value: 0

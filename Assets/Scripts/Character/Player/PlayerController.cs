@@ -38,6 +38,11 @@ public class PlayerController : Character.Character, IObservable
         TakeDamage(other.GetComponent<Enemy>().bodyDamage);
     }
 
+    public Inventory GetInventory()
+    {
+        return inventory;
+    }
+
     public override void SetOnGround(bool onGround)
     {
         if (onGround)
