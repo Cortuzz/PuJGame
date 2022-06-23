@@ -208,7 +208,7 @@ public class Inventory : MonoBehaviour
             }
 
             Image itemImage = slotsHotbarUI[i].transform.GetChild(0).GetComponent<Image>();
-            slotsHotbarUI[i].GetComponent<Outline>().enabled = (i == activeHotbarSlot) ? true : false;
+            slotsHotbarUI[i].GetComponent<Outline>().enabled = (i == activeHotbarSlot);
 
             amountText.enabled = flag;
             itemImage.enabled = flag;

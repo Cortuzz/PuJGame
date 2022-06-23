@@ -1446,6 +1446,8 @@ MonoBehaviour:
   _recipeSlotPrefab: {fileID: 3265994380701060685, guid: 110ca882b189d3a4389cc76f455290e9, type: 3}
   _recipes:
   - {fileID: 11400000, guid: 4cbd4aab3248afd48baead9bb48c06df, type: 2}
+  multiplierUI: {x: 80, y: 100}
+  offsetUI: {x: 50, y: 200}
 --- !u!1 &1099325668
 GameObject:
   m_ObjectHideFlags: 0

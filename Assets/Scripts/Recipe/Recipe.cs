@@ -6,10 +6,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewRecipeClass", menuName = "Recipe Class")]
 public class Recipe : ScriptableObject
 {
-    [SerializeField] private Item[] _components;
-    [SerializeField] private int[] _componentsCount;
-    [SerializeField] private Item _item;
-    [SerializeField] private int _itemCount;
+    public Item[] _components;
+    public int[] _componentsCount;
+    public Item _item;
+    public int _itemCount;
 
     public bool CanCraft(Inventory inventory)
     {
