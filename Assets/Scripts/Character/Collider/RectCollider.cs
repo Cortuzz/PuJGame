@@ -53,7 +53,7 @@ public class RectCollider : Collider
         if (!isCollision)
             return false;
 
-        var b = (_isTile) ? 0.5f : 1f;
+        var b = _isTile ? 0.5f : 1f;
 
         _transform.position = new(_transform.position.x, roundedRigthPos.y + b * _size.y);
         _rb.velocity = new(_rb.velocity.x, 0);
@@ -78,33 +78,34 @@ public class RectCollider : Collider
 
     public override void CheckSideCollision()
     {
-        Vector2 roundedLeftPos = GetLeftBottomPosition(_transform, 0.01f);
-        Vector2 roundedRightPos = GetRigthTopPosition(_transform);
-        int chunkNumberLeft = GetChunkNumber(ref roundedLeftPos, World.chunkSize);
-        int chunkNumberRight = GetChunkNumber(ref roundedRightPos, World.chunkSize);
+        var roundedLeftPos = GetLeftBottomPosition(_transform, 0.01f);
+        var roundedRightPos = GetRigthTopPosition(_transform);
+        var chunkNumberLeft = GetChunkNumber(ref roundedLeftPos, World.chunkSize);
+        var chunkNumberRight = GetChunkNumber(ref roundedRightPos, World.chunkSize);
 
-        Block[,] chunkLeft = World.blocks[chunkNumberLeft];
-        Block[,] chunkRight = World.blocks[chunkNumberRight];
-        Block bottomLeftBlock = chunkLeft[(int)roundedLeftPos.x, (int)roundedLeftPos.y];
-        Block bottomRightBlock = chunkRight[(int)roundedRightPos.x, (int)roundedLeftPos.y];
+        var chunkLeft = World.blocks[chunkNumberLeft];
+        var chunkRight = World.blocks[chunkNumberRight];
+        var bottomLeftBlock = chunkLeft[(int)roundedLeftPos.x, (int)roundedLeftPos.y];
+        var bottomRightBlock = chunkRight[(int)roundedRightPos.x, (int)roundedLeftPos.y];
 
-        Block topLeftBlock = chunkLeft[(int)roundedLeftPos.x, (int)roundedRightPos.y];
-        Block topRightBlock = chunkRight[(int)roundedRightPos.x, (int)roundedRightPos.y];
+        var topLeftBlock = chunkLeft[(int)roundedLeftPos.x, (int)roundedRightPos.y];
+        var topRightBlock = chunkRight[(int)roundedRightPos.x, (int)roundedRightPos.y];
 
-        bool isLeftCollision = bottomLeftBlock != null || topLeftBlock != null;
-        bool isRightCollision = bottomRightBlock != null || topRightBlock != null;
-        float xPos;
+        var isLeftCollision = bottomLeftBlock != null || topLeftBlock != null;
+        var isRightCollision = bottomRightBlock != null || topRightBlock != null;
 
         if (!isLeftCollision && !isRightCollision)
             return;
-        else
-            xPos = isRightCollision switch
-            {
-                true when isLeftCollision => _transform.position.x,
-                true => roundedLeftPos.x + chunkNumberLeft * World.chunkSize,
-                _ => roundedRightPos.x + chunkNumberRight * World.chunkSize - _size.x
-            };
 
-        _transform.position = new(xPos, _transform.position.y);
+        var position = _transform.position;
+        var xPos = isRightCollision switch
+        {
+            true when isLeftCollision => position.x,
+            true => roundedRightPos.x + chunkNumberRight * World.chunkSize - _size.x / 2,
+            _ => roundedRightPos.x + chunkNumberRight * World.chunkSize - 0.2f // todo: че за хуйня
+        };
+
+        position = new Vector3(Mathf.Lerp(position.x, xPos, 0.2f), position.y);
+        _transform.position = position;
     }
 }

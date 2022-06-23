@@ -9,7 +9,7 @@ public class MapController : MonoBehaviour
     private Texture2D _mapTexture;
     private GameObject _mapImage;
     private GameObject _map;
-    private bool _isOpened = false;
+    private bool _isOpened;
 
     private void UpdateChunks()
     {
@@ -21,15 +21,26 @@ public class MapController : MonoBehaviour
         _mapTexture.Apply();
     }
 
-    private void UpdateBlock(int chunk, int x, int y, Block block)
+    private void UpdateBlock(int chunk, int x, int y, Block block, bool updated = false)
     {
-        if (block == null)
+        if (!updated && block == null)
         {
             _mapTexture.SetPixel(x + chunk * World.chunkSize, y, new(1, 1, 1, 0));
             return;
         }
 
-        _mapTexture.SetPixel(x + chunk * World.chunkSize, y, block.color);
+        if (block == null)
+            return;
+
+        var color = block.color;
+        if (!updated)
+        {
+            color.r /= 2;
+            color.b /= 2;
+            color.g /= 2;
+        }
+
+        _mapTexture.SetPixel(x + chunk * World.chunkSize, y, color);
     }
 
     public void UpdateMap(Vector2 position)
@@ -39,7 +50,13 @@ public class MapController : MonoBehaviour
             for (int j = (int)position.y - _mapCheckRadius; j < position.y + _mapCheckRadius; j++)
             {
                 if (Mathf.Pow(i - position.x, 2) + Mathf.Pow(j - position.y, 2) < Mathf.Pow(_mapCheckRadius, 2))
-                    UpdateBlock(i / World.chunkSize, i % World.chunkSize, j, World.GetBlock(i, j));
+                {
+                    var chunk = i / World.chunkSize;
+                    var x = i % World.chunkSize;
+                    
+                    UpdateBlock(chunk, x, j, World.GetBlock(i, j, true));
+                    UpdateBlock(chunk, x, j, World.GetBlock(i, j), true);
+                }
             }
         }
     }
