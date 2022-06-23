@@ -1302,6 +1302,8 @@ MonoBehaviour:
   initialHealth: 100
   horizontalSpeed: 15
   onGround: 0
+  invulnerabilityTime: 200
+  regenerationTime: 500
   spawnPos: {x: 0, y: 0}
   speed: 5
   jumpForce: 60
@@ -1799,6 +1801,8 @@ MonoBehaviour:
   initialHealth: 2000
   horizontalSpeed: 0.5
   onGround: 0
+  invulnerabilityTime: 0
+  regenerationTime: 0
   spawnPos: {x: 0, y: 0}
   isAggred: 0
   bodyDamage: 70

@@ -14,10 +14,11 @@ GameObject:
   - component: {fileID: -5660424356965616639}
   - component: {fileID: 404799645417228307}
   - component: {fileID: 2394337375199889809}
+  - component: {fileID: 4100534621677553677}
   - component: {fileID: 826818686782863923}
   m_Layer: 0
   m_Name: NewSlime
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -252,6 +253,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.321154, y: 0.1592285}
   m_EdgeRadius: 0
+--- !u!70 &4100534621677553677
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7881763753228321661}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.004513431, y: -0.0038646234}
+  m_Size: {x: 0.34450743, y: 0.17039958}
+  m_Direction: 1
 --- !u!95 &826818686782863923
 Animator:
   serializedVersion: 4

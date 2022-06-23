@@ -10,9 +10,15 @@ namespace Character
 
         public float horizontalSpeed;
 
-        public bool onGround = false;
+        public bool onGround;
+        
+        public int invulnerabilityTime;
+        public int regenerationTime;
 
         public Vector2 spawnPos;
+        protected int _invulnerability = 0;
+        protected int _regeneration = 0;
+        
         protected Rigidbody2D _rb;
         protected SpriteRenderer _spriteRenderer;
         protected Collider _collider;
@@ -69,6 +75,12 @@ namespace Character
 
         public void TakeDamage(int damage)
         {
+            if (_invulnerability > 0)
+                return;
+            
+            _invulnerability = invulnerabilityTime;
+            _regeneration = regenerationTime;
+            
             if (damage <= 0)
                 return;
 

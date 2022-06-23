@@ -53,7 +53,7 @@ public class RectCollider : Collider
         if (!isCollision)
             return false;
 
-        var b = (_isTile) ? 0.5f : 1f;
+        var b = _isTile ? 0.5f : 1f;
 
         _transform.position = new(_transform.position.x, roundedRigthPos.y + b * _size.y);
         _rb.velocity = new(_rb.velocity.x, 0);

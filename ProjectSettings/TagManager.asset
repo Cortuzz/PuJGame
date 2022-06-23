@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - TileDrop
+  - Enemy
   layers:
   - Default
   - TransparentFX

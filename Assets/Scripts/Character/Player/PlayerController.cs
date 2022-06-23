@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,8 +11,8 @@ public class PlayerController : Character.Character, IObservable
     public float jumpSpeed;
     public float maxJumpSpeed;
     public float holdJumpTime;
-    public bool holdingJump = false;
-    public bool blockAction = false;
+    public bool holdingJump;
+    public bool blockAction;
     public bool removingPrimaryBlock = true;
 
     private bool _inventoryShowing = false;
@@ -27,6 +28,14 @@ public class PlayerController : Character.Character, IObservable
     {
         inventory = GetComponent<Inventory>();
         base.Awake();
+    }
+
+    public void OnTriggerStay2D(Collider2D other)
+    {
+        if (!other.CompareTag("Enemy"))
+            return;
+
+        TakeDamage(other.GetComponent<Enemy>().bodyDamage);
     }
 
     public override void SetOnGround(bool onGround)
@@ -48,9 +57,10 @@ public class PlayerController : Character.Character, IObservable
 
     public override void CheckCollisions()
     {
-        bool collision = _collider.CheckBottomCollision();
-        if (collision)
-            TakeDamage((int)(jumpTicks / 5 - 10)); // TODO: �������� � ����� ������� / ��������� �������
+        var collision = _collider.CheckBottomCollision();
+        var fallDamage = (int)(jumpTicks / 5 - 10);
+        if (collision && fallDamage > 0)
+            TakeDamage(fallDamage); // TODO: �������� � ����� ������� / ��������� �������
         SetOnGround(collision);
 
         _collider.CheckTopCollision();
@@ -59,6 +69,9 @@ public class PlayerController : Character.Character, IObservable
 
     private void RegenerateUpdate()
     {
+        if (_regeneration > 0)
+            return;
+        
         _healthUpdateCounter++;
         
         if (health >= maxHealth)
@@ -163,6 +176,8 @@ public class PlayerController : Character.Character, IObservable
         CheckCollisions();
         CheckDirection();
         RegenerateUpdate();
+        _invulnerability = Mathf.Max(_invulnerability - 1, 0);
+        _regeneration = Mathf.Max(_regeneration - 1, 0);
     }
 
     private void Update()
