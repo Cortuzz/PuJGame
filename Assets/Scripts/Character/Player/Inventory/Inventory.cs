@@ -275,8 +275,20 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    private void HandUpdate()
+    {
+        if (slotsHotbar[activeHotbarSlot] == null)
+        {
+            World.player.SetActiveItem(null, null);
+            return;
+        }
+            
+        World.player.SetActiveItem(slotsHotbar[activeHotbarSlot].item, slotsHotbarUI[activeHotbarSlot]);
+    }
+
     private void FixedUpdate()
     {
+        HandUpdate();
         UpdateUI();
     }
 }

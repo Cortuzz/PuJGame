@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public sealed class Slime : Enemy
@@ -10,6 +11,14 @@ public sealed class Slime : Enemy
     {
         _boxCollider = GetComponent<BoxCollider2D>();
         base.Awake();
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.CompareTag("Entity"))
+        {
+            TakeDamage(col.GetComponent<Damage>().damage);
+        }
     }
 
     public override void CheckCollisions()
