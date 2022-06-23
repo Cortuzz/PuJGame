@@ -23,7 +23,7 @@ public sealed class Slime : Enemy
 
     protected override Collider GetCollider()
     {
-        RectCollider rectCollider = new RectCollider(transform, _rb, _boxCollider);
+        RectCollider rectCollider = new RectCollider(transform, _rb, _boxCollider, true);
         //collider.SetBias(new Vector2(0.65f, -0.1f));
         return rectCollider;
     }

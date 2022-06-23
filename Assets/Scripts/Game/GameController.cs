@@ -124,13 +124,12 @@ public class GameController : MonoBehaviour, IObserver
     private void FixedUpdate()
     {
         UpdateChunks();
-        if (count < 1 && Random.Range(0, 100) == 1)
-        {
-            ++count;
-            GameObject mob = Instantiate(prefab, transform, false);
-            var script = mob.GetComponent<Character.Character>();
-            script.Spawn(World.width / 2, World.GetHeightAt(World.width / 2));
-        }
+        if (count >= 1) return;
+        
+        ++count;
+        GameObject mob = Instantiate(prefab, transform, false);
+        var script = mob.GetComponent<Character.Character>();
+        script.Spawn(World.width / 2, World.GetHeightAt(World.width / 2));
     }
 
     public bool TryAddBlock(PlayerController player, Vector2Int roundedPos, bool removingPrimary)
