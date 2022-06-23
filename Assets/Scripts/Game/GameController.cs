@@ -38,6 +38,7 @@ public class GameController : MonoBehaviour, IObserver
         playerController.Attach(this);
         playerController.Spawn(World.width / 2, World.GetHeightAt(World.width / 2));
         World.SetPlayer(playerController);
+        World.craftController = playerController.gameObject.GetComponent<CraftController>();
         map = Instantiate(map, transform.parent);
     }
 
@@ -45,7 +46,7 @@ public class GameController : MonoBehaviour, IObserver
     {
         GameObject chunkObject = new()
         {
-            name = "CHUNK " + (chunk + 1),
+            name = $"CHUNK {chunk + 1}",
             isStatic = true
         };
         chunkObject.transform.parent = transform;
@@ -89,10 +90,6 @@ public class GameController : MonoBehaviour, IObserver
             color.b = 0.5f;
             localRenderer.color = color;
         }
-
-        //tileObject.AddComponent<MeshRenderer>();
-        //tileObject.GetComponent<MeshRenderer>().receiveShadows = true;
-
 
         tileObject.transform.position = new Vector2(x + _tilesOffset.x, y + _tilesOffset.y);
         _tileObjects[x, y, isBackground] = tileObject;

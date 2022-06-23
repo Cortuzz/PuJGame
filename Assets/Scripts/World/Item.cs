@@ -7,8 +7,11 @@ public class Item : ScriptableObject
 {
     public new string name;
     public Sprite sprite;
+    public Sprite additionalSprite;
     public int stackCount;
-    [SerializeField] private Tile _placementBlock = null;
+    public bool isWeapon;
+    public bool isTool;
+    [SerializeField] private Tile _placementBlock;
 
     public Block GetPlacementBlock()
     {

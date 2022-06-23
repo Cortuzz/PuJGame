@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : Character.Character, IObservable
 {
@@ -19,6 +20,10 @@ public class PlayerController : Character.Character, IObservable
     private Vector2 _mousePosition;
     public Inventory inventory;
     public HealthBarController hpController;
+    public GameObject arrowPrefab;
+    
+    private Item _activeItem;
+    private GameObject _activeItemObject;
 
     private readonly List<IObserver> _observers = new List<IObserver>();
 
@@ -36,6 +41,77 @@ public class PlayerController : Character.Character, IObservable
             return;
 
         TakeDamage(other.GetComponent<Enemy>().bodyDamage);
+    }
+
+    public void Attack()
+    {
+        if (!(_activeItem && _activeItem.isWeapon))
+            return;
+
+        if (_activeItem.name == "Bow")
+        {
+            _animator.Play("Idle");
+            _activeItemObject.GetComponent<SpriteRenderer>().sprite = _activeItem.additionalSprite;
+            _activeItemObject.transform.localScale = new Vector3(-0.75f, 0.75f, 1);
+            _activeItemObject.transform.localPosition = new Vector3(0, -0.2f, 1);
+            _activeItemObject.transform.rotation = new Quaternion(50f, 1f, 0f, 0f);
+            //_activeItemObject.transform.localPosition = new Vector3(-0.35f, -0.3f, 0);
+        }
+    }
+
+    public void SpawnArrow()
+    {
+        var arrow = Instantiate(arrowPrefab, transform.parent);
+        var position =  transform.position;
+        position.x -= Mathf.Sign(transform.localScale.x);
+        arrow.transform.position = position;
+        
+        var rb = arrow.GetComponent<Rigidbody2D>();
+        rb.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 10, rb.velocity.y);
+    }
+
+    public void CheckActiveItemDown()
+    {
+        if (!_activeItem || _activeItem.name != "Bow")
+            return;
+        
+        _animator.Play("Bow Charging");
+        _activeItemObject.GetComponent<SpriteRenderer>().sprite = _activeItem.sprite;
+        _activeItemObject.transform.localScale = new Vector3(0.35f, 0.35f, 1);
+        _activeItemObject.transform.localPosition = new Vector3(-0.25f, -0.2f, 0);
+        
+        SpawnArrow();
+    }
+
+    public void SetActiveItem(Item item, GameObject itemObject)
+    {
+        if (_activeItem == item)
+            return;
+        
+        Destroy(_activeItemObject);
+        if (!item)
+        {
+            _activeItem = null;
+            _activeItemObject = null;
+            return;
+        }
+
+        _activeItem = item;
+        _activeItemObject = new GameObject(name = "Active tile");
+        _activeItemObject.transform.parent = transform.GetChild(0);
+        _activeItemObject.AddComponent<SpriteRenderer>().sprite =
+            itemObject.transform.GetChild(0).gameObject.GetComponent<Image>().sprite;
+
+        _activeItemObject.transform.rotation = Quaternion.identity;
+        _activeItemObject.transform.localScale = new Vector3(0.35f, 0.35f, 1);
+        _activeItemObject.transform.localPosition = new Vector3(-0.25f, -0.2f, 0);
+
+        //_activeItemObject = Instantiate(itemObject.transform.GetChild(0).gameObject, transform);
+    }
+
+    public Inventory GetInventory()
+    {
+        return inventory;
     }
 
     public override void SetOnGround(bool onGround)
@@ -155,7 +231,21 @@ public class PlayerController : Character.Character, IObservable
         _mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         bool triggerLmb = Input.GetMouseButtonDown(0);
         bool triggerRmb = Input.GetMouseButtonDown(1);
+        bool triggerUpLmb = Input.GetMouseButtonUp(0);
         removingPrimaryBlock = triggerLmb;
+        var item = inventory.GetActiveItem();
+
+        if (triggerUpLmb)
+        {
+            CheckActiveItemDown();
+            return;
+        }
+        
+        if (triggerLmb && item && item.isWeapon)
+        {
+            Attack();
+            return;
+        }
 
         if (!triggerLmb && !triggerRmb) return;
         blockAction = true;

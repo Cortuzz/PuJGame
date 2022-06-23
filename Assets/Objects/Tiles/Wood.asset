@@ -15,7 +15,7 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 8035e854daee39d48aaf6d57dcb69b01, type: 3}
   itemDrop: {fileID: 11400000, guid: a989cbac3e1a80942a6b30ba0a3ed445, type: 2}
   name: Wood
-  mapColor: {r: 0.8490566, g: 0.49343127, b: 0.13216448, a: 0}
+  mapColor: {r: 0.8490566, g: 0.49343127, b: 0.13216448, a: 1}
   renderBorder: 0
   maxHeight: 0
   minHeight: 0

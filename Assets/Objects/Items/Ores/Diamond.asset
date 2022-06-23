@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 74f818e3ef55aa34e95e073dfbf91e22, type: 3}
-  m_Name: Coal
+  m_Name: Diamond
   m_EditorClassIdentifier: 
-  name: Coal
-  sprite: {fileID: 21300000, guid: 7bc36e24756a430429f51dd132a1c632, type: 3}
-  stackCount: 5
+  name: Diamond Ore
+  sprite: {fileID: 21300000, guid: 7cbb3f0e9d5614b4fb825e65e93d3541, type: 3}
+  stackCount: 99
+  _placementBlock: {fileID: 11400000, guid: 36dfbf22fcc087845bc5f2c2173cb1fc, type: 2}

@@ -22,5 +22,10 @@ public class Recipe : ScriptableObject
         {
             inventory.Remove(_components[i], _componentsCount[i]);
         }
+
+        for (var i = 0; i < _itemCount; i++)
+        {
+            inventory.TryAdd(_item);
+        }
     }
 }

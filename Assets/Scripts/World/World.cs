@@ -9,8 +9,9 @@ public static class World
     public static int chunkCount;
     public static List<Block[,]> blocks;
     public static List<Block[,]> backgroundBlocks;
-    public static Character.Character player;
+    public static PlayerController player;
     public static bool isGamePaused;
+    public static CraftController craftController;
 
     private static bool _isMapOpened;
 
@@ -34,7 +35,7 @@ public static class World
         return !_isMapOpened && !isGamePaused;
     }
 
-    public static void SetPlayer(Character.Character player_)
+    public static void SetPlayer(PlayerController player_)
     {
         player = player_;
     }

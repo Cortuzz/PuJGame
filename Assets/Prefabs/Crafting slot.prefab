@@ -169,8 +169,9 @@ GameObject:
   - component: {fileID: 3265994380701060687}
   - component: {fileID: 6253582201073259067}
   - component: {fileID: 7413731037921509302}
+  - component: {fileID: -4601580794102188314}
   m_Layer: 5
-  m_Name: Slot
+  m_Name: Crafting slot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -295,15 +296,28 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: -4601580794102188314}
+        m_TargetAssemblyTypeName: CraftingSlot, Assembly-CSharp
+        m_MethodName: Craft
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-4601580794102188314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3265994380701060685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce8c40aa91e865f40995bccf5bf88a00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 0
