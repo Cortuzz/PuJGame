@@ -149,8 +149,10 @@ MonoBehaviour:
   health: 0
   maxHealth: 60
   initialHealth: 60
-  horizontalSpeed: 0
+  horizontalSpeed: 0.2
   onGround: 0
+  invulnerabilityTime: 0
+  regenerationTime: 0
   spawnPos: {x: 0, y: 0}
   isAggred: 0
   bodyDamage: 15

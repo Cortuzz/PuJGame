@@ -116,6 +116,7 @@ public class WorldGeneration
 
     private void GenerateTree(Tile bottom, Tile mid, Tile leaf, int x)
     {
+        var r = Random.Range(4, 16);
         var treeHeight = Random.Range(minTreeHeight, maxTreeHeight);
         var height = _heights[x] + 1;
         
@@ -127,7 +128,7 @@ public class WorldGeneration
         {
             for (var j = height + treeHeight - 3; j < height + treeHeight + 5; j++)
             {
-                if (Mathf.Pow(x - i, 2) + Mathf.Pow(height + treeHeight - j, 2) > Random.Range(4, 16))
+                if (Mathf.Pow(x - i, 2) + Mathf.Pow(height + treeHeight - j, 2) > r)
                     continue;
                 if (i < 0 || i >= World.chunkSize)
                     continue;
@@ -137,9 +138,10 @@ public class WorldGeneration
         }
     }
 
-    public void GenerateTrees(Tile bottom, Tile mid, Tile leaf)
+    public void GenerateTrees(Tile bottom, Tile mid, Tile leaf, int bias)
     {
         UpdateHeights();
+        Random.InitState(bias + _seed);
         for (var x = 0; x < World.chunkSize; x++)
         {
             if (Random.Range(0, 20) != 0 || x <= 5 || x >= World.chunkSize - 5)
