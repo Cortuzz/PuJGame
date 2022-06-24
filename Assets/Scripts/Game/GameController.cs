@@ -219,8 +219,8 @@ public class GameController : MonoBehaviour, IObserver
     {
         GameObject mob = Instantiate(executioner, transform, false);
         var script = mob.GetComponent<Executioner>();
-        var position = playerController.GetPosition();
-        script.Spawn((int)position.x, (int)position.y + 20);
+        var position = playerController.transform.position;
+        script.Spawn((int)position.x, (int)position.y + 10);
 
         var audioSource = audioController.GetComponent<AudioSource>();
         var lighting = lightController.GetComponent<Light2D>();
