@@ -87,17 +87,17 @@ public class WorldGenController : MonoBehaviour
         switch (genIndex)
         {
             case 0:
-                worldGeneratorDirector.GenerateCaves(bias);
+                worldGeneratorDirector.GenerateCaves(bias * World.chunkSize);
                 worldGeneratorDirector.GenerateChunk();
                 UpdateMap(index);
                 break;
             case 1:
-                worldGeneratorDirector.GenerateDirt(bias);
+                worldGeneratorDirector.GenerateDirt(bias * World.chunkSize);
                 worldGeneratorDirector.GenerateChunk(true, bias);
                 UpdateMap(index);
                 break;
             case 2:
-                worldGeneratorDirector.GenerateOres(bias);
+                worldGeneratorDirector.GenerateOres(bias * World.chunkSize);
                 worldGeneratorDirector.GenerateChunk(true, bias);
                 UpdateMap(index);
                 break;
@@ -107,22 +107,22 @@ public class WorldGenController : MonoBehaviour
                 UpdateMap(index);
                 break;
             case 4:
-                worldGeneratorDirector.GenerateTunnels(bias);
+                worldGeneratorDirector.GenerateTunnels(bias * World.chunkSize);
                 worldGeneratorDirector.GenerateChunk(true, bias);
                 UpdateMap(index);
                 break;
             case 5:
-                worldGeneratorDirector.GenerateBackground(bias);
+                worldGeneratorDirector.GenerateBackground(bias * World.chunkSize);
                 worldGeneratorDirector.GenerateChunk(true, bias);
                 UpdateMap(index);
                 break;
             case 6:
-                worldGeneratorDirector.GenerateSand(bias);
+                worldGeneratorDirector.GenerateSand(bias * World.chunkSize);
                 worldGeneratorDirector.GenerateChunk(true, bias);
                 UpdateMap(index);
                 break;
             case 7:
-                worldGeneratorDirector.GenerateTrees(bias);
+                worldGeneratorDirector.GenerateTrees(bias * World.chunkSize);
                 worldGeneratorDirector.GenerateChunk(true, bias);
                 UpdateMap(index);
                 break;
