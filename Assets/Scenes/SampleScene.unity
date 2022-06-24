@@ -1318,6 +1318,7 @@ MonoBehaviour:
   inventory: {fileID: 948174814}
   hpController: {fileID: 1949708688}
   arrowPrefab: {fileID: 4123099353985754962, guid: 21902b4c616476747b2eaff48314e4f6, type: 3}
+  arrowItem: {fileID: 11400000, guid: 582d27db7f4008a4b8d077e0f567493f, type: 2}
 --- !u!70 &948174813
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

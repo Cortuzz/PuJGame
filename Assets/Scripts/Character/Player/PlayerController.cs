@@ -21,14 +21,18 @@ public class PlayerController : Character.Character, IObservable
     public Inventory inventory;
     public HealthBarController hpController;
     public GameObject arrowPrefab;
+    public Item arrowItem;
     
     private Item _activeItem;
     private GameObject _activeItemObject;
+    private bool _charging;
 
     private readonly List<IObserver> _observers = new List<IObserver>();
 
     private int _healthUpdateCounter = 0;
-    
+    public int _attackTimeout = 200;
+    private int _attackCounter;
+
     protected override void Awake()
     {
         inventory = GetComponent<Inventory>();
@@ -48,8 +52,11 @@ public class PlayerController : Character.Character, IObservable
         if (!(_activeItem && _activeItem.isWeapon))
             return;
 
-        if (_activeItem.name == "Bow")
+        if (_activeItem.name == "Bow" && inventory.IsContains(arrowItem) && _attackCounter <= 0)
         {
+            _attackCounter = _attackTimeout;
+            inventory.Remove(arrowItem);
+            _charging = true;
             _animator.Play("Idle");
             _activeItemObject.GetComponent<SpriteRenderer>().sprite = _activeItem.additionalSprite;
             _activeItemObject.transform.localScale = new Vector3(-0.75f, 0.75f, 1);
@@ -69,13 +76,6 @@ public class PlayerController : Character.Character, IObservable
         var trigonometrical = positionDif / hyp;
         var sign = Mathf.Sign(transform.localScale.x);
 
-        var angle = Mathf.Rad2Deg * (float)Math.Acos(trigonometrical.x);
-        if (trigonometrical.y < 0)
-        {
-            angle *= -1;
-        }
-        arrow.transform.rotation = Quaternion.Euler(0, 0, angle + 210);
-
         position.x -= Mathf.Sign(sign);
         arrow.transform.position = position;
         
@@ -85,7 +85,7 @@ public class PlayerController : Character.Character, IObservable
 
     public void CheckActiveItemDown()
     {
-        if (!_activeItem || _activeItem.name != "Bow")
+        if (!_activeItem || _activeItem.name != "Bow" || !_charging)
             return;
         
         _animator.Play("Bow Charging");
@@ -93,6 +93,7 @@ public class PlayerController : Character.Character, IObservable
         _activeItemObject.transform.localScale = new Vector3(0.35f, 0.35f, 1);
         _activeItemObject.transform.localPosition = new Vector3(-0.25f, -0.2f, 0);
         
+        _charging = false;
         SpawnArrow();
     }
 
@@ -281,6 +282,7 @@ public class PlayerController : Character.Character, IObservable
         RegenerateUpdate();
         _invulnerability = Mathf.Max(_invulnerability - 1, 0);
         _regeneration = Mathf.Max(_regeneration - 1, 0);
+        _attackCounter = Mathf.Max(_attackCounter - 1, 0);
     }
 
     private void Update()
