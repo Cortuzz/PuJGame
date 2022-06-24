@@ -70,7 +70,18 @@ public sealed class Slime : Enemy
     {
         Vector2 playerPosition = World.player.GetPosition();
         Vector2 position = _rb.position;
-        isAggred = Mathf.Sqrt(Mathf.Pow(playerPosition.x - position.x, 2) + Mathf.Pow(playerPosition.y - position.y, 2)) < _triggerDistance;
+        var distance =
+            Mathf.Sqrt(Mathf.Pow(playerPosition.x - position.x, 2) + Mathf.Pow(playerPosition.y - position.y, 2));
+        
+        isAggred = distance < _triggerDistance;
+
+        if (distance < 2)
+        {
+            _animator.Play("Attack");
+            return;
+        }
+        
+        _animator.Play("Idle");
     }
 
     void FixedUpdate()
