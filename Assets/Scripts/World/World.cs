@@ -96,6 +96,12 @@ public static class World
         backgroundBlocks.Add(bgChunk);
     }
 
+    public static void ReplaceChunk(int chunk, Block[,] chunkBlocks, Block[,] chunkBgBlocks)
+    {
+        blocks[chunk] = chunkBlocks;
+        backgroundBlocks[chunk] = chunkBgBlocks;
+    }
+
     public static int GetHeightAt(int x)
     {
         int chunkNumber = x / chunkSize;

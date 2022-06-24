@@ -6,15 +6,9 @@ using Random = UnityEngine.Random;
 
 public class GameController : MonoBehaviour, IObserver
 {
-    public TileAtlas tileAtlas;
     public GameObject dropItemPrefab;
 
     public PlayerController playerController;
-    public WorldGeneratorDirector worldGeneratorDirector;
-
-    public int height;
-    public int chunkSize;
-    public int chunksCount;
 
     private readonly List<GameObject> _chunks = new();
     private GameObject[,,] _tileObjects;
@@ -34,14 +28,9 @@ public class GameController : MonoBehaviour, IObserver
 
     private void Start()
     {
-        World.SetWorldInfo(height, chunkSize, chunksCount);
-        _tileObjects = new GameObject[chunksCount * chunkSize, height, 2];
+        _tileObjects = new GameObject[World.chunkCount * World.chunkSize, World.height, 2];
 
-        worldGeneratorDirector = new();
-        worldGeneratorDirector.SetAtlas(tileAtlas);
-        worldGeneratorDirector.GenerateChunks();
-
-        for (int chunk = 0; chunk < chunksCount; chunk++)
+        for (int chunk = 0; chunk < World.chunkCount; chunk++)
         {
             GenerateChunk(chunk);
         }
@@ -151,7 +140,7 @@ public class GameController : MonoBehaviour, IObserver
         if (!World.CheckNeighbourBlocks(roundedPos.x, roundedPos.y, !removingPrimary))
             return true;
 
-        RenderTile(block, _chunks[roundedPos.x / chunkSize], roundedPos.x, roundedPos.y, b);
+        RenderTile(block, _chunks[roundedPos.x / World.chunkSize], roundedPos.x, roundedPos.y, b);
         World.SetBlock(roundedPos.x, roundedPos.y, block, !removingPrimary);
         player.inventory.RemoveActiveItem();
 
@@ -198,7 +187,7 @@ public class GameController : MonoBehaviour, IObserver
         
         GameObject mob = Instantiate(prefab, transform, false);
         var script = mob.GetComponent<Character.Character>();
-        script.Spawn(pos.x + chunk * chunkSize, pos.y);
+        script.Spawn(pos.x + chunk * World.chunkSize, pos.y);
         World.mobCount++;
     }
 
