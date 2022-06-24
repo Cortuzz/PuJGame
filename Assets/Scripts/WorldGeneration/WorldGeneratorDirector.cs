@@ -1,3 +1,4 @@
+using System.CodeDom.Compiler;
 using UnityEngine;
 
 public class WorldGeneratorDirector
@@ -30,38 +31,29 @@ public class WorldGeneratorDirector
         this.atlas = atlas;
     }
 
-    public void GenerateChunks()
-    {
-        for (int chunk = 0; chunk < World.chunkCount; chunk++)
-        {
-            GenerateChunk(chunk);
-        }
-    }
-
-    public void GenerateChunk(int chunk)
+    public void Pregen(int chunk)
     {
         _worldGenerator = new(seed, terrainFreq);
 
         controller = new(seed, World.chunkSize, World.height);
         controller.SetBias(chunk * World.chunkSize);
+    }
 
-        ChunkGenerationQueue(chunk * World.chunkSize);
-
+    public void GenerateChunk(bool replacing = false, int chunk = -1)
+    {
         var blocks = _worldGenerator.GetBlocks();
         var background = _worldGenerator.GetBackgroundBlocks();
-        //DebugHole(ref blocks);
+
+        if (replacing)
+        {
+            World.ReplaceChunk(chunk, blocks, background);
+            return;
+        }
         World.AddChunk(blocks, background);
     }
 
-    private void ChunkGenerationQueue(int bias)
+    public void GenerateTrees(int bias)
     {
-        GenerateCaves(bias);
-        GenerateDirt(bias);
-        GenerateOres(bias);
-        GenerateTerrain();
-        GenerateTunnels(bias);
-        GenerateBackground(bias);
-        GenerateSand(bias);
         _worldGenerator.GenerateTrees(atlas.trunkBottom, atlas.trunkMid, atlas.leaf, bias);
     }
 

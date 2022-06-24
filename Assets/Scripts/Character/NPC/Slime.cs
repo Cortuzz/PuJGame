@@ -12,6 +12,7 @@ public sealed class Slime : Enemy
 
     private int damageTime = 100;
     private int initialDamage = 100;
+    private int _collisionTimer = 4; 
     
     protected override void Awake()
     {
@@ -33,6 +34,11 @@ public sealed class Slime : Enemy
 
     public override void CheckCollisions()
     {
+        _collisionTimer -= 1;
+        if (_collisionTimer > 0)
+            return;
+
+        _collisionTimer = 4;
         bool collision = _collider.CheckBottomCollision();
         SetOnGround(collision);
 

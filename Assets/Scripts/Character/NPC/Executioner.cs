@@ -4,13 +4,16 @@ using UnityEngine;
 public class Executioner : Enemy
 {
     public int weaponDamage;
+    public GameObject summonPrefab;
     private int _patrolCount = 0;
     private int _triggerDistance = 5;
     private BoxCollider2D _boxCollider;
 
-    private int _followingTimer;
-    private int _initFollowingTimer = 2000;
+    private int _followingTimer = 7000;
+    private int _initFollowingTimer = 10000;
     private float _savedPlayerPos;
+
+    private int spawnSummonTime;
 
     protected override void Awake()
     {
@@ -67,17 +70,31 @@ public class Executioner : Enemy
     {
     }
 
+    private void SpawnSummons(Vector3 position)
+    {
+        var summon = Instantiate(summonPrefab, transform.parent.parent);
+        summon.transform.position = transform.position + position;
+    }
+
     private void FollowToPlayer()
     {
         var difPos = World.player.transform.position - transform.position;
 
         _rb.velocity = _followingTimer switch
         {
-            > 1920 => new Vector2(100 * _savedPlayerPos, 0),
+            > 9850 => new Vector2(50 * _savedPlayerPos, 0),
+            > 9500 => new Vector2(Mathf.Sign(difPos.x), 5 * difPos.y),
             < 200 => new Vector2(Mathf.Sign(difPos.x), 5 * difPos.y),
-            < 400 => new Vector2(-20 * Mathf.Sign(difPos.x), 5 * difPos.y),
-            _ => difPos
+            < 500 => new Vector2(-15 * Mathf.Sign(difPos.x), 5 * difPos.y),
+            < 6000 and >= 4000 => (_followingTimer % 200 < 100) ? new Vector2(difPos.x, difPos.y + 15) : new Vector2(difPos.x, difPos.y + 10) ,
+            _ => difPos / 2
         };
+
+        if (_followingTimer is 5500 or 4500 or 5000)
+        {
+                SpawnSummons(new Vector2(3, 0));
+                spawnSummonTime = 175;
+        }
 
         if (_followingTimer > 0)
             return;
@@ -92,7 +109,13 @@ public class Executioner : Enemy
         Vector2 position = _rb.position;
         isAggred = Mathf.Sqrt(Mathf.Pow(playerPosition.x - position.x, 2) + Mathf.Pow(playerPosition.y - position.y, 2)) < _triggerDistance;
 
-        if (!isAggred || _followingTimer > 1920)
+        if (spawnSummonTime > 0)
+        {
+            _animator.Play("Summon");
+            return;
+        }
+
+        if (!isAggred || _followingTimer > 9850)
         {
             _animator.Play("Idle");
             return;
@@ -108,5 +131,6 @@ public class Executioner : Enemy
         FollowToPlayer();
         CheckAggro();
         _followingTimer = Mathf.Max(_followingTimer - 1, 0);
+        spawnSummonTime = Mathf.Max(spawnSummonTime - 1, 0);
     }
 }
