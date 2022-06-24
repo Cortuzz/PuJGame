@@ -8,6 +8,14 @@ public struct WorldData
     public int width;
     public int chunkSize;
     public int chunkCount;
-    public List<Block[,]> blocks;
-    public List<Block[,]> backgroundBlocks;
+    public List<Block> blocks;
+}
+
+[System.Serializable]
+public struct BlockData
+{
+    public string name;
+    public bool isBackground;
+    public int x;
+    public int y;
 }

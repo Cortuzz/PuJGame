@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting.FullSerializer;
@@ -50,6 +51,8 @@ public static class WorldSavingController
 
     private static string GenerateJson()
     {
+        List<Block> blocks = GetBlocks();
+
         WorldData worldData = new WorldData
         {
             mobCount = World.mobCount,
@@ -57,17 +60,63 @@ public static class WorldSavingController
             width = World.width,
             chunkSize = World.chunkSize,
             chunkCount = World.chunkCount,
-            blocks = World.blocks,
-            backgroundBlocks = World.backgroundBlocks
+            blocks = blocks
         };
 
         return JsonUtility.ToJson(worldData, true);
     }
 
+    private static List<Block> GetBlocks()
+    {
+        List<Block> blockList = new List<Block>();
+        
+        for (int i = 0; i < World.blocks.Count; i++)
+        {
+            for (int j = 0; j < World.blocks[i].GetLength(0); j++)
+            {
+                for (int k = 0; k < World.blocks[i].GetLength(1); k++)
+                {
+                    Block currentBlock =  World.blocks[i][j, k];
+
+                    if (currentBlock != null)
+                    {
+                        currentBlock.firstIndex = i;
+                        currentBlock.secondIndex = j;
+                        currentBlock.thirdIndex = k;
+                        
+                        blockList.Add(currentBlock);
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < World.backgroundBlocks.Count; i++)
+        {
+            for (int j = 0; j < World.backgroundBlocks[i].GetLength(0); j++)
+            {
+                for (int k = 0; k < World.backgroundBlocks[i].GetLength(1); k++)
+                {
+                    Block currentBlock = World.backgroundBlocks[i][j, k];
+
+                    if (currentBlock != null)
+                    {
+                        currentBlock.firstIndex = i;
+                        currentBlock.secondIndex = j;
+                        currentBlock.thirdIndex = k;
+
+                        blockList.Add(currentBlock);
+                    }
+                }
+            }
+        }
+
+        return blockList;
+    }
+
     private static string GetPath()
     {
         string path;
-        string fileName = "data.json";
+        string fileName = "world.json";
 
 #if UNITY_ANDROID && !UNITY_EDITOR
         path = Path.Combine(Application.persistentDataPath, saveFileName);
@@ -77,6 +126,4 @@ public static class WorldSavingController
 
         return path;
     }
-    
-    
 }
