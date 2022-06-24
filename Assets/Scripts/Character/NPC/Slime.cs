@@ -10,6 +10,9 @@ public sealed class Slime : Enemy
     private int deathTime = 80;
     private bool isDeath = false;
 
+    private int damageTime = 100;
+    private int initialDamage = 100;
+    
     protected override void Awake()
     {
         _boxCollider = GetComponent<BoxCollider2D>();
@@ -20,9 +23,12 @@ public sealed class Slime : Enemy
     {
         if (!col.CompareTag("Entity"))
             return;
-
+        
+        
         TakeDamage(col.GetComponent<Damage>().damage);
         Destroy(col.gameObject);
+        damageTime = initialDamage;
+        _animator.Play("GetDamage");
     }
 
     public override void CheckCollisions()
@@ -70,10 +76,8 @@ public sealed class Slime : Enemy
 
     protected override void CheckAggro()
     {
-        if (isDeath)
-        {
+        if (isDeath || damageTime > 0)
             return;
-        }
 
         Vector2 playerPosition = World.player.GetPosition();
         Vector2 position = _rb.position;
@@ -115,6 +119,9 @@ public sealed class Slime : Enemy
 
         if (deathTime == 0)
             Destroy(gameObject);
+
+        damageTime = Mathf.Max(damageTime - 1, 0);
+
     }
 
     public override void Die()
