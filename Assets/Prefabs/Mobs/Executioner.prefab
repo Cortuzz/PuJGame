@@ -13,10 +13,11 @@ GameObject:
   - component: {fileID: -7062761267976165791}
   - component: {fileID: 594417362830301074}
   - component: {fileID: 914938320744689900}
-  - component: {fileID: 5440312326709217916}
+  - component: {fileID: 8064498113156741476}
+  - component: {fileID: 1534368175022898581}
   m_Layer: 0
   m_Name: Executioner
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -53,9 +54,11 @@ MonoBehaviour:
   initialHealth: 500
   horizontalSpeed: -1
   onGround: 0
+  invulnerabilityTime: 0
+  regenerationTime: 0
   spawnPos: {x: 64, y: 421}
   isAggred: 0
-  bodyDamage: 70
+  bodyDamage: 20
 --- !u!50 &-7062761267976165791
 Rigidbody2D:
   serializedVersion: 4
@@ -149,7 +152,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!70 &5440312326709217916
+--- !u!70 &8064498113156741476
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -159,9 +162,45 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.12285799, y: -0.021329356}
-  m_Size: {x: 0.2026956, y: 0.5069442}
+  m_Offset: {x: 0.124945834, y: -0.011004639}
+  m_Size: {x: 0.20010833, y: 0.4633362}
   m_Direction: 0
+--- !u!68 &1534368175022898581
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2244513902682239445}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: 0.02476874, y: -0.2498932}
+  - {x: -0.11544456, y: -0.2563768}
+  - {x: -0.29333496, y: -0.12510848}
+  - {x: -0.36538887, y: -0.007914867}
+  - {x: -0.37393984, y: 0.077522136}
+  - {x: -0.35538977, y: 0.13800798}
+  - {x: -0.34286192, y: 0.19262835}
+  - {x: -0.30156633, y: 0.2510451}
+  - {x: -0.21912539, y: 0.29278702}
+  - {x: -0.04848938, y: 0.35502157}
+  - {x: 0.13886796, y: 0.3368178}
+  - {x: 0.2704422, y: 0.25501847}
+  - {x: 0.3252983, y: 0.18955219}
+  - {x: 0.32726592, y: 0.091917284}
+  - {x: 0.27956623, y: -0.19306198}
+  - {x: 0.019254744, y: -0.24989015}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0

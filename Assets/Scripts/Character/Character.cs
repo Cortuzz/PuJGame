@@ -63,11 +63,11 @@ namespace Character
         {
             Vector3 scale = transform.localScale;
 
-            if (horizontalSpeed > 0)
+            if (_rb.velocity.x > 0)
             {
                 transform.localScale = new Vector3(-Mathf.Abs(scale.x), scale.y, scale.z);
             }
-            else if (horizontalSpeed < 0)
+            else if (_rb.velocity.x < 0)
             {
                 transform.localScale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
             }

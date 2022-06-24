@@ -695,7 +695,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 20
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1720,7 +1720,7 @@ MonoBehaviour:
   playerController: {fileID: 948174812}
   height: 400
   chunkSize: 32
-  chunksCount: 4
+  chunksCount: 8
   prefab: {fileID: 7881763753228321661, guid: b84ac5848dd662b499703a0c3142c797, type: 3}
   map: {fileID: 5814380809358227074, guid: a89291253c4a1034a9dbabc8917a9832, type: 3}
   audioController: {fileID: 95859389}
