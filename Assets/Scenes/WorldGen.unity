@@ -225,7 +225,7 @@ MonoBehaviour:
   chunksObject: {fileID: 0}
   height: 400
   chunkSize: 32
-  chunksCount: 8
+  chunksCount: 32
   index: 0
   genIndex: 0
   renderTimer: 0

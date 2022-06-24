@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -35,6 +36,7 @@ public class WorldGenController : MonoBehaviour
         worldGeneratorDirector = new();
         worldGeneratorDirector.SetAtlas(tileAtlas);
         worldGeneratorDirector.Pregen(0);
+        chunksObject.transform.GetChild(0).GetComponent<TMP_Text>().text = $"Generating Caves\nChunk: 1 / {World.chunkCount}";
     }
     void SetupTexture()
     {
@@ -84,44 +86,53 @@ public class WorldGenController : MonoBehaviour
     
     private void GenerationQueue(int bias)
     {
+        var text = "";
         switch (genIndex)
         {
             case 0:
+                text = "Generating Dirt";
                 worldGeneratorDirector.GenerateCaves(bias * World.chunkSize);
                 worldGeneratorDirector.GenerateChunk();
                 UpdateMap(index);
                 break;
             case 1:
+                text = "Generating Ores";
                 worldGeneratorDirector.GenerateDirt(bias * World.chunkSize);
                 worldGeneratorDirector.GenerateChunk(true, bias);
                 UpdateMap(index);
                 break;
             case 2:
+                text = "Generating Terrain";
                 worldGeneratorDirector.GenerateOres(bias * World.chunkSize);
                 worldGeneratorDirector.GenerateChunk(true, bias);
                 UpdateMap(index);
                 break;
             case 3:
+                text = "Generating Large Caves";
                 worldGeneratorDirector.GenerateTerrain();
                 worldGeneratorDirector.GenerateChunk(true, bias);
                 UpdateMap(index);
                 break;
             case 4:
+                text = "Generating Background";
                 worldGeneratorDirector.GenerateTunnels(bias * World.chunkSize);
                 worldGeneratorDirector.GenerateChunk(true, bias);
                 UpdateMap(index);
                 break;
             case 5:
+                text = "Generating Sand";
                 worldGeneratorDirector.GenerateBackground(bias * World.chunkSize);
                 worldGeneratorDirector.GenerateChunk(true, bias);
                 UpdateMap(index);
                 break;
             case 6:
+                text = "Generating Trees";
                 worldGeneratorDirector.GenerateSand(bias * World.chunkSize);
                 worldGeneratorDirector.GenerateChunk(true, bias);
                 UpdateMap(index);
                 break;
             case 7:
+                text = "Finishing Up";
                 worldGeneratorDirector.GenerateTrees(bias * World.chunkSize);
                 worldGeneratorDirector.GenerateChunk(true, bias);
                 UpdateMap(index);
@@ -129,12 +140,21 @@ public class WorldGenController : MonoBehaviour
             default:
                 UpdateMap(index);
                 index++;
+                text = "Generating Caves";
                 worldGeneratorDirector.GenerateChunk(true, bias);
                 worldGeneratorDirector.Pregen(index);
-                genIndex = 0;
-                return;
+                genIndex = -1;
+                if (index == World.chunkCount)
+                {
+                    chunksObject.transform.GetChild(0).GetComponent<TMP_Text>().text = "Finishing Up";
+                    return;
+                }
+
+                
+                break;
         }
 
+        chunksObject.transform.GetChild(0).GetComponent<TMP_Text>().text = $"{text}\nChunk: {index + 1} / {World.chunkCount}";
         genIndex++;
     }
 
