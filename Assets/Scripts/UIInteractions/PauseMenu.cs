@@ -1,3 +1,4 @@
+using Configs;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,7 +12,7 @@ namespace UIInteractions
 
         private void Update()
         {
-            if (!Input.GetKeyDown(KeyCode.Escape)) return;
+            if (!KeyboardBindings.GetKeyDown("Pause")) return;
             if (World.isGamePaused)
             {
                 Resume();

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Configs;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using Random = UnityEngine.Random;
@@ -114,7 +115,7 @@ public class GameController : MonoBehaviour, IObserver
     private void Update()
     {
         if (World.isGamePaused) return;
-        if (Input.GetKeyDown(KeyCode.M))
+        if (KeyboardBindings.GetKeyDown("Map"))
         {
             map.GetComponent<MapController>().ChangeVisibility();
         }
