@@ -68,6 +68,7 @@ public class Executioner : Enemy
 
     protected override void GiveDrop()
     {
+        
     }
 
     private void SpawnSummons(Vector3 position)

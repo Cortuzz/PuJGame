@@ -297,6 +297,24 @@ public class PlayerController : Character.Character, IObservable
         _invulnerability = Mathf.Max(_invulnerability - 1, 0);
         _regeneration = Mathf.Max(_regeneration - 1, 0);
         _attackCounter = Mathf.Max(_attackCounter - 1, 0);
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            var item = inventory.slotsHotbar[inventory.activeHotbarSlot];
+
+            if (item.quantity > 1)
+                item.quantity--;
+            else
+                inventory.slotsHotbar[inventory.activeHotbarSlot] = null;
+
+            var pos = transform.position;
+            pos.x += 1;
+            var dropItemObject = Instantiate(dropItemPrefab, pos, Quaternion.identity);
+            var script = dropItemObject.GetComponent<TileDrop>();
+
+            script.item = item.item; 
+            script.Instantiate();
+        }
     }
 
     private void Update()
