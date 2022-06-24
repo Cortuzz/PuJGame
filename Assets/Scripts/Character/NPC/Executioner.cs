@@ -4,12 +4,13 @@ using UnityEngine;
 public class Executioner : Enemy
 {
     public int weaponDamage;
+    public GameObject summonPrefab;
     private int _patrolCount = 0;
     private int _triggerDistance = 5;
     private BoxCollider2D _boxCollider;
 
     private int _followingTimer;
-    private int _initFollowingTimer = 2000;
+    private int _initFollowingTimer = 10000;
     private float _savedPlayerPos;
 
     protected override void Awake()
@@ -67,17 +68,38 @@ public class Executioner : Enemy
     {
     }
 
+    private void SpawnSummons(Vector2 position)
+    {
+        var summon = Instantiate(summonPrefab, transform.parent);
+        summon.transform.localPosition = position;
+    }
+
     private void FollowToPlayer()
     {
         var difPos = World.player.transform.position - transform.position;
 
         _rb.velocity = _followingTimer switch
         {
-            > 1920 => new Vector2(100 * _savedPlayerPos, 0),
+            > 9850 => new Vector2(50 * _savedPlayerPos, 0),
+            > 9500 => new Vector2(Mathf.Sign(difPos.x), 5 * difPos.y),
             < 200 => new Vector2(Mathf.Sign(difPos.x), 5 * difPos.y),
-            < 400 => new Vector2(-20 * Mathf.Sign(difPos.x), 5 * difPos.y),
+            < 500 => new Vector2(-15 * Mathf.Sign(difPos.x), 5 * difPos.y),
+            < 6000 and >= 4000 => new Vector2(difPos.x, difPos.y + 15),
             _ => difPos
         };
+
+        switch (_followingTimer)
+        {
+            case 5500:
+                SpawnSummons(new Vector2(8, 0));
+                break;
+            case 5000:
+                SpawnSummons(new Vector2(-8, 0));
+                break;
+            case 4500:
+                SpawnSummons(new Vector2(0, 8));
+                break;
+        }
 
         if (_followingTimer > 0)
             return;
@@ -92,7 +114,7 @@ public class Executioner : Enemy
         Vector2 position = _rb.position;
         isAggred = Mathf.Sqrt(Mathf.Pow(playerPosition.x - position.x, 2) + Mathf.Pow(playerPosition.y - position.y, 2)) < _triggerDistance;
 
-        if (!isAggred || _followingTimer > 1920)
+        if (!isAggred || _followingTimer > 9850)
         {
             _animator.Play("Idle");
             return;

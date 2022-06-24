@@ -41,7 +41,7 @@ public class GameController : MonoBehaviour, IObserver
         World.craftController = playerController.gameObject.GetComponent<CraftController>();
         map = Instantiate(map, transform.parent);
         
-       // SpawnExecutioner();
+        SpawnExecutioner();
     }
 
     public void GenerateChunk(int chunk)
