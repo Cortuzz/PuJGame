@@ -4,10 +4,10 @@ using UnityEngine;
 public static class World
 {
     public static int mobCount;
-    public static int height;
-    public static int width;
-    public static int chunkSize;
-    public static int chunkCount;
+    public static int height;           //высота чанка
+    public static int width;            //ширина карты chunkSize * chunkCount
+    public static int chunkSize;        //размер чанка по ширине
+    public static int chunkCount;       //количество чанков
     public static List<Block[,]> blocks;
     public static List<Block[,]> backgroundBlocks;
     public static PlayerController player;
