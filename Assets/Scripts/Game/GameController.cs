@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class GameController : MonoBehaviour, IObserver
 {
@@ -19,6 +20,14 @@ public class GameController : MonoBehaviour, IObserver
 
     public GameObject prefab;
     public GameObject map;
+
+    public GameObject audioController;
+    public GameObject lightController;
+    
+    public AudioClip normalMusic;
+    public AudioClip bossMusic;
+
+    public GameObject executioner;
     public int count = 0;
 
     private void Start()
@@ -124,6 +133,8 @@ public class GameController : MonoBehaviour, IObserver
         if (count >= 1) return;
         
         ++count;
+        SpawnExecutioner();
+        
         GameObject mob = Instantiate(prefab, transform, false);
         var script = mob.GetComponent<Character.Character>();
         script.Spawn(World.width / 2, World.GetHeightAt(World.width / 2));
@@ -202,5 +213,23 @@ public class GameController : MonoBehaviour, IObserver
 
         script.item = dropItem; 
         script.Instantiate();
+    }
+
+    public void SpawnExecutioner()
+    {
+        GameObject mob = Instantiate(executioner, transform, false);
+        var script = mob.GetComponent<Executioner>();
+        var position = playerController.GetPosition();
+        script.Spawn((int)position.x, (int)position.y + 20);
+
+        var audioSource = audioController.GetComponent<AudioSource>();
+        var lighting = lightController.GetComponent<Light2D>();
+        var color = new Color(0.4f, 0.1f, 0.1f);
+        Camera.main.backgroundColor = color;
+        
+        lighting.color = color;
+        lighting.intensity = 0.6f;
+        audioSource.clip = bossMusic;
+        audioSource.Play();
     }
 }

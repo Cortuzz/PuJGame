@@ -18,7 +18,7 @@ public class Executioner : Enemy
 
     protected override Collider GetCollider()
     {
-        return new RectCollider(transform, _rb, _boxCollider);
+        return null;
     }
 
     public override void MoveUpdate()
