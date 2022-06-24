@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class GameController : MonoBehaviour, IObserver
@@ -19,12 +21,17 @@ public class GameController : MonoBehaviour, IObserver
 
     public GameObject audioController;
     public GameObject lightController;
+    public GameObject progressBarPrefab;
     
     public AudioClip normalMusic;
     public AudioClip bossMusic;
 
+
+    public bool bossSpawned;
     public GameObject executioner;
     public int count = 0;
+    public Slider slider;
+    public Executioner boss;
 
     private void Start()
     {
@@ -124,6 +131,11 @@ public class GameController : MonoBehaviour, IObserver
     {
         UpdateChunks();
         SpawnMobs();
+
+        if (!bossSpawned)
+            return;
+
+        slider.value = (float)boss.health / boss.maxHealth;
     }
 
     public bool TryAddBlock(PlayerController player, Vector2Int roundedPos, bool removingPrimary)
@@ -247,8 +259,13 @@ public class GameController : MonoBehaviour, IObserver
 
     public void SpawnExecutioner()
     {
+        progressBarPrefab = Instantiate(progressBarPrefab, transform.parent);
+        progressBarPrefab.transform.GetChild(0).localPosition = new Vector3(0, -210, 0);
+        slider = progressBarPrefab.transform.GetChild(0).gameObject.GetComponent<Slider>();
+        
         GameObject mob = Instantiate(executioner, transform, false);
         var script = mob.GetComponent<Executioner>();
+        boss = script;
         var position = playerController.transform.position;
         script.Spawn((int)position.x, (int)position.y + 10);
 
@@ -261,5 +278,6 @@ public class GameController : MonoBehaviour, IObserver
         lighting.intensity = 0.6f;
         audioSource.clip = bossMusic;
         audioSource.Play();
+        bossSpawned = true;
     }
 }

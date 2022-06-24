@@ -48,13 +48,35 @@ public class CraftController : MonoBehaviour
             _recipesUI.Add(recipeObject);
         }
     }
+
+    private bool CheckOven()
+    {
+        var playerPos = World.player.GetPosition();
+
+        for (int i = (int)playerPos.x - 3; i < playerPos.x + 3; i++)
+        {
+            for (int j = (int)playerPos.y - 3; j < playerPos.y + 3; j++)
+            {
+                var block = World.GetBlock(i, j);
+                var bgBlock = World.GetBlock(i, j, true);
+                
+                if (block != null && (block.name == "Oven"|| bgBlock != null && block.name == "Oven"))
+                    return true;
+            }
+        }
+
+        return false;
+    }
     
     private void Update()
     {
         var count = 0;
         foreach (var recipeUI in _recipesUI)
         {
-            recipeUI.SetActive(_recipes[count].CanCraft(World.player.GetInventory()));
+            var recipe = _recipes[count];
+            var canCraft = recipe.CanCraft(World.player.GetInventory());
+            var activeState = canCraft && !recipe.ovenNeed || canCraft && recipe.ovenNeed && CheckOven();
+            recipeUI.SetActive(activeState);
             count++;
         }
     }

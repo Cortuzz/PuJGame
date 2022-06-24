@@ -9,7 +9,7 @@ public class Executioner : Enemy
     private int _triggerDistance = 5;
     private BoxCollider2D _boxCollider;
 
-    private int _followingTimer = 7000;
+    private int _followingTimer = 9500;
     private int _initFollowingTimer = 10000;
     private float _savedPlayerPos;
 
@@ -82,9 +82,9 @@ public class Executioner : Enemy
 
         _rb.velocity = _followingTimer switch
         {
-            > 9850 => new Vector2(50 * _savedPlayerPos, 0),
-            > 9500 => new Vector2(Mathf.Sign(difPos.x), 5 * difPos.y),
-            < 200 => new Vector2(Mathf.Sign(difPos.x), 5 * difPos.y),
+            > 9700 => new Vector2(50 * _savedPlayerPos, 0),
+            > 9000 => new Vector2(Mathf.Sign(difPos.x) / 5, Mathf.Sign(difPos.y) / 5),
+            < 200 => new Vector2(Mathf.Sign(difPos.x) / 5, 5 * difPos.y),
             < 500 => new Vector2(-15 * Mathf.Sign(difPos.x), 5 * difPos.y),
             < 6000 and >= 4000 => (_followingTimer % 200 < 100) ? new Vector2(difPos.x, difPos.y + 15) : new Vector2(difPos.x, difPos.y + 10) ,
             _ => difPos / 2

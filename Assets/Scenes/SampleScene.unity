@@ -1455,6 +1455,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 51d8840a3a1d1054ca0b14a411cf6fbd, type: 2}
   - {fileID: 11400000, guid: f24867e562fced2468701b482e6886d9, type: 2}
   - {fileID: 11400000, guid: 32c0c9a1825b10d459cad359eb9613c5, type: 2}
+  - {fileID: 11400000, guid: b5a81b5b707867747a34e1126cadad0c, type: 2}
   multiplierUI: {x: 80, y: 100}
   offsetUI: {x: 50, y: 200}
 --- !u!95 &948174817
@@ -1721,10 +1722,14 @@ MonoBehaviour:
   map: {fileID: 5814380809358227074, guid: a89291253c4a1034a9dbabc8917a9832, type: 3}
   audioController: {fileID: 95859389}
   lightController: {fileID: 1574312024}
+  progressBarPrefab: {fileID: 3687277355207522248, guid: 5ab81e04e9b207f429ac9abc3b6d95ec, type: 3}
   normalMusic: {fileID: 8300000, guid: e92a55984656d6745b5b22793ed1e07f, type: 3}
   bossMusic: {fileID: 8300000, guid: 3b6ed2d6fdfde72448e1a72ffa091ffe, type: 3}
+  bossSpawned: 0
   executioner: {fileID: 2244513902682239445, guid: b1062f9eaaf6fe24a8fdf70d61493eb3, type: 3}
   count: 0
+  slider: {fileID: 0}
+  boss: {fileID: 0}
 --- !u!1 &1495951014
 GameObject:
   m_ObjectHideFlags: 0

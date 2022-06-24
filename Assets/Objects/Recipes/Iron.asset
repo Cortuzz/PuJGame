@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b68da94d4cf23e43abd8c4bbc31db04, type: 3}
-  m_Name: Arrow
+  m_Name: Iron
   m_EditorClassIdentifier: 
   _components:
-  - {fileID: 11400000, guid: 670049898beb88a49bddc4016a1620c3, type: 2}
-  - {fileID: 11400000, guid: a989cbac3e1a80942a6b30ba0a3ed445, type: 2}
-  - {fileID: 11400000, guid: a04689de280a9b042969c0176f5aaed8, type: 2}
-  _componentsCount: 020000000300000001000000
-  _item: {fileID: 11400000, guid: 582d27db7f4008a4b8d077e0f567493f, type: 2}
-  _itemCount: 10
-  ovenNeed: 0
+  - {fileID: 11400000, guid: 1d39916bf00df964b9cfbe29cb5f3001, type: 2}
+  - {fileID: 11400000, guid: 85ea2c6e43b089c40939597fb9b0f994, type: 2}
+  _componentsCount: 0100000001000000
+  _item: {fileID: 11400000, guid: a04689de280a9b042969c0176f5aaed8, type: 2}
+  _itemCount: 2
+  ovenNeed: 1

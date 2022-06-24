@@ -10,6 +10,7 @@ public class Recipe : ScriptableObject
     public int[] _componentsCount;
     public Item _item;
     public int _itemCount;
+    public bool ovenNeed;
 
     public bool CanCraft(Inventory inventory)
     {
