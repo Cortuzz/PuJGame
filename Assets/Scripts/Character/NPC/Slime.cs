@@ -7,6 +7,9 @@ public sealed class Slime : Enemy
     private int _triggerDistance = 5;
     private BoxCollider2D _boxCollider;
 
+    private int deathTime = 80;
+    private bool isDeath = false;
+
     protected override void Awake()
     {
         _boxCollider = GetComponent<BoxCollider2D>();
@@ -15,9 +18,9 @@ public sealed class Slime : Enemy
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (!col.CompareTag("Entity")) 
+        if (!col.CompareTag("Entity"))
             return;
-        
+
         TakeDamage(col.GetComponent<Damage>().damage);
         Destroy(col.gameObject);
     }
@@ -41,7 +44,7 @@ public sealed class Slime : Enemy
     public override void MoveUpdate()
     {
         _patrolCount++;
-        
+
         if (_patrolCount % 500 == 0)
         {
             _patrolCount = 0;
@@ -63,16 +66,20 @@ public sealed class Slime : Enemy
 
     protected override void GiveDrop()
     {
-        
     }
 
     protected override void CheckAggro()
     {
+        if (isDeath)
+        {
+            return;
+        }
+
         Vector2 playerPosition = World.player.GetPosition();
         Vector2 position = _rb.position;
         var distance =
             Mathf.Sqrt(Mathf.Pow(playerPosition.x - position.x, 2) + Mathf.Pow(playerPosition.y - position.y, 2));
-        
+
         isAggred = distance < _triggerDistance;
 
         if (distance < 2)
@@ -80,7 +87,7 @@ public sealed class Slime : Enemy
             _animator.Play("Attack");
             return;
         }
-        
+
         _animator.Play("Idle");
     }
 
@@ -90,5 +97,18 @@ public sealed class Slime : Enemy
         CheckDirection();
         MoveUpdate();
         CheckAggro();
+
+        if (isDeath) 
+            deathTime--;
+
+        if (deathTime == 0)
+            Destroy(gameObject);
+    }
+
+    public override void Die()
+    {
+        _animator.Play("Death");
+        GiveDrop();
+        isDeath = true;
     }
 }
