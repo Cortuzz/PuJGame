@@ -76,7 +76,7 @@ public class RectCollider : Collider
     }*/
     }
 
-    public override void CheckSideCollision()
+    public override bool CheckSideCollision()
     {
         var roundedLeftPos = GetLeftBottomPosition(_transform, 0.01f);
         var roundedRightPos = GetRigthTopPosition(_transform);
@@ -95,7 +95,7 @@ public class RectCollider : Collider
         var isRightCollision = bottomRightBlock != null || topRightBlock != null;
 
         if (!isLeftCollision && !isRightCollision)
-            return;
+            return false;
 
         var position = _transform.position;
         var xPos = isRightCollision switch
@@ -107,5 +107,6 @@ public class RectCollider : Collider
 
         position = new Vector3(Mathf.Lerp(position.x, xPos, 0.2f), position.y);
         _transform.position = position;
+        return true;
     }
 }

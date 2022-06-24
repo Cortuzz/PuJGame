@@ -62,12 +62,25 @@ public class PlayerController : Character.Character, IObservable
     public void SpawnArrow()
     {
         var arrow = Instantiate(arrowPrefab, transform.parent);
-        var position =  transform.position;
-        position.x -= Mathf.Sign(transform.localScale.x);
+        var position = transform.position;
+        var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        var positionDif = mousePos - position;
+        var hyp = Mathf.Sqrt(Mathf.Pow(positionDif.x, 2) + Mathf.Pow(positionDif.y, 2));
+        var trigonometrical = positionDif / hyp;
+        var sign = Mathf.Sign(transform.localScale.x);
+
+        var angle = Mathf.Rad2Deg * (float)Math.Acos(trigonometrical.x);
+        if (trigonometrical.y < 0)
+        {
+            angle *= -1;
+        }
+        arrow.transform.rotation = Quaternion.Euler(0, 0, angle + 210);
+
+        position.x -= Mathf.Sign(sign);
         arrow.transform.position = position;
         
         var rb = arrow.GetComponent<Rigidbody2D>();
-        rb.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 10, rb.velocity.y);
+        rb.velocity = 20 * trigonometrical;
     }
 
     public void CheckActiveItemDown()

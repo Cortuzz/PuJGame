@@ -15,10 +15,11 @@ public sealed class Slime : Enemy
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.CompareTag("Entity"))
-        {
-            TakeDamage(col.GetComponent<Damage>().damage);
-        }
+        if (!col.CompareTag("Entity")) 
+            return;
+        
+        TakeDamage(col.GetComponent<Damage>().damage);
+        Destroy(col.gameObject);
     }
 
     public override void CheckCollisions()

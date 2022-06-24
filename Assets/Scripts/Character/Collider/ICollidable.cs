@@ -4,5 +4,5 @@ public interface ICollidable
 
     public void CheckTopCollision();
 
-    public void CheckSideCollision();
+    public bool CheckSideCollision();
 }
