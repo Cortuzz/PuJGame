@@ -149,7 +149,7 @@ public class GameController : MonoBehaviour, IObserver
 
     public void SpawnMobs()
     {
-        if (World.mobCount > 3 || Random.Range(0, 1000) > 0)
+        if (World.mobCount >= 3 || Random.Range(0, 2500) > 0)
             return;
 
         var position = playerController.GetPosition();
