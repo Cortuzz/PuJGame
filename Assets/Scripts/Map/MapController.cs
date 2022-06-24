@@ -49,14 +49,18 @@ public class MapController : MonoBehaviour
         {
             for (int j = (int)position.y - _mapCheckRadius; j < position.y + _mapCheckRadius; j++)
             {
-                if (Mathf.Pow(i - position.x, 2) + Mathf.Pow(j - position.y, 2) < Mathf.Pow(_mapCheckRadius, 2))
-                {
-                    var chunk = i / World.chunkSize;
-                    var x = i % World.chunkSize;
+                if (j < 0 || j >= World.height || i < 0 || i >= World.width)
+                    continue;
+
+                if (!(Mathf.Pow(i - position.x, 2) + Mathf.Pow(j - position.y, 2) <
+                      Mathf.Pow(_mapCheckRadius, 2))) 
+                    continue;
+                
+                var chunk = i / World.chunkSize;
+                var x = i % World.chunkSize;
                     
-                    UpdateBlock(chunk, x, j, World.GetBlock(i, j, true));
-                    UpdateBlock(chunk, x, j, World.GetBlock(i, j), true);
-                }
+                UpdateBlock(chunk, x, j, World.GetBlock(i, j, true));
+                UpdateBlock(chunk, x, j, World.GetBlock(i, j), true);
             }
         }
     }

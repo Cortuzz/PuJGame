@@ -58,7 +58,8 @@ MonoBehaviour:
   regenerationTime: 0
   spawnPos: {x: 64, y: 421}
   isAggred: 0
-  bodyDamage: 20
+  bodyDamage: 15
+  weaponDamage: 35
 --- !u!50 &-7062761267976165791
 Rigidbody2D:
   serializedVersion: 4

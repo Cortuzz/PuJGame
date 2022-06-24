@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Executioner : Enemy
 {
+    public int weaponDamage;
     private int _patrolCount = 0;
     private int _triggerDistance = 5;
     private BoxCollider2D _boxCollider;
@@ -91,12 +92,12 @@ public class Executioner : Enemy
         Vector2 position = _rb.position;
         isAggred = Mathf.Sqrt(Mathf.Pow(playerPosition.x - position.x, 2) + Mathf.Pow(playerPosition.y - position.y, 2)) < _triggerDistance;
 
-        if (!isAggred)
+        if (!isAggred || _followingTimer > 1920)
         {
             _animator.Play("Idle");
             return;
         }
-            
+
         _animator.Play("Attack");
     }
 

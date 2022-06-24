@@ -44,6 +44,11 @@ public class PlayerController : Character.Character, IObservable
         if (!other.CompareTag("Enemy"))
             return;
 
+        if (other as EdgeCollider2D)
+        {
+            TakeDamage(other.GetComponent<Executioner>().weaponDamage);
+            return;
+        }
         TakeDamage(other.GetComponent<Enemy>().bodyDamage);
     }
 

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public static class World
 {
+    public static int mobCount;
     public static int height;
     public static int width;
     public static int chunkSize;

@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using Random = UnityEngine.Random;
 
 public class GameController : MonoBehaviour, IObserver
 {
@@ -49,6 +51,8 @@ public class GameController : MonoBehaviour, IObserver
         World.SetPlayer(playerController);
         World.craftController = playerController.gameObject.GetComponent<CraftController>();
         map = Instantiate(map, transform.parent);
+        
+       // SpawnExecutioner();
     }
 
     public void GenerateChunk(int chunk)
@@ -130,14 +134,7 @@ public class GameController : MonoBehaviour, IObserver
     private void FixedUpdate()
     {
         UpdateChunks();
-        if (count >= 1) return;
-        
-        ++count;
-        SpawnExecutioner();
-        
-        GameObject mob = Instantiate(prefab, transform, false);
-        var script = mob.GetComponent<Character.Character>();
-        script.Spawn(World.width / 2, World.GetHeightAt(World.width / 2));
+        SpawnMobs();
     }
 
     public bool TryAddBlock(PlayerController player, Vector2Int roundedPos, bool removingPrimary)
@@ -159,6 +156,50 @@ public class GameController : MonoBehaviour, IObserver
         player.inventory.RemoveActiveItem();
 
         return true;
+    }
+
+    public void SpawnMobs()
+    {
+        if (World.mobCount > 3 || Random.Range(0, 1000) > 0)
+            return;
+
+        var position = playerController.GetPosition();
+        var chunk = (int)position.x / World.chunkSize;
+        var spawnPositions = new List<Vector2Int>();
+
+        for (var i = 2; i < World.chunkSize - 2; i++)
+        {
+            for (var j = (int)position.y - 60; j < position.y + 20; j++)
+            {
+                try
+                {
+                    var f1 = World.GetBlock(chunk, i, j) != null || World.GetBlock(chunk, i - 1, j) != null ||
+                             World.GetBlock(chunk, i + 1, j) != null;
+                    var f2 = World.GetBlock(chunk, i, j - 1) == null || World.GetBlock(chunk, i - 1, j - 1) == null ||
+                             World.GetBlock(chunk, i + 1, j - 1) == null;
+
+                    if (f1 || f2)
+                        continue;
+
+                    spawnPositions.Add(new Vector2Int(i, j));
+                }
+                catch (Exception e)
+                {
+                    continue;
+                }
+            }
+        }
+
+        if (spawnPositions.Count == 0)
+            return;
+
+        var randIndex = Random.Range(0, spawnPositions.Count);
+        var pos = spawnPositions[randIndex];
+        
+        GameObject mob = Instantiate(prefab, transform, false);
+        var script = mob.GetComponent<Character.Character>();
+        script.Spawn(pos.x + chunk * chunkSize, pos.y);
+        World.mobCount++;
     }
 
     public void ObserverUpdate(IObservable observable)

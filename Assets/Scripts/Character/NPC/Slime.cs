@@ -93,6 +93,18 @@ public sealed class Slime : Enemy
 
     void FixedUpdate()
     {
+        var pos = transform.position;
+        var playerPos = World.player.transform.position;
+        var xDist = Mathf.Abs(pos.x - playerPos.x);
+        var yDist = Mathf.Abs(pos.y - playerPos.y);
+        
+        if (xDist + yDist > 50)
+        {
+            World.mobCount--;
+            Destroy(gameObject);
+            return;
+        }
+
         CheckCollisions();
         CheckDirection();
         MoveUpdate();
@@ -108,6 +120,7 @@ public sealed class Slime : Enemy
     public override void Die()
     {
         _animator.Play("Death");
+        World.mobCount--;
         GiveDrop();
         isDeath = true;
     }
