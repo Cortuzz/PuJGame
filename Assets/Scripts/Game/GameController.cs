@@ -47,8 +47,6 @@ public class GameController : MonoBehaviour, IObserver
         World.SetPlayer(playerController);
         World.craftController = playerController.gameObject.GetComponent<CraftController>();
         map = Instantiate(map, transform.parent);
-        
-        SpawnExecutioner();
     }
 
     public void GenerateChunk(int chunk)
@@ -138,6 +136,61 @@ public class GameController : MonoBehaviour, IObserver
         slider.value = (float)boss.health / boss.maxHealth;
     }
 
+    public void CheckBossSpawn(Vector2Int position)
+    {
+        try
+        {
+            List<Vector2Int> toRemove = new List<Vector2Int>();
+
+            var headsCount = 0;
+            var sandCount = 0;
+
+            for (int i = position.x - 1; i <= position.x + 1; i++)
+            {
+                if (World.GetBlock(i, position.y).name == "Head")
+                {
+                    headsCount++;
+                    toRemove.Add(new Vector2Int(i, position.y));
+                }
+            }
+
+            if (headsCount < 3)
+                return;
+
+            for (int i = position.x - 1; i <= position.x + 1; i++)
+            {
+                if (World.GetBlock(i, position.y - 1).name == "Sand")
+                {
+                    sandCount++;
+                    toRemove.Add(new Vector2Int(i, position.y - 1));
+                }
+            }
+
+            if (sandCount < 3)
+                return;
+
+            if (World.GetBlock(position.x - 1, position.y - 2) != null ||
+                World.GetBlock(position.x + 1, position.y - 2) != null ||
+                World.GetBlock(position.x, position.y - 2).name != "Sand")
+                return;
+            
+            World.SetBlock(position.x, position.y - 2, null);
+            Destroy(_tileObjects[position.x, position.y - 2, 0]);
+
+            foreach (var vector in toRemove)
+            {
+                World.SetBlock(vector.x, vector.y, null);
+                Destroy(_tileObjects[vector.x, vector.y, 0]);
+            }
+
+            SpawnExecutioner();
+        }
+        catch (Exception e)
+        {
+            
+        }
+    }
+
     public bool TryAddBlock(PlayerController player, Vector2Int roundedPos, bool removingPrimary)
     {
         Item item = player.GetItem();
@@ -155,6 +208,9 @@ public class GameController : MonoBehaviour, IObserver
         RenderTile(block, _chunks[roundedPos.x / World.chunkSize], roundedPos.x, roundedPos.y, b);
         World.SetBlock(roundedPos.x, roundedPos.y, block, !removingPrimary);
         player.inventory.RemoveActiveItem();
+        
+        if (block.name == "Head")
+            CheckBossSpawn(roundedPos);
 
         return true;
     }

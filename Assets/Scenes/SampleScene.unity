@@ -1320,6 +1320,8 @@ MonoBehaviour:
   arrowPrefab: {fileID: 4123099353985754962, guid: 21902b4c616476747b2eaff48314e4f6, type: 3}
   arrowItem: {fileID: 11400000, guid: 582d27db7f4008a4b8d077e0f567493f, type: 2}
   _attackTimeout: 300
+  dropItemPrefab: {fileID: 2316480669085568996, guid: 37b787714738ac64181f5d081a23dec0, type: 3}
+  dropItem: {fileID: 11400000, guid: 2af000af3c6415c45a5628d833106f6c, type: 2}
 --- !u!70 &948174813
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

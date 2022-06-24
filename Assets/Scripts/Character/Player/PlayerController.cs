@@ -33,6 +33,9 @@ public class PlayerController : Character.Character, IObservable
     public int _attackTimeout = 200;
     private int _attackCounter;
 
+    public GameObject dropItemPrefab;
+    public Item dropItem;
+
     protected override void Awake()
     {
         inventory = GetComponent<Inventory>();
@@ -142,6 +145,12 @@ public class PlayerController : Character.Character, IObservable
 
     public override void Die()
     {
+        var dropItemObject = Instantiate(dropItemPrefab, transform.position, Quaternion.identity);
+        var script = dropItemObject.GetComponent<TileDrop>();
+
+        script.item = dropItem; 
+        script.Instantiate();
+        
         Spawn();
     }
 
