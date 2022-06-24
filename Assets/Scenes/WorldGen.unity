@@ -225,11 +225,11 @@ MonoBehaviour:
   chunksObject: {fileID: 0}
   height: 400
   chunkSize: 32
-  chunksCount: 32
+  chunksCount: 16
   index: 0
   genIndex: 0
   renderTimer: 0
-  initialRenderTimer: 100
+  initialRenderTimer: 30
 --- !u!4 &1164715937
 Transform:
   m_ObjectHideFlags: 0
