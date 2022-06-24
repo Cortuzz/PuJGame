@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,7 +42,7 @@ public class Tile : ScriptableObject
     }
 }
 
-
+[System.Serializable]
 public class Block
 {
     public string name;
@@ -49,6 +50,9 @@ public class Block
     public Sprite sprite;
     public bool isBackground;
     public Color color;
+    public int thirdIndex;
+    public int secondIndex;
+    public int firstIndex;
 
     public Block(string name, Item itemDrop, Sprite sprite, bool isBackground, Color color)
     {
