@@ -96,7 +96,7 @@ public class Collider : ICollidable
         }
     }
 
-    public virtual void CheckSideCollision()
+    public virtual bool CheckSideCollision()
     {
         Vector2 roundedPos = GetRoundedPosition(_transform);
         int chunkNumber = GetChunkNumber(ref roundedPos, World.chunkSize);
@@ -140,5 +140,7 @@ public class Collider : ICollidable
             var newPos = new Vector2(xPos, _transform.position.y);
             _transform.position = newPos;
         }
+
+        return true;
     }
 }

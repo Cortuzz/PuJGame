@@ -80,7 +80,7 @@ public class PlayerController : Character.Character, IObservable
         arrow.transform.position = position;
         
         var rb = arrow.GetComponent<Rigidbody2D>();
-        rb.velocity = 10 * trigonometrical;
+        rb.velocity = 20 * trigonometrical;
     }
 
     public void CheckActiveItemDown()
