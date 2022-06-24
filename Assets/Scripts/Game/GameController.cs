@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
+using Configs;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
@@ -119,7 +119,7 @@ public class GameController : MonoBehaviour, IObserver
     private void Update()
     {
         if (World.isGamePaused) return;
-        if (Input.GetKeyDown(KeyCode.M))
+        if (KeyboardBindings.GetKeyDown("Map"))
         {
             map.GetComponent<MapController>().ChangeVisibility();
         }

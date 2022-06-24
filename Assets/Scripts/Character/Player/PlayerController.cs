@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Configs;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -190,19 +191,19 @@ public class PlayerController : Character.Character, IObservable
 
     public override void MoveUpdate()
     {
-        horizontalSpeed = Input.GetAxis("Horizontal");
-
+        // horizontalSpeed = Input.GetAxis("Horizontal");
+        horizontalSpeed = KeyboardBindings.GetHorizontalKey();
         Vector2 movement = new(horizontalSpeed * speed, Mathf.Max(_rb.velocity.y, -50));
 
         if (onGround)
         {
-            if (Input.GetKeyDown(KeyCode.Space) && holdingJump == false)
+            if (KeyboardBindings.GetKeyDown("Jump") && holdingJump == false)
             {
                 holdJumpTime = Time.time;
                 holdingJump = true;
             }
 
-            if (Input.GetKeyUp(KeyCode.Space) && holdingJump)
+            if (KeyboardBindings.GetKeyUp("Jump") && holdingJump)
             {
                 holdingJump = false;
                 SetOnGround(false);

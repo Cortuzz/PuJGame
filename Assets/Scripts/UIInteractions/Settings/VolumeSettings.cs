@@ -9,7 +9,7 @@ namespace UIInteractions.Settings
         
         public AudioMixer audioMixer;
 
-        private float FixVolume(float volume)
+        private static float FixVolume(float volume)
         {
             return volume - Difference;
         }
