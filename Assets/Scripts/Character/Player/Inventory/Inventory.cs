@@ -196,6 +196,10 @@ public class Inventory : MonoBehaviour
                 slot.GetComponent<RectTransform>().localPosition = 
                     new Vector3(i * multiplierUI.x + offsetUI.x, j * multiplierUI.y + offsetUI.y, 0);
 
+                var script = slot.GetComponent<InventorySlotUI>();
+                script.x = i;
+                script.y = j;
+
                 slotsUI[i, j] = slot;
                 slots[i, j] = null;
 
@@ -205,6 +209,10 @@ public class Inventory : MonoBehaviour
                 GameObject hotbarSlot = Instantiate(inventorySlotPrefab, inventoryUI.transform.GetChild(1).transform);
                 hotbarSlot.GetComponent<RectTransform>().localPosition =
                     new Vector3(i * multiplierHotbarUI.x + offsetHotbarUI.x, offsetHotbarUI.y, 0);
+                
+                var scriptHotBar = hotbarSlot.GetComponent<InventorySlotUI>();
+                scriptHotBar.x = i;
+                scriptHotBar.isHotBar = true;
 
                 slotsHotbarUI[i] = hotbarSlot;
                 slotsHotbar[i] = null;

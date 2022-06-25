@@ -16,6 +16,8 @@ public static class World
     public static bool destroyBoss;
     public static bool boss;
 
+    public static InventorySlot tempSlot;
+
     private static bool _isMapOpened;
 
     public static void SetWorldInfo(int height_, int chunkSize_, int chunkCount_)
