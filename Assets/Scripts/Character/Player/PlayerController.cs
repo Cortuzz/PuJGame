@@ -183,7 +183,7 @@ public class PlayerController : Character.Character, IObservable
     public override void CheckCollisions()
     {
         var collision = _collider.CheckBottomCollision();
-        var fallDamage = (int)(jumpTicks / 5 - 20);
+        var fallDamage = (int)(jumpTicks / 3 - 20);
         if (collision && fallDamage > 0)
             TakeDamage(fallDamage); // TODO: �������� � ����� ������� / ��������� �������
         SetOnGround(collision);

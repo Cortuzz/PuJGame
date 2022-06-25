@@ -44,8 +44,8 @@ public class Summon : Enemy
 
         _rb.velocity = _followingTimer switch
         {
-            > 800 => new Vector2(-Mathf.Sign(difPos.x) / 2, Mathf.Sign(difPos.y)),
-            > 200 => new Vector2(5 * Mathf.Sign(difPos.x), 5 * Mathf.Sign(difPos.y)),
+            > 850 => new Vector2(-Mathf.Sign(difPos.x) / 2, Mathf.Sign(difPos.y)),
+            > 150 => new Vector2(10 * Mathf.Sign(difPos.x), 10 * Mathf.Sign(difPos.y)),
             _ => new Vector2(Mathf.Sign(difPos.x), -Mathf.Sign(difPos.y) / 2)
         };
         

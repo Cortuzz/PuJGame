@@ -107,9 +107,9 @@ public class Executioner : Enemy
         if (_followingTimer is 5500 or 4500 or 5000)
         {
                 SpawnSummons(new Vector2(3, 0));
-                if (health < 500)
+                if (health < 300)
                     SpawnSummons(new Vector2(5, 0));
-                if (health	< 300)
+                if (health	< 100)
                     SpawnSummons(difPos);
                 spawnSummonTime = 175;
         }
