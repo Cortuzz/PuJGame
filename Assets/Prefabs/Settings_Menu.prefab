@@ -7569,7 +7569,7 @@ GameObject:
   - component: {fileID: 6308063423801020444}
   - component: {fileID: 2018559796019227355}
   - component: {fileID: 1001670271240490973}
-  - component: {fileID: 9058398132086473412}
+  - component: {fileID: 8144479009532569211}
   m_Layer: 5
   m_Name: Volume Settings Button
   m_TagString: Untagged
@@ -7692,7 +7692,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &9058398132086473412
+      - m_Target: {fileID: 7222322672254758391}
+        m_TargetAssemblyTypeName: UIInteractions.Settings.SwitchButtonsSelect, Assembly-CSharp
+        m_MethodName: MakeSelected
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1001670271240490973}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &8144479009532569211
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7701,10 +7713,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8474252457148276464}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fb6f188b2b4874418ac24f88f7ff1ed, type: 3}
+  m_Script: {fileID: 11500000, guid: 63c1a4b5128e457c895697fc6355e237, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  theText: {fileID: 5309969743855898257}
 --- !u!1 &8483319303364670996
 GameObject:
   m_ObjectHideFlags: 0
@@ -8251,6 +8262,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 7222322672254758391}
+        m_TargetAssemblyTypeName: UIInteractions.Settings.SwitchButtonsSelect, Assembly-CSharp
+        m_MethodName: MakeSelected
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8594834370720606615}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -9317,6 +9340,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 7222322672254758391}
+        m_TargetAssemblyTypeName: UIInteractions.Settings.SwitchButtonsSelect, Assembly-CSharp
+        m_MethodName: MakeSelected
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8594834371992393187}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &8594834371992393186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9601,6 +9636,7 @@ GameObject:
   - component: {fileID: 1793957258213000185}
   - component: {fileID: 2142052699993487196}
   - component: {fileID: 9041707335279044615}
+  - component: {fileID: 7222322672254758391}
   m_Layer: 5
   m_Name: Settings_Menu
   m_TagString: Untagged
@@ -9737,6 +9773,22 @@ MonoBehaviour:
   keybindingsWindow: {fileID: 3959362384052127006}
   volumeWindow: {fileID: 8594834371553247992}
   graphicsWindow: {fileID: 3502754715543668072}
+--- !u!114 &7222322672254758391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8594834372179588985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50b410cc09714b66b859726ea668acab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttons:
+  - {fileID: 1001670271240490973}
+  - {fileID: 8594834370720606615}
+  - {fileID: 8594834371992393187}
 --- !u!1 &8594834372257402860
 GameObject:
   m_ObjectHideFlags: 0

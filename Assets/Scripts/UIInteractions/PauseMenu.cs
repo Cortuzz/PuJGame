@@ -3,6 +3,7 @@ using TMPro;
 using UIInteractions.Settings;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using WorldSaving;
 
 namespace UIInteractions
 {
@@ -34,7 +35,7 @@ namespace UIInteractions
 
             foreach (var text in menuText)
             {
-                text.color = MenuButton.baseColor;
+                text.color = MenuButton.BaseColor;
             }
         }
 
@@ -52,6 +53,11 @@ namespace UIInteractions
             PrevCurrStates.SetStates(pauseMenuUI, settingsMenuUI);
         }
 
+        public void SaveGame()
+        {
+            WorldSavingController.SaveToFile();
+        }
+        
         public void LoadMenu()
         {
             Debug.Log("Loading menu");
