@@ -12,7 +12,10 @@ public sealed class Slime : Enemy
 
     private int damageTime = 100;
     private int initialDamage = 100;
-    private int _collisionTimer = 4; 
+    private int _collisionTimer = 4;
+
+    public GameObject dropItemPrefab;
+    public Item dropItem;
     
     protected override void Awake()
     {
@@ -78,6 +81,11 @@ public sealed class Slime : Enemy
 
     protected override void GiveDrop()
     {
+        var dropItemObject = Instantiate(dropItemPrefab, transform.position, Quaternion.identity);
+        var script = dropItemObject.GetComponent<TileDrop>();
+
+        script.item = dropItem; 
+        script.Instantiate();
     }
 
     protected override void CheckAggro()

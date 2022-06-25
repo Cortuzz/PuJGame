@@ -66,6 +66,13 @@ public class Executioner : Enemy
         this.onGround = onGround;
     }
 
+    public override void Die()
+    {
+        World.destroyBoss = true;
+        GiveDrop();
+        Destroy(gameObject);
+    }
+
     protected override void GiveDrop()
     {
         
@@ -85,8 +92,14 @@ public class Executioner : Enemy
         {
             > 9700 => new Vector2(50 * _savedPlayerPos, 0),
             > 9000 => new Vector2(Mathf.Sign(difPos.x) / 5, Mathf.Sign(difPos.y) / 5),
+            > 7500 and < 8000 => new Vector2(-15 * Mathf.Sign(difPos.x), 5 * difPos.y),
+            > 7200 and <= 7500 => new Vector2(Mathf.Sign(difPos.x) / 5, 5 * difPos.y),
+            > 6900 and <= 7200 => new Vector2(50 * _savedPlayerPos, 0),
+            > 6000 and <= 6900 => new Vector2(5 * Mathf.Sign(difPos.x), difPos.y + 15),
             < 200 => new Vector2(Mathf.Sign(difPos.x) / 5, 5 * difPos.y),
             < 500 => new Vector2(-15 * Mathf.Sign(difPos.x), 5 * difPos.y),
+            < 4000 and > 3800 => new Vector2(0, 0),
+            < 2000 and > 1800 => new Vector2(0, 0),
             < 6000 and >= 4000 => (_followingTimer % 200 < 100) ? new Vector2(difPos.x, difPos.y + 15) : new Vector2(difPos.x, difPos.y + 10) ,
             _ => difPos / 2
         };
@@ -94,8 +107,15 @@ public class Executioner : Enemy
         if (_followingTimer is 5500 or 4500 or 5000)
         {
                 SpawnSummons(new Vector2(3, 0));
+                if (health < 300)
+                    SpawnSummons(new Vector2(3, 0));
+                if (health	< 100)
+                    SpawnSummons(new Vector2(3, 0));
                 spawnSummonTime = 175;
         }
+        
+        if (_followingTimer > 7200 && _followingTimer <= 7500)
+            _savedPlayerPos = Mathf.Sign(difPos.x);
 
         if (_followingTimer > 0)
             return;
@@ -116,7 +136,24 @@ public class Executioner : Enemy
             return;
         }
 
-        if (!isAggred || _followingTimer > 9850)
+        if (_followingTimer is <= 3902 and >= 3898 or <= 2902 and >= 2898)
+        {
+            transform.position = World.player.transform.position;
+        }
+
+        if (_followingTimer is < 4000 and > 3900 or < 3000 and > 2900)
+        {
+            _animator.Play("Skill");
+            return;
+        }
+        
+        if (_followingTimer is < 4000 and > 3800 or < 3000 and > 2900)
+        {
+            _animator.Play("PostSkill");
+            return;
+        }
+
+        if (!isAggred || _followingTimer is > 9700 or > 6900 and <= 7200)
         {
             _animator.Play("Idle");
             return;
@@ -131,7 +168,8 @@ public class Executioner : Enemy
         MoveUpdate();
         FollowToPlayer();
         CheckAggro();
-        _followingTimer = Mathf.Max(_followingTimer - 1, 0);
+        int state = ((float)health / maxHealth > 0.3) ? 1 : 2;	 
+        _followingTimer = Mathf.Max(_followingTimer - state, 0);
         spawnSummonTime = Mathf.Max(spawnSummonTime - 1, 0);
     }
 }

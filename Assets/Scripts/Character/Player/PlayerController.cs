@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Configs;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,9 +34,19 @@ public class PlayerController : Character.Character, IObservable
     private int _healthUpdateCounter = 0;
     public int _attackTimeout = 200;
     private int _attackCounter;
+    private int _frozenCount;
 
     public GameObject dropItemPrefab;
     public Item dropItem;
+
+    public GameObject buffSystem;
+    public GameObject debuffSystem;
+    public GameObject attackSystem;
+    public GameObject invulnerabilitySystem;
+    public GameObject lightSystem;
+    public GameObject freezeSystem;
+
+    [SerializeField] private int _healthRegenDelay = 0;
 
     protected override void Awake()
     {
@@ -53,7 +64,15 @@ public class PlayerController : Character.Character, IObservable
             TakeDamage(other.GetComponent<Executioner>().weaponDamage);
             return;
         }
-        TakeDamage(other.GetComponent<Enemy>().bodyDamage);
+
+        var enemy = other.GetComponent<Enemy>();
+        if (enemy.isDying)
+        {
+            Destroy(enemy.gameObject);
+            _frozenCount += 200;
+            return;
+        }
+        TakeDamage(enemy.bodyDamage);
     }
 
     public void Attack()
@@ -146,6 +165,7 @@ public class PlayerController : Character.Character, IObservable
 
     public override void Die()
     {
+        World.destroyBoss = true;
         var dropItemObject = Instantiate(dropItemPrefab, transform.position, Quaternion.identity);
         var script = dropItemObject.GetComponent<TileDrop>();
 
@@ -163,7 +183,7 @@ public class PlayerController : Character.Character, IObservable
     public override void CheckCollisions()
     {
         var collision = _collider.CheckBottomCollision();
-        var fallDamage = (int)(jumpTicks / 5 - 10);
+        var fallDamage = (int)(jumpTicks / 5 - 20);
         if (collision && fallDamage > 0)
             TakeDamage(fallDamage); // TODO: �������� � ����� ������� / ��������� �������
         SetOnGround(collision);
@@ -255,6 +275,20 @@ public class PlayerController : Character.Character, IObservable
         }
     }
 
+    private bool CheckFood(Item item)
+    {
+        if (item == null || item.name != "HP")
+            return false;
+
+        if (_healthRegenDelay > 0)
+            return true;
+
+        health = Mathf.Min(health + 50, maxHealth);
+        _healthRegenDelay = 15000;
+        inventory.Remove(item);
+        return true;
+    }
+
     private void MouseUpdate()
     {
         _mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -263,6 +297,9 @@ public class PlayerController : Character.Character, IObservable
         bool triggerUpLmb = Input.GetMouseButtonUp(0);
         removingPrimaryBlock = triggerLmb;
         var item = inventory.GetActiveItem();
+
+        if (triggerLmb && CheckFood(item))
+            return;
 
         if (triggerUpLmb)
         {
@@ -290,6 +327,13 @@ public class PlayerController : Character.Character, IObservable
 
     private void FixedUpdate()
     {
+        debuffSystem.SetActive(_healthRegenDelay > 0);
+        buffSystem.SetActive(_regeneration == 0);
+        invulnerabilitySystem.SetActive(_invulnerability > 0);
+        attackSystem.SetActive(_attackCounter > 0);
+        lightSystem.SetActive(World.boss);
+        freezeSystem.SetActive(_frozenCount > 0);
+        
         blockAction = false;
         Notify();
         CheckCollisions();
@@ -298,6 +342,13 @@ public class PlayerController : Character.Character, IObservable
         _invulnerability = Mathf.Max(_invulnerability - 1, 0);
         _regeneration = Mathf.Max(_regeneration - 1, 0);
         _attackCounter = Mathf.Max(_attackCounter - 1, 0);
+        _healthRegenDelay = Mathf.Max(_healthRegenDelay - 1, 0);
+        _frozenCount = Mathf.Max(_frozenCount - 1, 0);
+
+        if (_frozenCount > 0)
+        {
+            _rb.velocity = new Vector2(0, 0);
+        }
 
         if (Input.GetKeyDown(KeyCode.Q))
         {

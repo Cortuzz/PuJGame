@@ -13,6 +13,8 @@ public static class World
     public static PlayerController player;
     public static bool isGamePaused;
     public static CraftController craftController;
+    public static bool destroyBoss;
+    public static bool boss;
 
     private static bool _isMapOpened;
 

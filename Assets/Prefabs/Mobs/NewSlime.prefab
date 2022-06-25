@@ -147,15 +147,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
-  maxHealth: 60
-  initialHealth: 60
+  maxHealth: 30
+  initialHealth: 30
   horizontalSpeed: 0.2
   onGround: 0
   invulnerabilityTime: 0
   regenerationTime: 0
   spawnPos: {x: 0, y: 0}
   isAggred: 0
-  bodyDamage: 15
+  bodyDamage: 10
+  dropItemPrefab: {fileID: 2316480669085568996, guid: 37b787714738ac64181f5d081a23dec0, type: 3}
+  dropItem: {fileID: 11400000, guid: ef0049d098c001945a279527d8bbf095, type: 2}
 --- !u!212 &-5660424356965616639
 SpriteRenderer:
   m_ObjectHideFlags: 0

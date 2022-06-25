@@ -22,6 +22,7 @@ public class GameController : MonoBehaviour, IObserver
     public GameObject audioController;
     public GameObject lightController;
     public GameObject progressBarPrefab;
+    public GameObject progressBar;
     
     public AudioClip normalMusic;
     public AudioClip bossMusic;
@@ -125,6 +126,28 @@ public class GameController : MonoBehaviour, IObserver
         }
     }
 
+    private void CheckBossDeath()
+    {
+        if (!(World.destroyBoss && bossSpawned))
+            return;
+        
+        Destroy(boss.gameObject);
+        Destroy(progressBar);
+        World.destroyBoss = false;
+        bossSpawned = false;
+        World.boss = false;
+
+        var audioSource = audioController.GetComponent<AudioSource>();
+        var lighting = lightController.GetComponent<Light2D>();
+        var color = new Color(0.1921569f, 0.3019608f, 4745098f);
+        Camera.main.backgroundColor = color;
+        
+        lighting.color = new Color(1f, 1f, 1f);
+        lighting.intensity = 1f;
+        audioSource.clip = normalMusic;
+        audioSource.Play();
+    }
+
     private void FixedUpdate()
     {
         UpdateChunks();
@@ -134,6 +157,7 @@ public class GameController : MonoBehaviour, IObserver
             return;
 
         slider.value = (float)boss.health / boss.maxHealth;
+        CheckBossDeath();
     }
 
     public void CheckBossSpawn(Vector2Int position)
@@ -217,7 +241,7 @@ public class GameController : MonoBehaviour, IObserver
 
     public void SpawnMobs()
     {
-        if (World.mobCount >= 3 || Random.Range(0, 2500) > 0)
+        if (World.mobCount >= 3 || Random.Range(0, 2500) > 0 || bossSpawned)
             return;
 
         var position = playerController.GetPosition();
@@ -315,9 +339,10 @@ public class GameController : MonoBehaviour, IObserver
 
     public void SpawnExecutioner()
     {
-        progressBarPrefab = Instantiate(progressBarPrefab, transform.parent);
-        progressBarPrefab.transform.GetChild(0).localPosition = new Vector3(0, -210, 0);
-        slider = progressBarPrefab.transform.GetChild(0).gameObject.GetComponent<Slider>();
+        World.destroyBoss = false;
+        progressBar = Instantiate(progressBarPrefab, transform.parent);
+        progressBar.transform.GetChild(0).localPosition = new Vector3(0, -210, 0);
+        slider = progressBar.transform.GetChild(0).gameObject.GetComponent<Slider>();
         
         GameObject mob = Instantiate(executioner, transform, false);
         var script = mob.GetComponent<Executioner>();
@@ -335,5 +360,6 @@ public class GameController : MonoBehaviour, IObserver
         audioSource.clip = bossMusic;
         audioSource.Play();
         bossSpawned = true;
+        World.boss = true;
     }
 }

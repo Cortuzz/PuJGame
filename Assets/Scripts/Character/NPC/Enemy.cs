@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Enemy : Character.Character
 {
+    public bool isDying;
     public bool isAggred = false;
     public int bodyDamage = 15;
 

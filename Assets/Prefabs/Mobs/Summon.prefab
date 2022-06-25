@@ -165,5 +165,6 @@ MonoBehaviour:
   invulnerabilityTime: 0
   regenerationTime: 0
   spawnPos: {x: 0, y: 0}
+  isDying: 1
   isAggred: 0
-  bodyDamage: 15
+  bodyDamage: 5
