@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace WorldSaving
 {
@@ -52,7 +53,6 @@ namespace WorldSaving
             var worldBlocks = new List<Block[,]>();
             var worldBackgroundBlocks = new List<Block[,]>();
 
-
             for (var i = 0; i < World.chunkCount; i++)
             {
                 worldBlocks.Add(new Block[World.width, World.height]);
@@ -61,10 +61,6 @@ namespace WorldSaving
 
             foreach (var currentBlock in jsonBlocks)
             {
-                Debug.Log(currentBlock.firstIndex);
-                Debug.Log(currentBlock.secondIndex);
-                Debug.Log(currentBlock.thirdIndex);
-
                 if (!currentBlock.isBackground)
                 {
                     worldBlocks[currentBlock.firstIndex][currentBlock.secondIndex, currentBlock.thirdIndex] =
@@ -79,6 +75,8 @@ namespace WorldSaving
 
             World.blocks = worldBlocks;
             World.backgroundBlocks = worldBackgroundBlocks;
+
+            SceneManager.LoadScene("SampleScene");
         }
 
         private static string GenerateJson()
