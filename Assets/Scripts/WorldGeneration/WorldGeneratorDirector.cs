@@ -63,7 +63,7 @@ public class WorldGeneratorDirector
         controller.SetTile(atlas.sand);
         controller.SetNoiseSettings(caveFreq / 4, caveFreq, rarity: 4f);
         controller.SetTileStats(false);
-        _worldGenerator.GenerateTile(controller.GetTexture(), bias, controller.GetTile());
+        _worldGenerator.GenerateTile(controller.GetTexture(), bias, controller.GetTile(), onTiles: true);
     }
 
     public void GenerateBackground(int bias)
