@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Configs;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -79,7 +78,7 @@ public class PlayerController : Character.Character, IObservable
             audio.clip = frozen;
             audio.Play();
             Destroy(enemy.gameObject);
-            _frozenCount += 200;
+            _frozenCount += 300;
             return;
         }
         TakeDamage(enemy.bodyDamage);

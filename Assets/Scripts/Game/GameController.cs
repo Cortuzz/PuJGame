@@ -134,7 +134,14 @@ public class GameController : MonoBehaviour, IObserver
 
         try
         {
-            Destroy(boss.gameObject);
+            try
+            {
+                Destroy(boss.gameObject);
+            }
+            catch (Exception e)
+            {
+                
+            }
             Destroy(progressBar);
             World.destroyBoss = false;
             bossSpawned = false;
