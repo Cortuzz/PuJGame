@@ -36,6 +36,7 @@ public class GameController : MonoBehaviour, IObserver
 
     private void Start()
     {
+        World.audioController = audioController;
         _tileObjects = new GameObject[World.chunkCount * World.chunkSize, World.height, 2];
 
         for (int chunk = 0; chunk < World.chunkCount; chunk++)

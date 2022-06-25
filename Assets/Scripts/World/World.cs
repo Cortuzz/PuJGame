@@ -15,6 +15,7 @@ public static class World
     public static CraftController craftController;
     public static bool destroyBoss;
     public static bool boss;
+    public static GameObject audioController;
 
     public static InventorySlot tempSlot;
 

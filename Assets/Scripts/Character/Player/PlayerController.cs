@@ -46,10 +46,16 @@ public class PlayerController : Character.Character, IObservable
     public GameObject lightSystem;
     public GameObject freezeSystem;
 
+    public AudioSource audio;
+    public AudioClip frozen;
+    public AudioClip eating;
+    public AudioClip bossDamage;
+
     [SerializeField] private int _healthRegenDelay = 0;
 
     protected override void Awake()
     {
+        audio = gameObject.GetComponent<AudioSource>();
         inventory = GetComponent<Inventory>();
         base.Awake();
     }
@@ -61,6 +67,8 @@ public class PlayerController : Character.Character, IObservable
 
         if (other as EdgeCollider2D)
         {
+            audio.clip = bossDamage;
+            audio.Play();
             TakeDamage(other.GetComponent<Executioner>().weaponDamage);
             return;
         }
@@ -68,6 +76,8 @@ public class PlayerController : Character.Character, IObservable
         var enemy = other.GetComponent<Enemy>();
         if (enemy.isDying)
         {
+            audio.clip = frozen;
+            audio.Play();
             Destroy(enemy.gameObject);
             _frozenCount += 200;
             return;
@@ -90,6 +100,7 @@ public class PlayerController : Character.Character, IObservable
             _activeItemObject.transform.localScale = new Vector3(-0.75f, 0.75f, 1);
             _activeItemObject.transform.localPosition = new Vector3(0, -0.2f, 1);
             _activeItemObject.transform.rotation = new Quaternion(50f, 1f, 0f, 0f);
+
             //_activeItemObject.transform.localPosition = new Vector3(-0.35f, -0.3f, 0);
         }
     }
@@ -289,6 +300,9 @@ public class PlayerController : Character.Character, IObservable
 
         if (_healthRegenDelay > 0)
             return true;
+        
+        audio.clip = eating;
+        audio.Play();
 
         health = Mathf.Min(health + 75, maxHealth);
         _healthRegenDelay = 10000;
