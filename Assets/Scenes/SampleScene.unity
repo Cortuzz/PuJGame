@@ -2287,6 +2287,7 @@ MonoBehaviour:
   attackSystem: {fileID: 2098480293}
   invulnerabilitySystem: {fileID: 209411971}
   lightSystem: {fileID: 1378573903}
+  freezeSystem: {fileID: 98253094}
   _healthRegenDelay: 0
 --- !u!70 &948174813
 CapsuleCollider2D:

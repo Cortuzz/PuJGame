@@ -202,7 +202,7 @@ public class PlayerController : Character.Character, IObservable
         if (health >= maxHealth)
             return;
 
-        if (_healthUpdateCounter < 50) 
+        if (_healthUpdateCounter < 200) 
             return;
 
         _healthUpdateCounter = 0;
@@ -283,8 +283,8 @@ public class PlayerController : Character.Character, IObservable
         if (_healthRegenDelay > 0)
             return true;
 
-        health = Mathf.Min(health + 50, maxHealth);
-        _healthRegenDelay = 15000;
+        health = Mathf.Min(health + 75, maxHealth);
+        _healthRegenDelay = 10000;
         inventory.Remove(item);
         return true;
     }

@@ -128,24 +128,32 @@ public class GameController : MonoBehaviour, IObserver
 
     private void CheckBossDeath()
     {
-        if (!(World.destroyBoss && bossSpawned))
+        if (!(World.destroyBoss))
             return;
-        
-        Destroy(boss.gameObject);
-        Destroy(progressBar);
-        World.destroyBoss = false;
-        bossSpawned = false;
-        World.boss = false;
 
-        var audioSource = audioController.GetComponent<AudioSource>();
-        var lighting = lightController.GetComponent<Light2D>();
-        var color = new Color(0.1921569f, 0.3019608f, 4745098f);
-        Camera.main.backgroundColor = color;
-        
-        lighting.color = new Color(1f, 1f, 1f);
-        lighting.intensity = 1f;
-        audioSource.clip = normalMusic;
-        audioSource.Play();
+        try
+        {
+            Destroy(boss.gameObject);
+            Destroy(progressBar);
+            World.destroyBoss = false;
+            bossSpawned = false;
+            World.boss = false;
+
+            var audioSource = audioController.GetComponent<AudioSource>();
+            var lighting = lightController.GetComponent<Light2D>();
+            var color = new Color(0.1921569f, 0.3019608f, 4745098f);
+            Camera.main.backgroundColor = color;
+
+            lighting.color = new Color(1f, 1f, 1f);
+            lighting.intensity = 1f;
+            audioSource.clip = normalMusic;
+            audioSource.Play();
+        }
+        catch (Exception e)
+        {
+            
+        }
+       
     }
 
     private void FixedUpdate()

@@ -107,10 +107,10 @@ public class Executioner : Enemy
         if (_followingTimer is 5500 or 4500 or 5000)
         {
                 SpawnSummons(new Vector2(3, 0));
-                if (health < 300)
-                    SpawnSummons(new Vector2(3, 0));
-                if (health	< 100)
-                    SpawnSummons(new Vector2(3, 0));
+                if (health < 500)
+                    SpawnSummons(new Vector2(5, 0));
+                if (health	< 300)
+                    SpawnSummons(difPos);
                 spawnSummonTime = 175;
         }
         
@@ -168,8 +168,7 @@ public class Executioner : Enemy
         MoveUpdate();
         FollowToPlayer();
         CheckAggro();
-        int state = ((float)health / maxHealth > 0.3) ? 1 : 2;	 
-        _followingTimer = Mathf.Max(_followingTimer - state, 0);
+        _followingTimer = Mathf.Max(_followingTimer - 1, 0);
         spawnSummonTime = Mathf.Max(spawnSummonTime - 1, 0);
     }
 }
