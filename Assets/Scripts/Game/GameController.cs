@@ -142,7 +142,7 @@ public class GameController : MonoBehaviour, IObserver
 
             var audioSource = audioController.GetComponent<AudioSource>();
             var lighting = lightController.GetComponent<Light2D>();
-            var color = new Color(0.1921569f, 0.3019608f, 4745098f);
+            var color = new Color(0.1921569f, 0.3019608f, 0.4745098f);
             Camera.main.backgroundColor = color;
 
             lighting.color = new Color(1f, 1f, 1f);
