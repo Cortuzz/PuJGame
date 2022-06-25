@@ -93,6 +93,13 @@ public class PlayerController : Character.Character, IObservable
             //_activeItemObject.transform.localPosition = new Vector3(-0.35f, -0.3f, 0);
         }
     }
+    
+    public override void CheckDirection()
+    {
+        var scale = transform.localScale;
+        var sign = Mathf.Sign	(transform.position.x - Camera.main.ScreenToWorldPoint(Input.mousePosition).x);
+        transform.localScale = new Vector3(sign * Mathf.Abs(scale.x), scale.y, scale.z);
+    }
 
     public void SpawnArrow()
     {

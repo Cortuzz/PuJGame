@@ -59,7 +59,7 @@ namespace Character
             Spawn();
         }
 
-        public void CheckDirection()
+        public virtual void CheckDirection()
         {
             Vector3 scale = transform.localScale;
 
