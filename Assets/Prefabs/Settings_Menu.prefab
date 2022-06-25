@@ -3516,7 +3516,7 @@ RectTransform:
   m_GameObject: {fileID: 3305308911223471409}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.231755, y: 1.231755, z: 1.231755}
+  m_LocalScale: {x: 1.8023392, y: 1.8023392, z: 1.8023392}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1322637924003910847}
@@ -3525,7 +3525,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000015235, y: -226}
+  m_AnchoredPosition: {x: 0.000015235, y: -302.09402}
   m_SizeDelta: {x: 87.3434, y: 44.6912}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8090674152241079178
@@ -3609,7 +3609,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4761729185993018199}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2142052699993487196}
+        m_TargetAssemblyTypeName: UIInteractions.BackButton, Assembly-CSharp
+        m_MethodName: ReturnToPrevState
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &813427086108122733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3648,7 +3660,7 @@ RectTransform:
   m_GameObject: {fileID: 3502754715543668072}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.4632286, y: 1.4632286, z: 1.4632286}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2693369321294826297}
@@ -3659,7 +3671,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -10}
+  m_AnchoredPosition: {x: 0, y: -8.346158}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3575582524519108987
@@ -4023,7 +4035,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7164937917226520723
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4033,7 +4045,7 @@ RectTransform:
   m_GameObject: {fileID: 3959362384052127006}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.4632286, y: 1.4632286, z: 1.4632286}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2814452693256768761}
@@ -4042,7 +4054,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 12}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4016114729619416746
@@ -4330,9 +4342,9 @@ RectTransform:
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 20}
+  m_SizeDelta: {x: -17, y: 20}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &1031242887116816691
 CanvasRenderer:
@@ -4416,7 +4428,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 6944235970647339407}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.99999994
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5333,7 +5345,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.99999994, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -5710,9 +5722,9 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -17, y: -17}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &7152706678083860518
 CanvasRenderer:
@@ -7557,7 +7569,7 @@ GameObject:
   - component: {fileID: 6308063423801020444}
   - component: {fileID: 2018559796019227355}
   - component: {fileID: 1001670271240490973}
-  - component: {fileID: 9058398132086473412}
+  - component: {fileID: 8144479009532569211}
   m_Layer: 5
   m_Name: Volume Settings Button
   m_TagString: Untagged
@@ -7667,8 +7679,32 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2018559796019227355}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
---- !u!114 &9058398132086473412
+      m_Calls:
+      - m_Target: {fileID: 9041707335279044615}
+        m_TargetAssemblyTypeName: UIInteractions.Settings.SwitchTabs, Assembly-CSharp
+        m_MethodName: OpenVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 7222322672254758391}
+        m_TargetAssemblyTypeName: UIInteractions.Settings.SwitchButtonsSelect, Assembly-CSharp
+        m_MethodName: MakeSelected
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1001670271240490973}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &8144479009532569211
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7677,10 +7713,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8474252457148276464}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fb6f188b2b4874418ac24f88f7ff1ed, type: 3}
+  m_Script: {fileID: 11500000, guid: 63c1a4b5128e457c895697fc6355e237, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  theText: {fileID: 5309969743855898257}
 --- !u!1 &8483319303364670996
 GameObject:
   m_ObjectHideFlags: 0
@@ -7782,7 +7817,7 @@ RectTransform:
   m_GameObject: {fileID: 8594834370197243849}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.231755, y: 1.231755, z: 1.231755}
+  m_LocalScale: {x: 1.8023392, y: 1.8023392, z: 1.8023392}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6250108521473155091}
@@ -7793,7 +7828,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 138.63998}
+  m_AnchoredPosition: {x: 0, y: 209.14597}
   m_SizeDelta: {x: 1238, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8594834370202840381
@@ -8219,7 +8254,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8594834370720606608}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9041707335279044615}
+        m_TargetAssemblyTypeName: UIInteractions.Settings.SwitchTabs, Assembly-CSharp
+        m_MethodName: OpenGraphics
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 7222322672254758391}
+        m_TargetAssemblyTypeName: UIInteractions.Settings.SwitchButtonsSelect, Assembly-CSharp
+        m_MethodName: MakeSelected
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8594834370720606615}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &8594834370720606614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8836,7 +8895,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8594834371553247993
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8846,7 +8905,7 @@ RectTransform:
   m_GameObject: {fileID: 8594834371553247992}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.2, y: 2.2, z: 0}
+  m_LocalScale: {x: 3.219103, y: 3.219103, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4303822961930544201}
@@ -8857,7 +8916,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 43}
+  m_AnchoredPosition: {x: 0, y: 78.907974}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: -0.000000011175871}
 --- !u!1 &8594834371727043300
@@ -8887,7 +8946,7 @@ RectTransform:
   m_GameObject: {fileID: 8594834371727043300}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.2, y: 2.2, z: 0}
+  m_LocalScale: {x: 3.219103, y: 3.219103, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8594834372179588986}
@@ -8895,7 +8954,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 206}
+  m_AnchoredPosition: {x: 0, y: 307.70596}
   m_SizeDelta: {x: 146.83777, y: -553.32153}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8594834371727043303
@@ -9268,7 +9327,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8594834371992393212}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9041707335279044615}
+        m_TargetAssemblyTypeName: UIInteractions.Settings.SwitchTabs, Assembly-CSharp
+        m_MethodName: OpenKeybindings
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 7222322672254758391}
+        m_TargetAssemblyTypeName: UIInteractions.Settings.SwitchButtonsSelect, Assembly-CSharp
+        m_MethodName: MakeSelected
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8594834371992393187}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &8594834371992393186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9551,6 +9634,9 @@ GameObject:
   - component: {fileID: 1619942670886860391}
   - component: {fileID: 5533333499516470258}
   - component: {fileID: 1793957258213000185}
+  - component: {fileID: 2142052699993487196}
+  - component: {fileID: 9041707335279044615}
+  - component: {fileID: 7222322672254758391}
   m_Layer: 5
   m_Name: Settings_Menu
   m_TagString: Untagged
@@ -9660,6 +9746,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d96ade2bcabb49e0bfb72b8ab5048d78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2142052699993487196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8594834372179588985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2873903aa01e426f8704e9d03b18ca7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &9041707335279044615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8594834372179588985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df0d5cd879a442c8b48bc707f6e78d13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keybindingsWindow: {fileID: 3959362384052127006}
+  volumeWindow: {fileID: 8594834371553247992}
+  graphicsWindow: {fileID: 3502754715543668072}
+--- !u!114 &7222322672254758391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8594834372179588985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50b410cc09714b66b859726ea668acab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttons:
+  - {fileID: 1001670271240490973}
+  - {fileID: 8594834370720606615}
+  - {fileID: 8594834371992393187}
 --- !u!1 &8594834372257402860
 GameObject:
   m_ObjectHideFlags: 0
@@ -9968,9 +10097,9 @@ RectTransform:
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 20, y: 0}
+  m_SizeDelta: {x: 20, y: -17}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &2251545338462437765
 CanvasRenderer:
@@ -10053,7 +10182,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7346407167639157296}
   m_HandleRect: {fileID: 1689021106230988740}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 1.0000005
   m_Size: 0.81
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -10666,8 +10795,8 @@ RectTransform:
   m_Father: {fileID: 118849190894282530}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 0.19}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}

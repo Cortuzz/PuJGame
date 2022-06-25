@@ -10,32 +10,32 @@ namespace UIInteractions
         IPointerExitHandler
     {
         public TMP_Text theText;
-        public static Color baseColor = new(0, 0, 0);
-        public static Color hoverColor = new(234f, 234f, 234f);
+        public static Color BaseColor = new(0.1960784f, 0.1960784f, 0.1960784f);
+        public static Color HoverColor = new(0.9339623f, 0.9339623f, 0.9339623f);
 
         private bool _isMouseDown;
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            theText.color = hoverColor;
+            theText.color = HoverColor;
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
             _isMouseDown = false;
-            theText.color = baseColor;
+            theText.color = BaseColor;
         }
 
         public void OnPointerDown(PointerEventData eventData)
         {
             _isMouseDown = true;
-            theText.color = hoverColor;
+            theText.color = HoverColor;
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             if (_isMouseDown) return;
-            theText.color = baseColor;
+            theText.color = BaseColor;
         }
     }
 }

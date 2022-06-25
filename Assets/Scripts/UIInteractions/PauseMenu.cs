@@ -1,13 +1,16 @@
 using Configs;
 using TMPro;
+using UIInteractions.Settings;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using WorldSaving;
 
 namespace UIInteractions
 {
     public class PauseMenu : MonoBehaviour
     {
         public GameObject pauseMenuUI;
+        public GameObject settingsMenuUI;
         public TMP_Text[] menuText;
 
         private void Update()
@@ -32,7 +35,7 @@ namespace UIInteractions
 
             foreach (var text in menuText)
             {
-                text.color = MenuButton.baseColor;
+                text.color = MenuButton.BaseColor;
             }
         }
 
@@ -43,6 +46,18 @@ namespace UIInteractions
             World.isGamePaused = true;
         }
 
+        public void OpenSettings()
+        {
+            pauseMenuUI.SetActive(false);
+            settingsMenuUI.SetActive(true);
+            PrevCurrStates.SetStates(pauseMenuUI, settingsMenuUI);
+        }
+
+        public void SaveGame()
+        {
+            WorldSavingController.SaveToFile();
+        }
+        
         public void LoadMenu()
         {
             Debug.Log("Loading menu");
