@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Configs;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,6 +33,9 @@ public class PlayerController : Character.Character, IObservable
 
     private int _healthUpdateCounter = 0;
     public int _attackTimeout = 200;
+    public int basicAttackTimeout = 300;
+    public int energyAttackTimeout = 50;
+    
     private int _attackCounter;
     private int _frozenCount;
 
@@ -49,11 +53,29 @@ public class PlayerController : Character.Character, IObservable
     public AudioClip frozen;
     public AudioClip eating;
     public AudioClip bossDamage;
+    public AudioClip fullEnergy;
+
+    public int basicSpeed;
+    public int rageSpeed;
+
+    public float energy = 0;
+    public int maxEnergy = 50;
+    public bool energyDecaying = false;
+    public GameObject energyObject;
+
+    public Slider slider;
+    public TMP_Text energyText;
+
+    private bool _energyFull;
+    private int _playingEnergy = 0;
 
     [SerializeField] private int _healthRegenDelay = 0;
 
     protected override void Awake()
     {
+        slider = energyObject.transform.GetChild(1).gameObject.GetComponent<Slider>();
+        energyText = energyObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>();
+        
         audio = gameObject.GetComponent<AudioSource>();
         inventory = GetComponent<Inventory>();
         base.Awake();
@@ -66,9 +88,14 @@ public class PlayerController : Character.Character, IObservable
 
         if (other as EdgeCollider2D)
         {
-            audio.clip = bossDamage;
-            audio.Play();
-            TakeDamage(other.GetComponent<Executioner>().weaponDamage);
+            if (_playingEnergy == 0)
+            {
+                audio.clip = bossDamage;
+                audio.Play();
+            }
+
+            var damage = other.GetComponent<Executioner>().weaponDamage;
+            TakeDamage(damage);
             return;
         }
 
@@ -81,7 +108,27 @@ public class PlayerController : Character.Character, IObservable
             _frozenCount += 300;
             return;
         }
+        
         TakeDamage(enemy.bodyDamage);
+    }
+    
+    public override void TakeDamage(int damage)
+    {
+        if (_invulnerability > 0)
+            return;
+            
+        _invulnerability = invulnerabilityTime;
+        _regeneration = regenerationTime;
+            
+        if (damage <= 0)
+            return;
+        
+        if (!energyDecaying)
+            energy = Mathf.Min(energy + damage, maxEnergy);
+
+        health -= damage;
+        if (health < 0)
+            Die();
     }
 
     public void Attack()
@@ -200,7 +247,7 @@ public class PlayerController : Character.Character, IObservable
     public override void CheckCollisions()
     {
         var collision = _collider.CheckBottomCollision();
-        var fallDamage = (int)(jumpTicks / 3 - 20);
+        var fallDamage = (int)(jumpTicks / 3 - 30);
         if (collision && fallDamage > 0)
             TakeDamage(fallDamage); // TODO: �������� � ����� ������� / ��������� �������
         SetOnGround(collision);
@@ -219,7 +266,10 @@ public class PlayerController : Character.Character, IObservable
         if (health >= maxHealth)
             return;
 
-        if (_healthUpdateCounter < 200) 
+        if (_healthUpdateCounter < 200 && !energyDecaying)
+            return;
+
+        if (_healthUpdateCounter < 25 && energyDecaying)
             return;
 
         _healthUpdateCounter = 0;
@@ -364,10 +414,49 @@ public class PlayerController : Character.Character, IObservable
         _attackCounter = Mathf.Max(_attackCounter - 1, 0);
         _healthRegenDelay = Mathf.Max(_healthRegenDelay - 1, 0);
         _frozenCount = Mathf.Max(_frozenCount - 1, 0);
+        _playingEnergy = Mathf.Max(_playingEnergy - 1, 0);
+
+        energyText.enabled = energy == maxEnergy;
+        slider.value = (float)energy / maxEnergy;
 
         if (_frozenCount > 0)
         {
             _rb.velocity = new Vector2(0, 0);
+        }
+
+        if (energyDecaying)
+        {
+            energy -= 0.2f;
+
+            if (energy <= 0)
+            {
+                energyDecaying = false;
+                _attackTimeout = basicAttackTimeout;
+                speed = basicSpeed;
+                energy = 0;
+            }
+        }
+        
+        if (energy >= maxEnergy)
+        {
+            if (!_energyFull)
+            {
+                _playingEnergy = 75;
+                _energyFull = true;
+                audio.clip = fullEnergy;
+                audio.Play();
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (energy != maxEnergy)
+                return;
+
+            _energyFull = false;
+            energyDecaying = true;
+            speed = rageSpeed;
+            _attackTimeout = energyAttackTimeout;
         }
 
         if (Input.GetKeyDown(KeyCode.Q))

@@ -59,8 +59,8 @@ MonoBehaviour:
   spawnPos: {x: 64, y: 421}
   isDying: 0
   isAggred: 0
-  bodyDamage: 15
-  weaponDamage: 35
+  bodyDamage: 25
+  weaponDamage: 50
   summonPrefab: {fileID: 1440927452780215470, guid: 7aaaae7b89ce532478ba359ab6400cb6, type: 3}
 --- !u!50 &-7062761267976165791
 Rigidbody2D:

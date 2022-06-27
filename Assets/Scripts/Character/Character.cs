@@ -73,7 +73,7 @@ namespace Character
             }
         }
 
-        public void TakeDamage(int damage)
+        public virtual void TakeDamage(int damage)
         {
             if (_invulnerability > 0)
                 return;
