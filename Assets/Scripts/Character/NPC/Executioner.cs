@@ -95,16 +95,16 @@ public class Executioner : Enemy
             > 7500 and < 8000 => new Vector2(-15 * Mathf.Sign(difPos.x), 5 * difPos.y),
             > 7200 and <= 7500 => new Vector2(Mathf.Sign(difPos.x) / 5, 5 * difPos.y),
             > 6900 and <= 7200 => new Vector2(50 * _savedPlayerPos, 0),
-            > 6000 and <= 6900 => new Vector2(5 * Mathf.Sign(difPos.x), difPos.y + 15),
+            > 5000 and <= 5900 => new Vector2(5 * Mathf.Sign(difPos.x), difPos.y + 15),
             < 200 => new Vector2(Mathf.Sign(difPos.x) / 5, 5 * difPos.y),
             < 500 => new Vector2(-15 * Mathf.Sign(difPos.x), 5 * difPos.y),
             < 4000 and > 3800 => new Vector2(0, 0),
             < 2000 and > 1800 => new Vector2(0, 0),
-            < 6000 and >= 4000 => (_followingTimer % 200 < 100) ? new Vector2(difPos.x, difPos.y + 15) : new Vector2(difPos.x, difPos.y + 10) ,
+            < 5000 and >= 4000 => (_followingTimer % 200 < 100) ? new Vector2(difPos.x, difPos.y + 15) : new Vector2(difPos.x, difPos.y + 10) ,
             _ => difPos / 2
         };
 
-        if (_followingTimer is 5500 or 4500 or 5000)
+        if (_followingTimer is 4500 or 5000)
         {
                 SpawnSummons(new Vector2(3, 0));
                 if (health < 500)
