@@ -229,6 +229,7 @@ public class PlayerController : Character.Character, IObservable
 
     public override void Die()
     {
+        energy = 0;
         World.destroyBoss = true;
         var dropItemObject = Instantiate(dropItemPrefab, transform.position, Quaternion.identity);
         var script = dropItemObject.GetComponent<TileDrop>();
