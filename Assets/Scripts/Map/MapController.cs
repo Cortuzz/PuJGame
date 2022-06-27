@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,24 +24,31 @@ public class MapController : MonoBehaviour
 
     private void UpdateBlock(int chunk, int x, int y, Block block, bool updated = false)
     {
-        if (!updated && block == null)
+        try
         {
-            _mapTexture.SetPixel(x + chunk * World.chunkSize, y, new(1, 1, 1, 0));
-            return;
+            if (!updated && block == null)
+            {
+                _mapTexture.SetPixel(x + chunk * World.chunkSize, y, new(1, 1, 1, 0));
+                return;
+            }
+
+            if (block == null)
+                return;
+
+            var color = block.color;
+            if (!updated)
+            {
+                color.r /= 2;
+                color.b /= 2;
+                color.g /= 2;
+            }
+
+            _mapTexture.SetPixel(x + chunk * World.chunkSize, y, color);
         }
-
-        if (block == null)
-            return;
-
-        var color = block.color;
-        if (!updated)
+        catch (Exception e)
         {
-            color.r /= 2;
-            color.b /= 2;
-            color.g /= 2;
+            
         }
-
-        _mapTexture.SetPixel(x + chunk * World.chunkSize, y, color);
     }
 
     public void UpdateMap(Vector2 position)
